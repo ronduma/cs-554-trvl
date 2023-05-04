@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+/* Navbar Section */
+.navbar{
+  padding:2vh 0 2vh 0;
+}
+a.navbar-link{
+  color:black;
+  margin:0 2vw 0 2vw;
+  text-decoration:none;
+}
+a.navbar-link:visited{
+  color:black;
+}
+
+/* Home Section */
+
+
+/* Itinerary Section */
+
+
+/* Community Section */
+
+
+/* Profile Section */
+
+
+/* Register Section */
+
+
+/* Login Section */
+

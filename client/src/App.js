@@ -1,27 +1,33 @@
 import './App.css';
 import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Itinerary from './components/Itinerary';
+import Community from './components/Community';
+import Profile from './components/Profile';
+import Register from './components/Register';
+import Login from './components/Login';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header>
-        <Navbar></Navbar>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <body>
-        
-      </body>
-    </div>
+    <Router>
+      <div className="App">
+        <header>
+          <Navbar />
+
+        </header>
+        <body>
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/itinerary" element={<Itinerary/>} />
+            <Route path="/community" element={<Community/>} />
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/register" element={<Register/>} />
+            <Route path="/login" element={<Login/>} />
+          </Routes>
+        </body>
+      </div>
+    </Router>
   );
 }
 
