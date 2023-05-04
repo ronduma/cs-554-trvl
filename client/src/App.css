@@ -49,6 +49,9 @@ a.navbar-link{
 a.navbar-link:visited{
   color:black;
 }
+.navbar-logo{
+  margin-bottom: 2vh;
+}
 
 /* Home Section */
 
