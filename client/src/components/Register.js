@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import axios from 'axios';
+
 import '../App.css';
 import {
   Box,
@@ -60,7 +62,14 @@ function Register() {
       </div>
       <Button
         onClick={() => {
-          console.log(username, password, confirmPassword)
+          let data = {username : username, password : password, confirmPassword : confirmPassword};
+          axios.post('/register', data)
+            .then(response => {
+              console.log(response)
+            })
+            .catch(error => {
+              console.log(error)
+            });
         }}
       >
         Submit
