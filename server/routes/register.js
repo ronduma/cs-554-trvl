@@ -1,13 +1,37 @@
 const express = require('express');
 const router = express.Router();
+const users = require('../data/users');
+const helpers = require('../helpers');
+const xss = require('xss');
 
-router
-.route('/register')
-.post(async (req, res) => {
+router.route('/').post(async (req, res) => {
+  // get data from frontend, check for xss attacks
+  let data = {
+    username : xss(req.body.username), 
+    password : xss(req.body.password), 
+    confirmPassword : xss(req.body.confirmPassword)
+  };
+  // input validation
   try {
-    console.log(req.body.username, req.body.password, req.body.confirmPassword)
+    // debugger
+
+    helpers.validateUsername(data.username);
+    helpers.validatePassword(data.password);
+    if (data.password !== data.confirmPassword) throw 'Error: Passwords do not match. Please try again.';
   } catch (e){
-    res.status(404).json({error : 'registration failed'});
+    return res.status(404).json({error : 'registration failed'});
+  }
+  // create user
+  try {
+    data.username = data.username.toLowerCase();
+    let user = await users.createUser(data.username, data.password);
+
+    if (user.insertedUser === false){
+      return res.status(500).json('Error: Internal Server Error.');
+    }
+    return res.status(200).json('Success');
+  } catch(e){
+    return res.status(404).json({error : 'registration failed'});
   }
 });
 
