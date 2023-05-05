@@ -1,10 +1,12 @@
 // const xxRoutes = require('./xx');
+const itinerary = require('./itinerary')
 
 const constructorMethod = (app) => {
-  app.use('/', (req, res) => {
-    res.status(400).json("Hello World!")
-  }); 
+  // app.use('/', (req, res) => {
+  //   res.status(200).json("Hello World!")
+  // }); 
   // app.use('/xx', xxRoutes);
+  app.use('/itinerary', itinerary);
 
   app.use('*', (req, res) => {
     res.status(400).json("Error: Page not found.")
