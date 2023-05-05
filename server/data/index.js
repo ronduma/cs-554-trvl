@@ -1,5 +1,5 @@
-// const xxData = require('./xx')
+const usersData = require('./users')
 
 module.exports = {
-    xx : xxData,
+    users : usersData,
 }

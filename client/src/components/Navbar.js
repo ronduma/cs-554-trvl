@@ -9,9 +9,11 @@ function Navbar() {
   return (
     <Typography
       fontSize={24}
-    >
+    > 
       <div className="navbar">
-        <Link className="navbar-link" to="/">TRVL</Link>
+        <div className="navbar-logo">
+          <Link className="navbar-link" to="/">T R V L</Link>
+        </div>
         <Link className="navbar-link" to="/itinerary">Itinerary</Link>
         <Link className="navbar-link" to="/community">Community</Link>
         <Link className="navbar-link" to="/profile">Profile</Link>
