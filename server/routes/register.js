@@ -13,13 +13,12 @@ router.route('/').post(async (req, res) => {
   };
   // input validation
   try {
-    // debugger
-
     helpers.validateUsername(data.username);
     helpers.validatePassword(data.password);
     if (data.password !== data.confirmPassword) throw 'Error: Passwords do not match. Please try again.';
   } catch (e){
-    return res.status(404).json({error : 'registration failed'});
+    console.error(e)
+    return res.status(400).json({error : e});
   }
   // create user
   try {
@@ -31,7 +30,8 @@ router.route('/').post(async (req, res) => {
     }
     return res.status(200).json('Success');
   } catch(e){
-    return res.status(404).json({error : 'registration failed'});
+    console.error(e)
+    return res.status(400).json({error : e});
   }
 });
 
