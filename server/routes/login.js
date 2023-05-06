@@ -7,11 +7,14 @@ const xss = require('xss');
 
 
 router.get('/', async(req,res) => {
-    return res.status(200).render('login', {
-        title: "Trvl Login",
-        message: "Welcome to Trvl",
-        session: req.session.user
-    });
+    if (!req.session.user){
+        return res.status(200).json(
+            console.log("not logged in")
+        );
+    } else
+    return res.status(200).json(
+        console.log("logged in")
+    );
 });
 
 router.post('/', async(req, res) => {
@@ -20,7 +23,6 @@ router.post('/', async(req, res) => {
         password : xss(req.body.password)
     }
     try {
-        // console.log(data.username);
         helpers.validateUsername(data.username);
         helpers.validatePassword(data.password);
     }catch(e){
@@ -30,13 +32,11 @@ router.post('/', async(req, res) => {
 
     try{
         data.username = data.username.toLowerCase();
-        // console.log(data.username);
-        // console.log(data.password);
         const postRegister = await users.checkUser(data.username, data.password);
-        // console.log(postRegister);
         if(postRegister.authenticatedUser){
-            req.session = data.username;
-            // console.log(req.session);
+            console.log(req.session)
+            req.session.user = data.username;
+            console.log("Successful login. Session saved.", req.session.user)
             return res.status(200).json('Success');
         }
         else{
