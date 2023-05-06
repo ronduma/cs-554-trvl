@@ -12,6 +12,7 @@ const constructorMethod = (app) => {
   app.use('/itinerary', itinerary);
   app.use('/posts', postRoutes);
 
+
   app.use('*', (req, res) => {
     console.log('yo')
     res.status(400).json("Error: Page not found.")
