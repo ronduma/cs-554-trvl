@@ -3,9 +3,8 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import {
   Box,
-  FormControl,
-  InputLabel, 
-  OutlinedInput, 
+  Button,
+  TextField,
   InputAdornment,
   IconButton,
 } from '@mui/material'
@@ -20,11 +19,11 @@ function Login() {
     setShowPassword(event.target.value);
   }
 
-  const handleMouseDownPassword = (event) => {
+  const handleClickPassword = (event) => {
     event.preventDefault();
     setShowPassword(true);
   };
-  const handleMouseUpPassword = (event) => {
+  const handleLeavePassword = (event) => {
     event.preventDefault();
     setShowPassword(false);
   }
@@ -35,29 +34,47 @@ function Login() {
     setPassword(event.target.value);
   }
   return (
-    <Box sx={{display: 'flex', flexWrap: 'wrap'}} justifyContent="center">
+    <Box sx={{display: 'flex', flexWrap: 'wrap', flexDirection: 'column'}} justifyContent="center" container alignItems="center">
       <div>
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            id ="outlined-adornment-password"
-            type = {showPassword ? 'text' : 'password'}
-            endAdorment={
-              <InputAdornment position="end">
+        <TextField
+          id = "outlined-basic"
+          label="Username"
+          onChange={handleUsername}
+          variant="outlined"
+          value={username}
+          margin="normal"
+          sx={{width: '100%'}}
+        />
+      </div>
+      <div>
+        <TextField
+          id="outlined-basic"
+          label="Password"
+          onChange={handlePassword}
+          variant="outlined"
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          margin="normal"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
                 <IconButton
-                  aria-label ="toggle password visibility"
-                  onMouseDown={handleMouseDownPassword}
-                  onMouseUp={handleMouseUpPassword}
-                  onMouseLeave={handleMouseUpPassword}
+                  aria-label="toggle password visibility"
+                  onMouseDown={handleClickPassword}
+                  onMouseUp={handleLeavePassword}
+                  onMouseLeave={handleLeavePassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?  <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
+            )
+          }}
+          sx={{width: '100%'}}
+        />
       </div>
+      <Button variant="contained">
+        Submit
+      </Button>
     </Box>
   );
 }
