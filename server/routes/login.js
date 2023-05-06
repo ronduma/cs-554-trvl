@@ -35,9 +35,9 @@ router.post('/', async(req, res) => {
         const postRegister = await users.checkUser(data.username, data.password);
         // console.log(postRegister);
         if(postRegister.authenticatedUser){
-            req.session = data.username;
-            // console.log(req.session);
-            return res.status(200).json('Success');
+            req.session.user = data.username;
+            console.log(req.session.user);
+            return res.redirect('/logout');
         }
         else{
             return res.status(400).json({error: "Invalid username/password"});
