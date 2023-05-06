@@ -1,0 +1,17 @@
+const handleAdd = (collectorid, character) => ({
+    type: "COLLECT_RESTURANT",
+    payload: {collectorid: collectorid, character: character},
+});
+  
+  const handleRemove  = (collectorid,character) => ({
+    type: "REMOVE_RESTURANT",
+    payload: {collectorid: collectorid, character: character},
+  });
+
+
+    
+  module.exports = {
+    handleAdd,
+    handleRemove,
+
+  };
