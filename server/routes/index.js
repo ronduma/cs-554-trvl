@@ -1,6 +1,7 @@
 const registerRoutes = require('./register');
 const itinerary = require('./itinerary')
-
+const loginRoutes = require('./login');
+const home = require('./home');
 const constructorMethod = (app) => {
   // app.use('/', (req, res) => {
   //   res.status(200).json("Hello World!")
@@ -9,7 +10,7 @@ const constructorMethod = (app) => {
   
   app.use('/register', registerRoutes);
   app.use('/itinerary', itinerary);
-
+  app.use('/login', loginRoutes);
   app.use('*', (req, res) => {
     console.log('yo')
     res.status(400).json("Error: Page not found.")

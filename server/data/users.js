@@ -45,6 +45,7 @@ const checkUser = async (
   helpers.validatePassword(password);
   username = username.trim();
   password = password.trim();
+
   
   const userCollection = await users();
   const userExists = await userCollection.findOne({username: username});
