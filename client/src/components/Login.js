@@ -1,7 +1,11 @@
-import '../App.css';
-import axios from 'axios';
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
+
+import '../App.css';
 import {
+  Alert,
   Box,
   Button,
   TextField,
@@ -11,13 +15,16 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 function Login() {
+  const navigate = useNavigate();
+  
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const handleClickShowPassword = (event) => {
-    setShowPassword(event.target.value);
-  }
+  // const handleClickShowPassword = (event) => {
+  //   setShowPassword(event.target.value);
+  // }
 
   const handleClickPassword = (event) => {
     event.preventDefault();
@@ -75,9 +82,28 @@ function Login() {
           sx={{width: '100%'}}
         />
       </div>
-      <Button variant="contained">
+      <Button variant="contained"
+        onClick={() => {
+          let data = {username : username, password : password};
+          axios.post('http://localhost:5000/login', data)
+            .then(response => {
+              console.log("response", response)
+              if (response.data === "Success"){
+                console.log("SUCCESS")
+                navigate('/profile');
+              }
+            })
+            .catch(error => {
+              console.log(error.response.data.error)
+              setErrorMessage(error.response.data.error)
+            });
+        }}
+      >
         Submit
       </Button>
+      {errorMessage && 
+        <Alert severity="error">{errorMessage}</Alert >
+      }
     </Box>
   );
 }

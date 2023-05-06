@@ -1,4 +1,4 @@
-const {ObjectId} = require('mongodb');
+const { ObjectId } = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const helpers = require("../helpers");
 const users = mongoCollections.users;
@@ -8,9 +8,9 @@ const saltRounds = 10;
 const createUser = async (
   username,
   password,
-  itinerary={},
-  posts=[],
-  likes=[]
+  itinerary = {},
+  posts = [],
+  likes = []
 ) => {
   // input validation
   helpers.validateUsername(username);
@@ -20,8 +20,8 @@ const createUser = async (
   password = password.trim();
   // create user
   const userCollection = await users();
-  const userExists = await userCollection.findOne({username: username});
-  if (userExists){throw 'Error: A user with that username already exists.'}
+  const userExists = await userCollection.findOne({ username: username });
+  if (userExists) { throw 'Error: A user with that username already exists.' }
   password = await bcrypt.hash(password, saltRounds);
   let newUser = {
     username: username,
@@ -31,11 +31,11 @@ const createUser = async (
     likes: likes
   };
   const insertInfo = await userCollection.insertOne(newUser);
-  console.log(insertInfo)
+  // console.log(insertInfo)
   if (!insertInfo.acknowledged || !insertInfo.insertedId) {
     throw "Could not add user";
   }
-  return {insertedUser : true} 
+  return { insertedUser: true, insertedId: insertInfo.insertedId };
 };
 
 const checkUser = async (
@@ -51,14 +51,14 @@ const checkUser = async (
   const userExists = await userCollection.findOne({username: username});
   
   if(!userExists) {
-    throw 'Error: User does not exist given the username or password. Try Again!';
+    throw 'Error: User with the given username or password does not exist. Try Again!';
   }
   let compare = await bcrypt.compare(password, userExists.password);
   if(compare){
     return {authenticatedUser: true};
   }
   else{
-    throw 'Error: Invalide Password: Try Again!';
+    throw 'Error: Invalid Password. Try Again!';
   }
 }
 
