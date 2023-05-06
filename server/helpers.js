@@ -1,21 +1,30 @@
-// register validation
+const { ObjectId } = require('mongodb');
 
-function validateUsername(username){
+// register validation
+function validateId(id) {
+    if (!id || !id.trim().length) throw 'Error: an id must be supplied.'
+    if (!ObjectId.isValid(id)) {
+        throw 'Error: id must be a an objectid.'
+    }
+    return true
+}
+
+function validateUsername(username) {
     if (!username || !username.trim().length) throw 'Error: You must supply a username.'
-    if (typeof username != "string"){
+    if (typeof username != "string") {
         throw 'Error: Username must be a string.'
     }
     username = username.trim().toLowerCase();
-    if (username.length < 3){
+    if (username.length < 3) {
         throw 'Error: Username must at least be 3 characters long.'
     }
-    for (let i = 0; i < username.length; i++){
-        if (!(username.charAt(i) >= 'a' && username.charAt(i) <= 'z') && !(username.charAt(i) >= '0' && username.charAt(i) <= '9')){
+    for (let i = 0; i < username.length; i++) {
+        if (!(username.charAt(i) >= 'a' && username.charAt(i) <= 'z') && !(username.charAt(i) >= '0' && username.charAt(i) <= '9')) {
             throw 'Error: Username must only consist of alphanumeric characters.'
         }
     }
     return true
-  }
+}
 
 function validatePassword(password) {
     if (!password || !password.trim().length) throw 'Error: You must supply a password.';
@@ -28,7 +37,8 @@ function validatePassword(password) {
 }
 
 module.exports = {
+    validateId,
     validateUsername,
     validatePassword,
-    
+
 }
