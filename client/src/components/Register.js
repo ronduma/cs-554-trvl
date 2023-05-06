@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
 import '../App.css';
 import {
+  Alert,
   Box,
   Button,
   // FormControl,
@@ -17,6 +19,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function Register() {
+  const navigate = useNavigate();
+  
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleMouseDownPassword = (event) => {
@@ -31,6 +35,7 @@ function Register() {
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [confirmPassword, setConfirmPassword] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -126,15 +131,24 @@ function Register() {
           let data = {username : username, password : password, confirmPassword : confirmPassword};
           axios.post('http://localhost:5000/register', data)
             .then(response => {
-              console.log(response)
+              console.log("response", response)
+              if (response.data === "Success"){
+                console.log("SUCCESS")
+                navigate('/login');
+              }
             })
             .catch(error => {
               console.log(error.response.data.error)
+              setErrorMessage(error.response.data.error)
             });
         }}
       >
         Submit
       </Button>
+
+      {errorMessage && 
+        <Alert severity="error">{errorMessage}</Alert >
+      }
     </Box>
   );
 }
