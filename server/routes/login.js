@@ -10,7 +10,7 @@ router.get('/', async(req,res) => {
     return res.status(200).render('login', {
         title: "Trvl Login",
         message: "Welcome to Trvl",
-        session: req.session.user
+        session: req.session
     });
 });
 
