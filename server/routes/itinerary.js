@@ -5,7 +5,6 @@ const redis = require("redis");
 const client = redis.createClient();
 client.connect().then(() => {});
 
-
 const apiKey ='PzubXsGTOr6esV9Io46ba7SHL6nN5GiX_BT39rtnwAIvnjEF8zNH2AencToseOklf2PJ4NoCH7barK0EkAX6jHl5AEFmu9sXI3tJAwYjV7f5xnKsrGVZqAXU9M5TZHYx'
 
 router.route('/').get(async (req, res) => {

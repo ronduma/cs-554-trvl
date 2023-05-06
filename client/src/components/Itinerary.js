@@ -147,12 +147,6 @@ function Itinerary() {
      <Grid container className={classes.grid} spacing={5}>
          {YelpData.map((restaurant) => buildCard(restaurant))}
      </Grid>
-  
-    // <li key={restaurant.id}>
-    //   <h3>{restaurant.name}</h3>
-    //   <p>{restaurant.address}</p>
-    //   <p>{restaurant.price}</p>
-    // </li>
   )}
 </ul>
     </div>
