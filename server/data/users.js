@@ -51,14 +51,14 @@ const checkUser = async (
   const userExists = await userCollection.findOne({username: username});
   
   if(!userExists) {
-    throw 'Error: User does not exist given the username or password. Try Again!';
+    throw 'Error: User with the given username or password does not exist. Try Again!';
   }
   let compare = await bcrypt.compare(password, userExists.password);
   if(compare){
     return {authenticatedUser: true};
   }
   else{
-    throw 'Error: Invalide Password: Try Again!';
+    throw 'Error: Invalid Password. Try Again!';
   }
 }
 

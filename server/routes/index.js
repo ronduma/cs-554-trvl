@@ -15,7 +15,7 @@ const constructorMethod = (app) => {
   app.use('/login', loginRoutes);
 
   app.use('*', (req, res) => {
-    console.log('yo')
+    // console.log('yo')
     res.status(400).json("Error: Page not found.")
   });
 };
