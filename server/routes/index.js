@@ -1,5 +1,7 @@
 const registerRoutes = require('./register');
-// const itinerary = require('./itinerary')
+const itinerary = require('./itinerary')
+const loginRoutes = require('./login');
+const home = require('./home');
 
 const constructorMethod = (app) => {
   // app.use('/', (req, res) => {
@@ -8,7 +10,9 @@ const constructorMethod = (app) => {
   // app.use('/xx', xxRoutes);
   
   app.use('/register', registerRoutes);
-  // app.use('/itinerary', itinerary);
+
+  app.use('/itinerary', itinerary);
+  app.use('/login', loginRoutes);
 
   app.use('*', (req, res) => {
     console.log('yo')
