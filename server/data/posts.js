@@ -7,7 +7,7 @@ const posts = mongoCollections.posts;
 const users = mongoCollections.users;
 
 /** creates a new post for the community page : articles for users to like and comment */
-const createPost = async (title, userPosted) => {
+const createPost = async (title, userPosted, content) => {
     //validation for creating posts
     if (!title || !userPosted || !title.trim() || !userPosted.trim()) {
         throw 'Error: a title and user must be supplied';
@@ -19,6 +19,7 @@ const createPost = async (title, userPosted) => {
         _id: new ObjectId(),
         title: title.trim(),
         userPosted: userPosted.trim(),
+        content: content.trim(),
         likes: [],
         replies: [],
         time: now.toLocaleTimeString(),
@@ -168,8 +169,9 @@ const getReplyById = async (replyId) => {
     return reply;
 };
 
+//only the person that owns the comment can delete the comment
 /** deletes a reply from a specific post */
-const deleteReply = async (replyId, postId) => {
+const deleteReply = async (replyId, postId, userId) => {
     helpers.validateId(replyId);
     helpers.validateId(postId);
 
@@ -184,7 +186,7 @@ const deleteReply = async (replyId, postId) => {
     //remove the reply
     for (let i = 0; i < currentReplies.length; i++) {
 
-        if (currentReplies[i]._id.toString() === replyId) {
+        if (currentReplies[i]._id.toString() === replyId && currentReplies[i].userId === userId) {
             currentReplies.splice(i, 1);
             break;
         }
