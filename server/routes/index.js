@@ -2,7 +2,6 @@ const home = require('./home');
 const registerRoutes = require('./register');
 const loginRoutes = require('./login');
 const logoutRoutes = require('./logout');
-const home = require('./home');
 const profileRoutes = require('./profile');
 const itinerary = require('./itinerary')
 const postRoutes = require('./posts');
