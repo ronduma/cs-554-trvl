@@ -1,9 +1,13 @@
 const home = require('./home');
 const registerRoutes = require('./register');
 const loginRoutes = require('./login');
-// const itinerary = require('./itinerary')
+const logoutRoutes = require('./logout');
+const home = require('./home');
+const profileRoutes = require('./profile');
+const itinerary = require('./itinerary')
 const postRoutes = require('./posts');
 const profileRoutes = require('./profile');
+
 
 const constructorMethod = (app) => {
   // app.use('/', (req, res) => {
@@ -13,9 +17,14 @@ const constructorMethod = (app) => {
 
   app.use('/register', registerRoutes);
   app.use('/login', loginRoutes);
-  // app.use('/itinerary', itinerary);
+
+  app.use('/logout', logoutRoutes);
+  app.use('/profile', profileRoutes);
+
+  app.use('/itinerary', itinerary);
   app.use('/posts', postRoutes);
   app.use('/profile', profileRoutes);
+
 
   app.use('*', (req, res) => {
     // console.log('yo')

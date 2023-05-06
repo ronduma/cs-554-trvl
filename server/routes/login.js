@@ -34,10 +34,9 @@ router.post('/', async(req, res) => {
         data.username = data.username.toLowerCase();
         const postRegister = await users.checkUser(data.username, data.password);
         if(postRegister.authenticatedUser){
-            console.log(req.session)
             req.session.user = data.username;
-            console.log("Successful login. Session saved.", req.session.user)
-            return res.status(200).json('Success');
+            console.log(req.session.user);
+            return res.redirect('/logout');
         }
         else{
             return res.status(400).json({error: "Invalid username/password"});
