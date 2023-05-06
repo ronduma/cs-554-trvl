@@ -19,7 +19,8 @@ session({
     name: 'AuthCookie',
     secret: "some secret string!",
     saveUninitialized: true,
-    resave: false
+    resave: false,
+    cookie: {secure: false}
   })
 );
 

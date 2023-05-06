@@ -3,7 +3,7 @@ const itinerary = require('./itinerary')
 const loginRoutes = require('./login');
 const logoutRoutes = require('./logout');
 const home = require('./home');
-
+const profileRoutes = require('./profile');
 const constructorMethod = (app) => {
   // app.use('/', (req, res) => {
   //   res.status(200).json("Hello World!")
@@ -14,7 +14,8 @@ const constructorMethod = (app) => {
 
   app.use('/itinerary', itinerary);
   app.use('/login', loginRoutes);
-  app.use('/logout', logoutRoutes)
+  app.use('/logout', logoutRoutes);
+  app.use('/profile', profileRoutes);
   app.use('*', (req, res) => {
     console.log('yo')
     res.status(400).json("Error: Page not found.")

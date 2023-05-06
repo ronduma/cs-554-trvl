@@ -10,7 +10,7 @@ router.get('/', async(req,res) => {
     return res.status(200).render('login', {
         title: "Trvl Login",
         message: "Welcome to Trvl",
-        session: req.session
+        session: req.session.user
     });
 });
 
@@ -35,9 +35,9 @@ router.post('/', async(req, res) => {
         const postRegister = await users.checkUser(data.username, data.password);
         console.log(postRegister.authenticatedUser);
         if(postRegister.authenticatedUser){
-            req.session = data.username;
-            console.log(req.session);
-            return res.redirect('/profile');
+            req.session.user = data.username;
+            console.log(req.session.user);
+            return res.redirect('/logout');
         }
         else{
             return res.status(400).render({error: "Invalid username/password"});
