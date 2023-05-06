@@ -22,9 +22,9 @@ function Login() {
   const [password, setPassword] = useState(undefined);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const handleClickShowPassword = (event) => {
-    setShowPassword(event.target.value);
-  }
+  // const handleClickShowPassword = (event) => {
+  //   setShowPassword(event.target.value);
+  // }
 
   const handleClickPassword = (event) => {
     event.preventDefault();
