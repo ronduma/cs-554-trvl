@@ -23,6 +23,8 @@ import {
 
 function Profile() {
   const [userData, setUserData] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect (() => {
     console.log('/profile')
     axios.get('/profile', {
@@ -30,12 +32,18 @@ function Profile() {
     })
     .then (response => {
       console.log(response)
-      setUserData(response.data)
+      setUserData(response.data);
+      setIsLoading(false);
     })
     .catch (error => {
       console.log(error)
+      setIsLoading(false);
     });
   }, [])
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box
