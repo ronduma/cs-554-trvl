@@ -3,7 +3,7 @@ import React, { useState,
 } from 'react';
 import '../App.css';
 import axios from 'axios';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
@@ -46,8 +46,10 @@ function Itinerary() {
   const [price, setPrice] = useState('1');
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   // const classes = useStyles();
   // let card = null;
+  
 
   const allCollectors = useSelector((state) => state.yelp);
   // console.log("HELLO")
@@ -100,7 +102,10 @@ const handleOnSubmit = (collectorid, character, action) => {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (location === null || location === undefined || !location){
+      return setErrorMessage('Location can not be blank');
+    }
+    else{
     try {
       console.log("This is" + location)
       console.log("This price" + price)
@@ -121,6 +126,7 @@ const handleOnSubmit = (collectorid, character, action) => {
       setErrorCode(true);
       
     }
+    }
   };
   const buildCard = (restaurant) => {
     const collected = selectedCharacters.includes(restaurant.id);
@@ -130,6 +136,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         // className={classes.card} 
         variant='outlined'>
           <CardActionArea>
+          <Link to={`/itinerary/${restaurant.id}`}>
             <CardMedia
               // className={classes.media}
               component='img'
@@ -154,6 +161,7 @@ const handleOnSubmit = (collectorid, character, action) => {
                 {restaurant.rating ? restaurant.rating + '/5' : 'No rating information provided'}
               </Typography>
             </CardContent>
+            </Link>
           </CardActionArea>
           {/* button for collecting */}
           {collected ? (
@@ -177,12 +185,71 @@ const handleOnSubmit = (collectorid, character, action) => {
       </Grid>
     );
   };
+  const buildHotelCard = (hotel) => {
+    const collected = selectedCharacters.includes(hotel.id);
+    return (
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={hotel.id}>
+        <Card variant='outlined'>
+          <CardActionArea>
+          <Link to={`/itinerary/${hotel.id}`}>
+            <CardMedia
+              component='img'
+              image={hotel.image_url || `No image`}
+              title={hotel.name}
+            />
+  
+            <CardContent>
+              <Typography gutterBottom variant='h6' component='h3'>
+                {hotel.name}
+              </Typography>
+              <Typography variant='body2' color='textSecondary' component='p'>
+                {hotel.location ? hotel.location.address1 + ', ' + hotel.location.city + ', ' + hotel.location.state : 'No location provided'}
+              </Typography>
+              <Typography variant='body2' color='textSecondary' component='p'>
+                {hotel.price ? hotel.price : 'No price information provided'}
+              </Typography>
+              <Typography variant='body2' color='textSecondary' component='p'>
+                {hotel.rating ? hotel.rating + '/5' : 'No rating information provided'}
+              </Typography>
+            </CardContent>
+            </Link>
+          </CardActionArea>
+          {/* button for collecting */}
+          {collected ? (
+          <button
+            onClick={() =>
+              handleOnSubmit(selectedCollector[0], hotel, "giveUp")
+            }
+          >
+            Remove
+          </button>
+        ) : (
+          <button
+            onClick={() =>
+              handleOnSubmit(selectedCollector[0], hotel, "collect")
+            }
+          >
+            Add
+          </button>
+        )}
+        </Card>
+      </Grid>
+    );
+  };
   
 
   if (error) {
     return (
       <div>
         <h2>Error 404:Out of Bounds</h2>
+        
+      </div>
+    )
+  }
+  if (errorMessage) {
+    return (
+      <div>
+        <h2>Location does not exists</h2>
         
       </div>
     )
@@ -220,12 +287,22 @@ const handleOnSubmit = (collectorid, character, action) => {
   </div>
   {/* Change the following to make it a card and give options add and delete */}
   <ul>
-  {YelpData && YelpData.length > 0 && (
+  {/* {YelpData && YelpData.length > 0 && (
      <Grid 
      container 
     //  className={classes.grid} 
      spacing={5}>
          {YelpData.map((restaurant) => buildCard(restaurant))}
+     </Grid>
+  )} */}
+  {YelpData && YelpData.length > 0 && need === 'restuarant' &&(
+     <Grid container spacing={5}>
+         {YelpData.map((restaurant) => buildCard(restaurant))}
+     </Grid>
+  )}
+   {YelpData && YelpData.length > 0 && need === 'hotel' &&(
+     <Grid container spacing={5}>
+         {YelpData.map((restaurant) => buildHotelCard(restaurant))}
      </Grid>
   )}
 </ul>
