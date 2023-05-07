@@ -97,7 +97,9 @@ function Login() {
       <Button variant="contained"
         onClick={() => {
           let data = {username : username, password : password};
-          axios.post('http://localhost:5000/login', data)
+          axios.post('http://localhost:5000/login', data, {
+            withCredentials:true
+          })
             .then(response => {
               console.log("response", response)
               if (response.data === "Success"){

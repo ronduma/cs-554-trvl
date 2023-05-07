@@ -5,7 +5,7 @@ const logoutRoutes = require('./logout');
 const profileRoutes = require('./profile');
 const itinerary = require('./itinerary')
 const postRoutes = require('./posts');
-const profileRoutes = require('./profile');
+// const profileRoutes = require('./profile');
 
 
 const constructorMethod = (app) => {

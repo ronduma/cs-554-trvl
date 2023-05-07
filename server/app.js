@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const configRoutes = require('./routes');
-const session = require('express-session');
-// const redis = require('redis');
-// const client = redis.createClient();
-// client.connect().then(() => {});
+
+const redis = require('redis');
+const client = redis.createClient();
+client.connect().then(() => {});
 
 const cors = require('cors');
+const { default: RedisStore } = require('connect-redis');
 
 app.use(cors());
 
@@ -21,13 +22,16 @@ const corsOptions = {
   credentials: true
 };
 
+app.use(cors(corsOptions));
+
 app.use(
 session({
     name: 'AuthCookie',
     secret: "some secret string!",
     saveUninitialized: true,
     resave: false,
-    cookie: {secure: false}
+    cookie: {secure: false},
+    store: new RedisStore({client: client})
   })
 );
 
@@ -38,8 +42,6 @@ app.use('/login', (req, res, next) => {
     next(); 
   }
 });
-
-app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
