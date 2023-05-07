@@ -67,7 +67,7 @@ const getUserByUsername = async (username) => {
   const userCollection = await users();
   const user = await userCollection.findOne({username: username});
   if(!user) throw 'Error: There is no user with the given name';
-  user._id = user._id.string();
+  // user._id = user._id.string();
   return user;
 }
 module.exports = {

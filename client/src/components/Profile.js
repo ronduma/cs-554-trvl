@@ -1,5 +1,5 @@
 import React, {
-  // useState,  
+  useState,  
   useEffect
 } from 'react';
 import { 
@@ -9,14 +9,28 @@ import {
 import axios from 'axios';
 
 import '../App.css';
+import {
+  Alert,
+  Box,
+  Button,
+  // FormControl,
+  IconButton,
+  // Input,
+  InputAdornment,
+  // InputLabel,
+  TextField,
+} from '@mui/material'
 
 function Profile() {
+  const [userData, setUserData] = useState(undefined);
   useEffect (() => {
+    console.log('/profile')
     axios.get('/profile', {
       withCredentials : true
     })
     .then (response => {
       console.log(response)
+      setUserData(response.data)
     })
     .catch (error => {
       console.log(error)
@@ -24,9 +38,31 @@ function Profile() {
   }, [])
 
   return (
-    <div className="Profile">
-      Profile
-    </div>
+    <Box
+      component="form"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "20px",
+        width: "200px",
+        margin: "0 auto",
+      }}
+    >
+      <h1 className="Profile">
+        Profile
+      </h1>
+      <div>
+        <TextField 
+          id="outlined-basic" 
+          label={userData.username}
+          disabled="true"
+          variant="outlined" 
+          sx={{ width: '100%' }}
+        />
+      </div>
+
+    </Box>
   );
 }
 
