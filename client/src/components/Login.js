@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -21,18 +21,6 @@ function Login() {
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [errorMessage, setErrorMessage] = useState(undefined);
-
-  useEffect (() => {
-    axios.get('/login', {
-      withCredentials : true
-    })
-    .then (response => {
-      console.log(response)
-    })
-    .catch (error => {
-      console.log(error)
-    });
-  }, [])
 
   // const handleClickShowPassword = (event) => {
   //   setShowPassword(event.target.value);
@@ -86,7 +74,7 @@ function Login() {
                   onMouseUp={handleLeavePassword}
                   onMouseLeave={handleLeavePassword}
                 >
-                  {showPassword ?  <Visibility /> : <VisibilityOff />}
+                  {showPassword ?  <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             )
