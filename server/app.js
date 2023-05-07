@@ -23,6 +23,16 @@ session({
   })
 );
 
+app.use('/register', (req, res, next) => {
+  if (req.session.user) {
+    console.log('/register: logged in')
+    return res.redirect('/profile');
+  } else {
+    console.log('/register: not logged in')
+    next(); 
+  }
+});
+
 app.use('/login', (req, res, next) => {
   if (req.session.user) {
     console.log('/login: logged in')

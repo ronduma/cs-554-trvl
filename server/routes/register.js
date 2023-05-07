@@ -4,6 +4,11 @@ const users = require('../data/users');
 const helpers = require('../helpers');
 const xss = require('xss');
 
+router.get('/', async(req,res) => {
+  console.log(req.session.user)
+  return res.status(200).json(req.session.user);
+});
+
 router.route('/').post(async (req, res) => {
   // get data from frontend, check for xss attacks
   let data = {
