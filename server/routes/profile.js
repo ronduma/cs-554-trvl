@@ -7,9 +7,9 @@ const xss = require('xss');
 
 
 router.get('/', async(req,res) => {
-    // console.log('Gets req.session.user');
-    console.log("HELLO", req.session.user)
-    return res.status(200).json({user : req.session.user});
+    let userObj = await users.getUserByUsername(req.session.user);
+    console.log(userObj)
+    return res.status(200).json(userObj);
 });
 
 module.exports = router;
