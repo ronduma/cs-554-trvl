@@ -8,11 +8,10 @@ const session = require('express-session');
 
 const cors = require('cors');
 
-app.use(cors());
-
-const corsOptions = {
-  origin: 'http://localhost:3000'
-};
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use(
 session({
@@ -26,13 +25,24 @@ session({
 
 app.use('/login', (req, res, next) => {
   if (req.session.user) {
+    console.log('/login: logged in')
     return res.redirect('/profile');
   } else {
+    console.log('/login: not logged in')
     next(); 
   }
 });
 
-app.use(cors(corsOptions));
+app.use('/profile', (req, res, next) => {
+  if (!req.session.user) {
+    console.log('/profile: not logged in')
+    return res.redirect('/login');
+  } else {
+    console.log('/profile: logged in')
+    next(); 
+  }
+});
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

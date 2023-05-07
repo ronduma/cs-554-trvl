@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -21,6 +21,18 @@ function Login() {
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [errorMessage, setErrorMessage] = useState(undefined);
+
+  useEffect (() => {
+    axios.get('/login', {
+      withCredentials : true
+    })
+    .then (response => {
+      // console.log(response)
+    })
+    .catch (error => {
+      console.log(error)
+    });
+  }, [])
 
   // const handleClickShowPassword = (event) => {
   //   setShowPassword(event.target.value);
@@ -74,7 +86,7 @@ function Login() {
                   onMouseUp={handleLeavePassword}
                   onMouseLeave={handleLeavePassword}
                 >
-                  {showPassword ?  <VisibilityOff /> : <Visibility />}
+                  {showPassword ?  <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             )
@@ -85,17 +97,16 @@ function Login() {
       <Button variant="contained"
         onClick={() => {
           let data = {username : username, password : password};
-          axios.post('http://localhost:5000/login', data)
+          axios.post('http://localhost:5000/login', data,{
+            withCredentials:true
+          })
             .then(response => {
               console.log("response", response)
-              if (response.data === "Success"){
-                console.log("SUCCESS")
-                navigate('/profile');
-              }
+              navigate('/profile');
             })
             .catch(error => {
-              console.log(error.response.data.error)
-              setErrorMessage(error.response.data.error)
+              console.log(error.message)
+              setErrorMessage(error.message)
             });
         }}
       >
