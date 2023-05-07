@@ -64,9 +64,9 @@ function Register() {
         margin: "0 auto",
       }}
     >
-      <div>
+      <h1>
         Register
-      </div>
+      </h1>
       <div>
         <TextField 
           id="outlined-basic" 
@@ -93,7 +93,7 @@ function Register() {
                   onMouseUp={handleMouseUpPassword}
                   onMouseLeave={handleMouseUpPassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?  <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -118,7 +118,7 @@ function Register() {
                   onMouseUp={handleMouseUpPassword}
                   onMouseLeave={handleMouseUpPassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?  <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -127,6 +127,7 @@ function Register() {
         />
       </div>
       <Button
+        variant="contained"
         onClick={() => {
           let data = {username : username, password : password, confirmPassword : confirmPassword};
           axios.post('http://localhost:5000/register', data)
