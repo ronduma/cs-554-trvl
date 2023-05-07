@@ -3,40 +3,19 @@ import React, { useState,
 } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, makeStyles } from '@material-ui/core';
-import actions, {handleAdd} from '../actions'
-const useStyles = makeStyles({
-	card: {
-		maxWidth: 550,
-		height: 'auto',
-		marginLeft: 'auto',
-		marginRight: 'auto',
-		borderRadius: 5,
-		border: '1px solid #1e8678',
-		boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);'
-	},
-	titleHead: {
-		borderBottom: '1px solid #1e8678',
-		fontWeight: 'bold'
-	},
-	grid: {
-		flexGrow: 1,
-		flexDirection: 'row'
-	},
-	media: {
-		height: '100%',
-		width: '100%'
-	},
-	button: {
-		color: '#1e8678',
-		fontWeight: 'bold',
-		fontSize: 12
-	}
-});
+import { 
+  Card, 
+  CardActionArea, 
+  CardContent, 
+  CardMedia, 
+  Grid, 
+  Typography, 
+} from '@mui/material';
 
+import actions, {handleAdd} from '../actions'
 function Itinerary() {
   //we take in location and price
   const [location, setLocation] = useState('');
@@ -44,7 +23,6 @@ function Itinerary() {
   const [price, setPrice] = useState('1');
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
-  const classes = useStyles();
   // let card = null;
 
   const allCollectors = useSelector((state) => state.yelp);
@@ -124,17 +102,16 @@ const handleOnSubmit = (collectorid, character, action) => {
     const collected = selectedCharacters.includes(restaurant.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={restaurant.id}>
-        <Card className={classes.card} variant='outlined'>
+        <Card variant='outlined'>
           <CardActionArea>
             <CardMedia
-              className={classes.media}
               component='img'
               image={restaurant.image_url || `No image`}
               title={restaurant.name}
             />
   
             <CardContent>
-              <Typography className={classes.titleHead} gutterBottom variant='h6' component='h3'>
+              <Typography gutterBottom variant='h6' component='h3'>
                 {restaurant.name}
               </Typography>
               <Typography variant='body2' color='textSecondary' component='p'>
@@ -214,7 +191,7 @@ const handleOnSubmit = (collectorid, character, action) => {
   {/* Change the following to make it a card and give options add and delete */}
   <ul>
   {YelpData && YelpData.length > 0 && (
-     <Grid container className={classes.grid} spacing={5}>
+     <Grid container spacing={5}>
          {YelpData.map((restaurant) => buildCard(restaurant))}
      </Grid>
   )}
