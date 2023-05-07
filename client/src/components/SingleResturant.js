@@ -37,6 +37,7 @@ function SingleResturant() {
   //we take in location and price
   const { id } = useParams();
   const [restaurantData, setRestaurantData] = useState({});
+  const [restaurantReviewsData, setRestaurantReviewsData] = useState({});
   const [error, setErrorCode] = useState(false);
   const classes = useStyles();
 
@@ -50,7 +51,19 @@ function SingleResturant() {
         setErrorCode(true);
       }
     }
+    async function fetchreviewData() {
+      try {
+        const response = await axios.get(`http://localhost:5000/restaurants/${id}/reviews`);
+        console.log(response.data);
+        setRestaurantReviewsData(response.data);
+      } catch (error) {
+        console.error(error);
+        setErrorCode(true);
+      }
+    }
+
     fetchRestaurantData();
+    fetchreviewData();
   }, [id]);
 
 
@@ -118,17 +131,45 @@ function SingleResturant() {
                       ? restaurantData.rating + "/5"
                       : "No rating information provided"}
                   </Typography>
-                  <Typography variant='body2' color='textSecondary' component='p'>
-                {restaurantData.categories ? `Categories: ${restaurantData.categories.map(category => category.title).join(', ')}` : 'No category information provided'}
-              </Typography>
-              <Typography variant='body2' color='textSecondary' component='p'>
-                {restaurantData.hours ? `Hours: ${restaurantData.hours[0].open.map(day => day.start.slice(0, -2) + ':' + day.start.slice(-2) + ' - ' + day.end.slice(0, -2) + ':' + day.end.slice(-2)).join(',\n')}` : 'No hours information provided'}
-              </Typography>
+                  {/* Conditional rendering for Categories and Hours */}
+                  {restaurantData.categories && restaurantData.categories[0].title !== "Hotels" ? (
+                    <div>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        Categories: {restaurantData.categories.map(category => category.title).join(", ")}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        {restaurantData.hours
+                          ? `Hours: ${restaurantData.hours[0].open
+                              .map(
+                                day =>
+                                  day.start.slice(0, -2) +
+                                  ":" +
+                                  day.start.slice(-2) +
+                                  " - " +
+                                  day.end.slice(0, -2) +
+                                  ":" +
+                                  day.end.slice(-2)
+                              )
+                              .join(",\n")}`
+                          : "No hours information provided"}
+                      </Typography>
+                    </div>
+                  ) : null}
                 </CardContent>
               </CardActionArea>
             </Card>
           </Grid>
         </Grid>
+        <h2>Reviews</h2>
+      <ul>
+        {restaurantReviewsData.map((review) => (
+          <li key={review.id}>
+            <p>{review.comment}</p>
+            <p>Rating: {review.rating}</p>
+          </li>
+        ))}
+      </ul>
+
       </div>
     );
   }

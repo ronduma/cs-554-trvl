@@ -153,6 +153,16 @@ a.navbar-link:visited{
   color: #1a237e;
 }
 
+.addPostButton {
+  background-color: #1a237e;
+  color: white;
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
 
 
 

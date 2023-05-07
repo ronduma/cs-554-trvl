@@ -43,4 +43,39 @@ router.route('/:id').get(async (req, res) => {
 });
 
 
+router.route('/:id/reviews').get(async (req, res) => {
+    try {
+      const id = req.params.id;
+      console.log(id);
+  
+      // try redis
+      const redisExist = await client.exists(`restaurantReviews${id}`);
+      if (redisExist){
+        console.log(`reviews for restaurant with id ${id} exist in redis`);
+        const cache = await client.get(`restaurantReviews${id}`);
+        return res.status(200).json(JSON.parse(cache));
+      }
+      else {
+        console.log(`reviews for restaurant with id ${id} do not exist in redis`);
+        const response = await axios.get(`https://api.yelp.com/v3/businesses/${id}/reviews`, {
+          headers: {
+            Authorization: `Bearer ${apiKey}`
+          }
+        });
+        const reviews = response.data.reviews;
+        if (!reviews){
+          return res.status(404).json({ message: 'No reviews found for this restaurant' });
+        }
+        const cache = await client.set(`restaurantReviews${id}`, JSON.stringify(reviews));
+        console.log(reviews);
+        return res.status(200).json(reviews);
+      }
+    }
+    catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: error});
+    }
+  });
+  
+
 module.exports = router;
