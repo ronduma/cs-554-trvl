@@ -39,6 +39,7 @@ function SingleResturant() {
   //we take in location and price
   const { id } = useParams();
   const [restaurantData, setRestaurantData] = useState({});
+  const [restaurantReviewsData, setRestaurantReviewsData] = useState({});
   const [error, setErrorCode] = useState(false);
   // const classes = useStyles();
 
@@ -52,7 +53,19 @@ function SingleResturant() {
         setErrorCode(true);
       }
     }
+    async function fetchreviewData() {
+      try {
+        const response1 = await axios.get(`http://localhost:5000/restaurants/${id}/reviews`);
+        console.log("HERE IS RESPONSE")
+        console.log(response1.data);
+        setRestaurantReviewsData(response1.data);
+      } catch (error) {
+        console.error(error);
+        setErrorCode(true);
+      }
+    }
     fetchRestaurantData();
+    fetchreviewData();
   }, [id]);
 
 
@@ -70,22 +83,22 @@ function SingleResturant() {
         </Link>
         <br></br>
         <br></br>
-        <Grid 
-        container 
-        // className={classes.grid} 
-        spacing={5}>
-          <Grid item xs={12}>
-            <Card 
+        <Grid>
+          <Grid>
+            <Card className="bussiness"
             // className={classes.card} 
             variant="outlined">
               <CardActionArea>
-                <CardMedia
+                <CardMedia className='bussiness-img'
                   // className={classes.media}
                   component="img"
                   image={restaurantData.image_url || `No image`}
-                  title={restaurantData.name}
+                  style={{ height: 155, objectFit: 'cover' }}
+                  
                 />
-                <CardContent>
+                <Typography>
+                
+                </Typography>
                   <Typography
                     // className={classes.titleHead}
                     gutterBottom
@@ -131,11 +144,27 @@ function SingleResturant() {
               <Typography variant='body2' color='textSecondary' component='p'>
                 {restaurantData.hours ? `Hours: ${restaurantData.hours[0].open.map(day => day.start.slice(0, -2) + ':' + day.start.slice(-2) + ' - ' + day.end.slice(0, -2) + ':' + day.end.slice(-2)).join(',\n')}` : 'No hours information provided'}
               </Typography>
-                </CardContent>
+                
               </CardActionArea>
             </Card>
           </Grid>
         </Grid>
+        <br></br>
+        <br></br>
+        <br></br>
+        <p>Judge Through 3 Reviews</p>
+        <ul className="reviews">
+  {Array.isArray(restaurantReviewsData) && restaurantReviewsData.map((review) => (
+    <li className="review" key={review.id}>
+      <p className="rating">Rating: {review.rating}</p>
+      <p className="text">{review.text}</p>
+      <p className="name">Username: {review.user.name}</p>
+      <p className="created">Created: {review.time_created}</p>
+    </li>
+  ))}
+</ul>
+
+
       </div>
     );
   }
