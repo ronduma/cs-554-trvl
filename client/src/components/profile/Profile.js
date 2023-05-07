@@ -3,39 +3,52 @@ import React, {
   useEffect
 } from 'react';
 import { 
-  // useNavigate 
+  useNavigate 
 } from 'react-router-dom';
 
 import axios from 'axios';
 
-import '../App.css';
+import UploadAndDisplayImage from './UploadAndDisplay';
+
+import '../../App.css';
 import {
-  Alert,
+  // Alert,
   Box,
-  Button,
+  // Button,
   // FormControl,
-  IconButton,
+  // IconButton,
   // Input,
-  InputAdornment,
+  // InputAdornment,
   // InputLabel,
   TextField,
 } from '@mui/material'
 
 function Profile() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect (() => {
     console.log('/profile')
     axios.get('/profile', {
       withCredentials : true
     })
     .then (response => {
-      console.log(response)
-      setUserData(response.data)
+      if (!response.data){
+        navigate('/login')
+      }
+      setUserData(response.data);
+      setIsLoading(false);
     })
     .catch (error => {
       console.log(error)
+      setIsLoading(false);
     });
-  }, [])
+  }, [navigate])
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box
@@ -52,6 +65,7 @@ function Profile() {
       <h1 className="Profile">
         Profile
       </h1>
+      <UploadAndDisplayImage></UploadAndDisplayImage>
       <div>
         <TextField 
           id="outlined-basic" 

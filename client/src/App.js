@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Itinerary from './components/Itinerary';
 import Community from './components/Community';
-import Profile from './components/Profile';
+import Profile from './components/profile/Profile';
 import Register from './components/Register';
 import Login from './components/Login';
 import SingleResturant from './components/SingleResturant'

@@ -21,18 +21,22 @@ function Login() {
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect (() => {
     axios.get('/login', {
       withCredentials : true
     })
     .then (response => {
-      // console.log(response)
+      if (response.data){
+        navigate('/profile')
+      } 
+      setIsLoading(false);
     })
     .catch (error => {
       console.log(error)
     });
-  }, [])
+  }, [navigate])
 
   // const handleClickShowPassword = (event) => {
   //   setShowPassword(event.target.value);
@@ -51,6 +55,10 @@ function Login() {
   }
   const handlePassword = (event) => {
     setPassword(event.target.value);
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
   return (
     <Box sx={{display: 'flex', flexWrap: 'wrap', flexDirection: 'column'}} justifyContent="center" container alignItems="center">
