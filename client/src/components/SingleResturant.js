@@ -2,20 +2,43 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import { 
-  Card, 
-  CardActionArea, 
-  CardContent, 
-  CardMedia, 
-  Grid, 
-  Typography
-} from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+	card: {
+		maxWidth: 550,
+		height: 'auto',
+		marginLeft: 'auto',
+		marginRight: 'auto',
+		borderRadius: 5,
+		border: '1px solid #1e8678',
+		boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);'
+	},
+	titleHead: {
+		borderBottom: '1px solid #1e8678',
+		fontWeight: 'bold'
+	},
+	grid: {
+		flexGrow: 1,
+		flexDirection: 'row'
+	},
+	media: {
+		height: '100%',
+		width: '100%'
+	},
+	button: {
+		color: '#1e8678',
+		fontWeight: 'bold',
+		fontSize: 12
+	}
+});
 
 function SingleResturant() {
   //we take in location and price
   const { id } = useParams();
   const [restaurantData, setRestaurantData] = useState({});
   const [error, setErrorCode] = useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
     async function fetchRestaurantData() {
@@ -45,17 +68,19 @@ function SingleResturant() {
         </Link>
         <br></br>
         <br></br>
-        <Grid container spacing={5}>
+        <Grid container className={classes.grid} spacing={5}>
           <Grid item xs={12}>
-            <Card variant="outlined">
+            <Card className={classes.card} variant="outlined">
               <CardActionArea>
                 <CardMedia
+                  className={classes.media}
                   component="img"
                   image={restaurantData.image_url || `No image`}
                   title={restaurantData.name}
                 />
                 <CardContent>
                   <Typography
+                    className={classes.titleHead}
                     gutterBottom
                     variant="h6"
                     component="h3"
