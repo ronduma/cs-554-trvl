@@ -14,7 +14,8 @@ let index = 0;
 const yelpReducer = (state = initalState, action) => {
   const {type, payload} = action;
   switch (type) {
-    case 'COLLECT_RESTURANT':
+    case 'COLLECT_RESTAURANT':
+      // restaurant
       const copyState = [...state];
       console.log('payload', payload);
       console.log("REDUCERS COLLECTING CHARACTER")
@@ -42,7 +43,9 @@ const yelpReducer = (state = initalState, action) => {
       updatedCollector,
       ...state.slice(collectorIndex + 1)
     ];
-    case 'REMOVE_RESTURANT':
+    case 'REMOVE_RESTUARANT':
+      console.log("Remove_itme Payload")
+      console.log(payload)
   const giveUpState = [...state];
   const collectorIndexG = giveUpState.findIndex(collector => collector.id === payload.collectorid.id);
   if (collectorIndexG === -1) {

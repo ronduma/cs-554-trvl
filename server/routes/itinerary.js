@@ -18,8 +18,42 @@ router.route('/').get(async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: error});
     }
-
 });
+
+// router.route('/restaurant/:id').get(async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         console.log(id)
+
+//         // try redis
+//         const redisExist = await client.exists(`restaurantID${id}`);
+//         if (redisExist){
+//             console.log(`restaurant with id ${id} exists in redis`);
+//             const cache = await client.get(`restaurantID${id}`);
+//             return res.status(200).json(JSON.parse(cache));
+//         }
+//         else{
+//             console.log(`restaurant with id ${id} does not exist in redis`);
+//             const response = await axios.get(`https://api.yelp.com/v3/businesses/${id}`, {
+//                 headers: {
+//                     Authorization: `Bearer ${apiKey}`
+//                 }
+//             });
+//             const restaurant = response.data;
+//             if (!restaurant){
+//                 return res.status(404).json({ message: 'No restaurant found' });
+//             }
+//             const cache = await client.set(`restaurantID${id}`, JSON.stringify(restaurant));
+//             console.log(restaurant);
+//             return res.status(200).json(restaurant);
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ message: error});
+//     }
+// });
+
 
 router.route('/:location/:price?').get(async (req, res) => {
     console.log("getting location")

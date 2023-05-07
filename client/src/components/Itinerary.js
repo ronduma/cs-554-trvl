@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, makeStyles } from '@material-ui/core';
-
+import actions, {handleAdd} from '../actions'
 const useStyles = makeStyles({
 	card: {
 		maxWidth: 550,
@@ -42,6 +43,14 @@ function Itinerary() {
   const classes = useStyles();
   let card = null;
 
+  const allCollectors = useSelector((state) => state.yelp);
+  // console.log("HELLO")
+  // console.log(allCollectors)
+  const selectedCollector = allCollectors.filter(collector => collector.selected === true);
+  console.log("Current COllector ")
+  console.log(selectedCollector)
+  let selectedCharacters = [];
+  const dispatch=useDispatch();
   // these will handle changes
   const handleLocationChange = (event) => {
     console.log(event.target.name)
@@ -52,6 +61,28 @@ function Itinerary() {
     console.log(event.target.name)
     setPrice(event.target.value);
   };
+
+  if(selectedCollector !== undefined || selectedCollector !== null) {
+    console.log("selectedCollector")
+    console.log(selectedCollector[0].collections)
+    selectedCharacters = selectedCollector[0].collections.map(character => character.id);
+      console.log("Selected Ids ", selectedCharacters);
+  }
+  const handleCollect = (collectorid, character) => {
+    console.log("We are trying to collect character")
+    dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name}))
+}
+const handleGiveUp = (collectorid, character) => {
+  console.log("We are trying to delete character")
+    dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name}))
+}
+const handleOnSubmit = (collectorid, character, action) => {
+  if (action === "collect") {
+    handleCollect(collectorid, character);
+  } else if (action === "giveUp") {
+    handleGiveUp(collectorid, character);
+  }
+};
 
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
@@ -73,6 +104,7 @@ function Itinerary() {
     }
   };
   const buildCard = (restaurant) => {
+    const collected = selectedCharacters.includes(restaurant.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={restaurant.id}>
         <Card className={classes.card} variant='outlined'>
@@ -100,6 +132,23 @@ function Itinerary() {
             </CardContent>
           </CardActionArea>
           {/* button for collecting */}
+          {collected ? (
+          <button
+            onClick={() =>
+              handleOnSubmit(selectedCollector[0], restaurant, "giveUp")
+            }
+          >
+            Remove
+          </button>
+        ) : (
+          <button
+            onClick={() =>
+              handleOnSubmit(selectedCollector[0], restaurant, "collect")
+            }
+          >
+            Add
+          </button>
+        )}
         </Card>
       </Grid>
     );
@@ -110,6 +159,7 @@ function Itinerary() {
     return (
       <div>
         <h2>Error 404:Out of Bounds</h2>
+        
       </div>
     )
   }
