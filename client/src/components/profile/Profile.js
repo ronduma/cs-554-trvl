@@ -8,7 +8,9 @@ import {
 
 import axios from 'axios';
 
-import '../App.css';
+import UploadAndDisplayImage from './UploadAndDisplay';
+
+import '../../App.css';
 import {
   // Alert,
   Box,
@@ -63,6 +65,7 @@ function Profile() {
       <h1 className="Profile">
         Profile
       </h1>
+      <UploadAndDisplayImage></UploadAndDisplayImage>
       <div>
         <TextField 
           id="outlined-basic" 
