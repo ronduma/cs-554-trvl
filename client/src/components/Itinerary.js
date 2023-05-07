@@ -40,6 +40,7 @@ const useStyles = makeStyles({
 function Itinerary() {
   //we take in location and price
   const [location, setLocation] = useState('');
+  const [need, setNeed] = useState('restuarant');
   const [price, setPrice] = useState('1');
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
@@ -64,6 +65,11 @@ function Itinerary() {
     console.log(event.target.name)
     setPrice(event.target.value);
   };
+
+  const handleNeed = (event) => {
+    console.log(event.target.name);
+    setNeed(event.target.value);
+  };  
 
   if(selectedCollector !== undefined || selectedCollector !== null) {
     console.log("selectedCollector")
@@ -96,9 +102,17 @@ const handleOnSubmit = (collectorid, character, action) => {
     try {
       console.log("This is" + location)
       console.log("This price" + price)
-      const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
+      let response;
+      if (need === "hotel") {
+        response = await axios.get(`http://localhost:5000/hotels/${location}/${price}`);
+      } else {
+        response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
+      }
       console.log(response.data);
-      setyelpAPI(response.data.businesses)
+      setyelpAPI(response.data.businesses);
+      // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
+      // console.log(response.data);
+      // setyelpAPI(response.data.businesses)
       // Do something with the response data, such as displaying the results
     } catch (error) {
       console.error(error);
@@ -176,7 +190,10 @@ const handleOnSubmit = (collectorid, character, action) => {
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
     <div className="search-box">
-      <h2>Search for a location</h2>
+      <h2>Search for a <select value={need} onChange={handleNeed}>
+        <option value="restaurant">Restaurant</option>
+        <option value="hotel">Hotel</option>
+      </select></h2>
   <form onSubmit={handleSubmit}>
     <label className="location-label">
       Location:
@@ -191,7 +208,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         <option value="4">$$$$</option>
       </select>
     </label>
-    <button type="submit" className="search-button">Find Restaurants</button>
+    <button type="submit" className="search-button">Explore</button>
   </form>
   </div>
   {/* Change the following to make it a card and give options add and delete */}
