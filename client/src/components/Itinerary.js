@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, 
+  // useEffect 
+} from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { 
+  // Link 
+} from 'react-router-dom';
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -40,7 +44,7 @@ function Itinerary() {
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
   const classes = useStyles();
-  let card = null;
+  // let card = null;
 
   // these will handle changes
   const handleLocationChange = (event) => {
@@ -114,22 +118,22 @@ function Itinerary() {
     )
   }
   else {
-    card =
-			YelpData &&
-			YelpData.map((show) => {
-				return buildCard(show);
-			});
+    // card =
+		// 	YelpData &&
+		// 	YelpData.map((show) => {
+		// 		return buildCard(show);
+		// 	});
   return (
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
     <div className="search-box">
       <h2>Search for a location</h2>
   <form onSubmit={handleSubmit}>
-    <label class="location-label">
+    <label className="location-label">
       Location:
       <input type="text" value={location} onChange={handleLocationChange} />
     </label>
-    <label class="price-label">
+    <label className="price-label">
       Price:
       <select value={price} onChange={handlePriceChange}>
         <option value="1">$</option>
@@ -138,7 +142,7 @@ function Itinerary() {
         <option value="4">$$$$</option>
       </select>
     </label>
-    <button type="submit" class="search-button">Find Restaurants</button>
+    <button type="submit" className="search-button">Find Restaurants</button>
   </form>
   </div>
   {/* Change the following to make it a card and give options add and delete */}
