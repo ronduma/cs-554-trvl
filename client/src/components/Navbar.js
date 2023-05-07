@@ -40,7 +40,10 @@ function Navbar() {
         <Link className="navbar-link" to="/itinerary">Itinerary</Link>
         <Link className="navbar-link" to="/community">Community</Link>
         {showProfile ? 
-          <Link className="navbar-link" to="/profile">Profile</Link> 
+          <span>
+            <Link className="navbar-link" to="/profile">Profile</Link> 
+            <Link className="navbar-link" to="/logout">Logout</Link>
+          </span>
         : null}
 
         {!showProfile ? 
