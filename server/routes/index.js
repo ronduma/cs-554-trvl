@@ -19,13 +19,12 @@ const constructorMethod = (app) => {
   app.use('/register', registerRoutes);
   app.use('/login', loginRoutes);
   app.use('/hotels', hotels)
-  // app.use('/itinerary', itinerary);
   app.use('/posts', postRoutes);
   app.use('/profile', profileRoutes);
   app.use('/itinerary', itinerary);
   app.use('/restaurants', resturant);
   app.use('/posts', postRoutes);
-
+  app.use('/logout', logoutRoutes);
 
 
   app.use('*', (req, res) => {

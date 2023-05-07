@@ -2,9 +2,9 @@ const express = require('express');
 const app = express();
 const configRoutes = require('./routes');
 const session = require('express-session');
-// const redis = require('redis');
-// const client = redis.createClient();
-// client.connect().then(() => {});
+const redis = require('redis');
+const client = redis.createClient();
+client.connect().then(() => {});
 
 const cors = require('cors');
 
@@ -39,6 +39,16 @@ app.use('/profile', (req, res, next) => {
     return res.redirect('/login');
   } else {
     console.log('/profile: logged in')
+    next(); 
+  }
+});
+
+app.use('/logout', (req, res, next) => {
+  if (!req.session.user) {
+    console.log('/logout: not logged in')
+    return res.redirect('/login');
+  } else {
+    console.log('/logout: logged in')
     next(); 
   }
 });

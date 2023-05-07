@@ -12,6 +12,7 @@ import '../App.css';
 
 function Profile() {
   useEffect (() => {
+    console.log('/profile')
     axios.get('/profile', {
       withCredentials : true
     })
