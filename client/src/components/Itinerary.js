@@ -50,10 +50,10 @@ function Itinerary() {
   // const classes = useStyles();
   // let card = null;
   
-
+  
   const allCollectors = useSelector((state) => state.yelp);
-  // console.log("HELLO")
-  // console.log(allCollectors)
+  console.log("HELLO")
+  console.log(allCollectors)
   const selectedCollector = allCollectors.filter(collector => collector.selected === true);
   console.log("Current COllector ")
   console.log(selectedCollector)
@@ -83,11 +83,11 @@ function Itinerary() {
   }
   const handleCollect = (collectorid, character) => {
     console.log("We are trying to collect character")
-    dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name}))
+    dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
 }
 const handleGiveUp = (collectorid, character) => {
   console.log("We are trying to delete character")
-    dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name}))
+    dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
 }
 const handleOnSubmit = (collectorid, character, action) => {
   if (action === "collect") {
@@ -246,14 +246,14 @@ const handleOnSubmit = (collectorid, character, action) => {
       </div>
     )
   }
-  if (errorMessage) {
-    return (
-      <div>
-        <h2>Location does not exists</h2>
+  // if (errorMessage) {
+  //   return (
+  //     <div>
+  //       <h2>Location does not exists</h2>
         
-      </div>
-    )
-  }
+  //     </div>
+  //   )
+  // }
   else {
     // card =
 		// 	YelpData &&
@@ -284,6 +284,9 @@ const handleOnSubmit = (collectorid, character, action) => {
     </label>
     <button type="submit" className="search-button">Explore</button>
   </form>
+  {errorMessage && (
+        <div className="error-message">{errorMessage}</div>
+      )}
   </div>
   {/* Change the following to make it a card and give options add and delete */}
   <ul>

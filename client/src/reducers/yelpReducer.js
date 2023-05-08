@@ -1,8 +1,9 @@
 import {v4 as uuid} from 'uuid';
+
 const initalState = [
   {
     id: uuid(),
-    name: 'Username',
+    userData: null,
     selected: true,
     collections: []
   }
@@ -59,6 +60,19 @@ const yelpReducer = (state = initalState, action) => {
   };
   giveUpState.splice(collectorIndexG, 1, updatedCollectorG);
   return giveUpState;
+
+  case 'SET_USER_DATA':
+    console.log("Set-User")
+    console.log(payload)
+      return state.map(collector => {
+        if (collector.id !== payload.collectorid.id) {
+          return collector;
+        }
+        return {
+          ...collector,
+          userData: payload.userData,
+        };
+      });
     default:
       return state;
   }

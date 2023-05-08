@@ -6,6 +6,10 @@ import {
   useNavigate 
 } from 'react-router-dom';
 
+// D
+import { useDispatch, useSelector } from 'react-redux';
+import actions, {handleAdd} from '../../actions.js'
+
 import axios from 'axios';
 
 import UploadAndDisplayImage from './UploadAndDisplay';
@@ -27,6 +31,22 @@ function Profile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  // D testing
+  const dispatch = useDispatch();
+  const allCollectors = useSelector((state) => state.yelp);
+  console.log(allCollectors)
+  const selectedCollector = allCollectors.filter(collector => collector.selected === true);
+  console.log("Current COllector ")
+  console.log(selectedCollector)
+  let selectedCharacters = [];
+
+  if(selectedCollector !== undefined && selectedCollector !== null) {
+    console.log("selectedCollector")
+    console.log(selectedCollector[0].collections)
+    selectedCharacters = selectedCollector[0].collections.map(character => character.id);
+      console.log("Selected Ids ", selectedCharacters);
+      
+  }
 
   useEffect (() => {
     console.log('/profile')
@@ -38,6 +58,8 @@ function Profile() {
         navigate('/login')
       }
       setUserData(response.data);
+      // D testing 
+      dispatch(actions.setUserData(response.data));
       setIsLoading(false);
     })
     .catch (error => {
@@ -51,6 +73,7 @@ function Profile() {
   }
 
   return (
+    <>
     <Box
       component="form"
       sx={{
@@ -77,6 +100,54 @@ function Profile() {
       </div>
 
     </Box>
+
+{/* Save to backend */}
+{allCollectors.map(collector => (
+  <div key={collector.id}>
+      <div className='collectorContainer'>
+          <label htmlFor="name">Collector: {collector.name}</label>
+      </div>
+      {collector.selected ?
+                  <div className='current-collector'>Current Collector</div>:
+                'Not logined in'
+              }
+      <br></br>
+      <div className='collection-container'>
+      {collector.selected && collector.collections.length > 0 ?
+                  collector.collections.map((character, index) => (
+                      // buildCardT(character)
+                      <div className="container-box"key={index}>
+                        <p className='container-name'>{character.name}</p>
+                        <img className= 'container-image' src={character.image} alt={character.name} />
+                        <p className='containers-ratings'>{character.rating}</p>
+                      <button onClick={() => {
+                        axios.post('/selected_characters', {
+                          selectedCharacters: selectedCharacters
+                        }, {
+                          withCredentials: true
+                        })
+                          .then(response => {
+                            console.log(response);
+                            // Handle success response here
+                          })
+                          .catch(error => {
+                            console.log(error);
+                            // Handle error response here
+                          })
+                      }}>
+                        Save Iternary 
+                      </button>
+                      </div>
+                      ))
+                  : ``
+              }
+        </div>
+              <br></br>
+              <br></br>
+  </div>
+)
+)}
+ </>
   );
 }
 

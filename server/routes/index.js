@@ -10,6 +10,7 @@ const hotels =require('./hotels')
 
 
 
+
 const constructorMethod = (app) => {
   // app.use('/', (req, res) => {
   //   res.status(200).json("Hello World!")
@@ -25,7 +26,6 @@ const constructorMethod = (app) => {
   app.use('/restaurants', resturant);
   app.use('/posts', postRoutes);
   app.use('/logout', logoutRoutes);
-
 
   app.use('*', (req, res) => {
     // console.log('yo')
