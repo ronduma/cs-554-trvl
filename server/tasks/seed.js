@@ -12,7 +12,7 @@ async function main() {
     let user1 = await users.createUser("mxfu", "OhMyGod69!");
     let user2 = await users.createUser("ronbro", "thatisNICE100@");
     let user3 = await users.createUser("dylanmyman", "thatisNICE100@");
-    let user4 = await users.createUser("jaejaejae", "newjeans0201!");
+    let user4 = await users.createUser("jaejaejae", "NewJeans0201!");
 
     console.log("MAKING POSTS");
     let post1 = await posts.createPost("Go-to spots in NYC", user1.insertedId.toString(), "If you wanna impress some friends with this taiwanese inspired street pubs with small tapas, 886 in St Marks is the place for you. Need a quick date spot or somewhere you are and your friends can have a casual meal to catch up, Izakaya Mew will not create the memory you did not think you needed to make. And lastly on Mott St of Chinatown, Kong Shik Tong gives anyone that quick meal transporting them to a Hong Kong station resturant where everything is there for them to enjoy, some hong kong style milk tea, golden toast and baked fried rices are a must.");

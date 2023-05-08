@@ -46,18 +46,18 @@ const checkUser = async (
   username = username.trim();
   password = password.trim();
 
-  
+
   const userCollection = await users();
-  const userExists = await userCollection.findOne({username: username});
-  
-  if(!userExists) {
+  const userExists = await userCollection.findOne({ username: username });
+
+  if (!userExists) {
     throw 'Error: User with the given username or password does not exist. Try Again!';
   }
   let compare = await bcrypt.compare(password, userExists.password);
-  if(compare){
-    return {authenticatedUser: true};
+  if (compare) {
+    return { authenticatedUser: true };
   }
-  else{
+  else {
     throw 'Error: Invalid Password. Try Again!';
   }
 }
@@ -65,13 +65,23 @@ const checkUser = async (
 const getUserByUsername = async (username) => {
   username = username.toLowerCase();
   const userCollection = await users();
-  const user = await userCollection.findOne({username: username});
-  if(!user) throw 'Error: There is no user with the given name';
+  const user = await userCollection.findOne({ username: username });
+  if (!user) throw 'Error: There is no user with the given name';
   // user._id = user._id.string();
   return user;
 }
+
+const getUserById = async (userId) => {
+  helpers.validateId(userId);
+  const userCollection = await users();
+  const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+  if (!user) throw "User not found";
+  return user;
+}
+
 module.exports = {
   createUser,
   checkUser,
-  getUserByUsername
+  getUserByUsername,
+  getUserById
 };
