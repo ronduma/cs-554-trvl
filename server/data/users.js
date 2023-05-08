@@ -4,7 +4,7 @@ const helpers = require("../helpers");
 const users = mongoCollections.users;
 const fs = require('fs');
 
-const gm = require('gm');
+const gm = require('gm').subClass({imageMagick: true});
 
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
@@ -24,7 +24,7 @@ const saveImgToDB = async (username, path) => {
   try {
     const userCollection = await users();
     const userExists = await userCollection.findOne({ username: username });
-    if (userExists) { console.log('A user with that username already exists.') }
+    if (userExists) { console.log('User found. Profile pic uploading now.') }
     const updatedUser = await userCollection.findOneAndUpdate(
       { username: username },
       { $set: {profilePic: image} },
@@ -44,10 +44,10 @@ const saveImgToDB = async (username, path) => {
 
 const modifyImage = async (imageBuffer) => {
   if (imageBuffer && imageBuffer.length > 0) {
-    console.log(imageBuffer.length)
+    console.log("image size:", imageBuffer.length)
     gm(imageBuffer)
-    .crop(100, 100, 0, 0)
-    .toBuffer('PNG', (err, croppedBuffer) => {
+    .resize(200, 200)
+    .toBuffer((err, croppedBuffer) => {
       if (err) throw err;
       console.log('yo')
       // return croppedBuffer
