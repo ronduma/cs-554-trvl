@@ -2,36 +2,24 @@ const { ObjectId } = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const helpers = require("../helpers");
 const users = mongoCollections.users;
-const mongoose = require('mongoose');
 const fs = require('fs');
-const bcrypt = require('bcryptjs');
-const { empty } = require('@apollo/client');
-const saltRounds = 10;
 
-mongoose.connect('mongodb://localhost:27017');
+const gm = require('gm');
+
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 
 const emptyUploadsFolder = async () => {
   const folderPath = './uploads';
   const files = await fs.promises.readdir(folderPath);
 
-  // console.log(files)
   for (const file of files) {
     await fs.promises.unlink(`${folderPath}/${file}`);
   }
 };
 
 const saveImgToDB = async (username, path) => {
-  const userSchema = new mongoose.Schema({
-    profilePic : Buffer
-  })
-  
-  const User = mongoose.model('User', userSchema, 'users_collection');
-  
   const image = fs.readFileSync(path);
-
-  const user = new User({
-    profilePic : image
-  });
 
   try {
     const userCollection = await users();
@@ -47,11 +35,24 @@ const saveImgToDB = async (username, path) => {
       throw `Error: User with username ${username} not found`;
     }
 
-    console.log('User updated: ', updatedUser);
+    console.log('User updated.');
     await emptyUploadsFolder()
   } catch (err) {
     console.error(err);
   }
+}
+
+const modifyImage = async (imageBuffer) => {
+  if (imageBuffer && imageBuffer.length > 0) {
+    console.log(imageBuffer.length)
+    gm(imageBuffer)
+    .crop(100, 100, 0, 0)
+    .toBuffer('PNG', (err, croppedBuffer) => {
+      if (err) throw err;
+      console.log('yo')
+      // return croppedBuffer
+    })
+  } else throw 'Empty image buffer'
 }
 
 const createUser = async (
@@ -135,5 +136,6 @@ module.exports = {
   checkUser,
   getUserByUsername,
   getUserById,
-  saveImgToDB
+  saveImgToDB,
+  modifyImage
 };

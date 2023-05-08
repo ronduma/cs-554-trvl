@@ -10,23 +10,32 @@ const UploadAndDisplayImage = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasPic, setHasPic] = useState(false)
+  const [userData, setUserData] = useState(null);
 
-  const handleImageUpload = (event) => {
+  const handleButtonClick = (event) => {
     event.preventDefault();
-    console.log(event.target.files[0]);
-    setSelectedImage(event.target.files[0]);
     setHasPic(true);
     const formData = new FormData();
     formData.append('image', selectedImage);
 
     axios.post('/profile/pfp', formData)
     .then(response => {
-      console.log(response);
+      if (response.data){
+        console.log("RESPONSE", response);
+        setUserData(response.data)
+        // console.log('userdata', userData.profilePic)
+      }
     })
     .catch(error => {
       console.log(error);
     })
     navigate('/profile');
+  }
+
+  const handleImageUpload = (event) => {
+    event.preventDefault();
+    console.log(event.target.files[0]);
+    setSelectedImage(event.target.files[0]);
   }
 
   return (
@@ -41,19 +50,14 @@ const UploadAndDisplayImage = () => {
       >
         
       </img>)}
-      {/* {selectedImage && (
-        <div>
-          <img
-            alt="not found"
-            width={"250px"}
-            src={URL.createObjectURL(selectedImage)}
-          />
-          <br />
-          <button onClick={() => 
-          setSelectedImage(null)
-          }>Remove</button>
-        </div>
-      )} */}
+
+      {userData && (
+        <img
+          src={"data:image/image/png;base64," + userData.profilePic.toString('base64')}
+          width="100%"
+          alt="pfp"
+        />
+      )}
 
       <br />
 
@@ -63,7 +67,7 @@ const UploadAndDisplayImage = () => {
           name="image"
           onChange={handleImageUpload}
         />
-        <button type="submit">Upload</button>
+        <button onClick={handleButtonClick} type="submit">Upload</button>
       </form>
       
     </div>
