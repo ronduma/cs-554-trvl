@@ -47,6 +47,7 @@ function Itinerary() {
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [randomized, setRandomized] = useState([]);
   // const classes = useStyles();
   // let card = null;
   
@@ -104,8 +105,12 @@ const handleOnSubmit = (collectorid, character, action) => {
     if (location === null || location === undefined || !location){
       return setErrorMessage('Location can not be blank');
     }
-    let test = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
-    console.log(test)
+    let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
+    setyelpAPI([])
+    setRandomized(random.data)
+    // random.data.restaurants.map((restaurant) =>
+
+    // )
   }
 
   const handleSubmit = async (event) => {
@@ -317,6 +322,11 @@ const handleOnSubmit = (collectorid, character, action) => {
      <Grid container spacing={5}>
          {YelpData.map((restaurant) => buildHotelCard(restaurant))}
      </Grid>
+  )}
+  {randomized && (
+    <Grid container spacing={5}>
+      {randomized.map((restaurant) => buildCard(restaurant))}
+    </Grid>
   )}
 </ul>
     </div>

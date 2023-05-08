@@ -50,7 +50,7 @@ router.route('/:location/:price?/randomize').get(async (req, res) => {
   let randomNumbers = [];
   let randomRestaurants = [];
 
-  while(randomNumbers.length < 4) {
+  while(randomNumbers.length < 12) {
     let randomNumber = Math.floor(Math.random() * 50);
     if(!randomNumbers.includes(randomNumber)) {
       randomNumbers.push(randomNumber)
@@ -58,11 +58,28 @@ router.route('/:location/:price?/randomize').get(async (req, res) => {
     }
   }
 
-  console.log(randomRestaurants)
+  console.log(randomRestaurants.length)
 
+  const hotels = await axios.get(`https://api.yelp.com/v3/businesses/search?term=hotels&location=${location}&price=${price || '1,2,3,4'}&limit=50`, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`
+    }
+  })
 
+  randomNumbers = [];
+  randomHotels = [];
 
-  return res.status(200).json(response.data)
+  while(randomNumbers.length < 3) {
+    let randomNumber = Math.floor(Math.random() * 50);
+    if(!randomNumbers.includes(randomNumber)) {
+      randomNumbers.push(randomNumber)
+      randomHotels.push(restaurants.data.businesses[randomNumber]);
+    }
+  }
+
+  console.log(randomHotels.length)
+
+  return res.status(200).json({restaurants: randomRestaurants, hotels: randomHotels})
 })
 
 router.route('/:location/:price?').get(async (req, res) => {
