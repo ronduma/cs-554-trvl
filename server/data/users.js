@@ -10,7 +10,8 @@ const createUser = async (
   password,
   itinerary = {},
   posts = [],
-  likes = []
+  likes = [],
+  profilePic = null
 ) => {
   // input validation
   helpers.validateUsername(username);
@@ -28,7 +29,8 @@ const createUser = async (
     password: password,
     itinerary: itinerary,
     posts: posts,
-    likes: likes
+    likes: likes,
+    profilePic: profilePic
   };
   const insertInfo = await userCollection.insertOne(newUser);
   // console.log(insertInfo)
