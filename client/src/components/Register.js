@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -22,6 +22,22 @@ function Register() {
   const navigate = useNavigate();
   
   const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect (() => {
+    axios.get('/register', {
+      withCredentials : true
+    })
+    .then (response => {
+      if (response.data){
+        navigate('/profile')
+      } 
+      setIsLoading(false);
+    })
+    .catch (error => {
+      console.log(error)
+    });
+  }, [navigate])
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -52,6 +68,9 @@ function Register() {
     // console.log(confirmPassword)
   }
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <Box
       component="form"
@@ -64,9 +83,9 @@ function Register() {
         margin: "0 auto",
       }}
     >
-      <div>
+      <h1>
         Register
-      </div>
+      </h1>
       <div>
         <TextField 
           id="outlined-basic" 
@@ -93,7 +112,7 @@ function Register() {
                   onMouseUp={handleMouseUpPassword}
                   onMouseLeave={handleMouseUpPassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?  <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -118,7 +137,7 @@ function Register() {
                   onMouseUp={handleMouseUpPassword}
                   onMouseLeave={handleMouseUpPassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?  <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -127,6 +146,7 @@ function Register() {
         />
       </div>
       <Button
+        variant="contained"
         onClick={() => {
           let data = {username : username, password : password, confirmPassword : confirmPassword};
           axios.post('http://localhost:5000/register', data)

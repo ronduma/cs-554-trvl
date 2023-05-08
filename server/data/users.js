@@ -2,15 +2,66 @@ const { ObjectId } = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const helpers = require("../helpers");
 const users = mongoCollections.users;
+const fs = require('fs');
+
+const gm = require('gm').subClass({imageMagick: true});
+
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
+
+const emptyUploadsFolder = async () => {
+  const folderPath = './uploads';
+  const files = await fs.promises.readdir(folderPath);
+
+  for (const file of files) {
+    await fs.promises.unlink(`${folderPath}/${file}`);
+  }
+};
+
+const saveImgToDB = async (username, path) => {
+  const image = fs.readFileSync(path);
+
+  try {
+    const userCollection = await users();
+    const userExists = await userCollection.findOne({ username: username });
+    if (userExists) { console.log('User found. Profile pic uploading now.') }
+    const updatedUser = await userCollection.findOneAndUpdate(
+      { username: username },
+      { $set: {profilePic: image} },
+      { returnOriginal: false }
+    );
+
+    if (!updatedUser) {
+      throw `Error: User with username ${username} not found`;
+    }
+
+    console.log('User updated.');
+    await emptyUploadsFolder()
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+const modifyImage = async (imageBuffer) => {
+  if (imageBuffer && imageBuffer.length > 0) {
+    console.log("image size:", imageBuffer.length)
+    gm(imageBuffer)
+    .resize(200, 200)
+    .toBuffer((err, croppedBuffer) => {
+      if (err) throw err;
+      console.log('yo')
+      // return croppedBuffer
+    })
+  } else throw 'Empty image buffer'
+}
 
 const createUser = async (
   username,
   password,
-  itinerary = {},
+  itinerary = [],
   posts = [],
-  likes = []
+  likes = [],
+  profilePic = null
 ) => {
   // input validation
   helpers.validateUsername(username);
@@ -28,7 +79,8 @@ const createUser = async (
     password: password,
     itinerary: itinerary,
     posts: posts,
-    likes: likes
+    likes: likes,
+    profilePic: profilePic
   };
   const insertInfo = await userCollection.insertOne(newUser);
   // console.log(insertInfo)
@@ -38,24 +90,52 @@ const createUser = async (
   return { insertedUser: true, insertedId: insertInfo.insertedId };
 };
 
-//returns an array of all the users
-const getAllUsers = async () => {
+const checkUser = async (
+  username, password
+) => {
+  helpers.validateUsername(username);
+  helpers.validatePassword(password);
+  username = username.trim();
+  password = password.trim();
+
+
   const userCollection = await users();
-  const userList = await userCollection.find({}).toArray();
-  return userList;
+  const userExists = await userCollection.findOne({ username: username });
+
+  if (!userExists) {
+    throw 'Error: User with the given username or password does not exist. Try Again!';
+  }
+  let compare = await bcrypt.compare(password, userExists.password);
+  if (compare) {
+    return { authenticatedUser: true };
+  }
+  else {
+    throw 'Error: Invalid Password. Try Again!';
+  }
 }
 
-//returns the user by id
-const getUserById = async (id) => {
-  helpers.validateId(id);
+const getUserByUsername = async (username) => {
+  username = username.toLowerCase();
   const userCollection = await users();
-  const user = await userCollection.findOne({ _id: new ObjectId(id) });
-  if (!user) { throw 'Error: User cannot be found with id given' };
+  const user = await userCollection.findOne({ username: username });
+  if (!user) throw 'Error: There is no user with the given name';
+  // user._id = user._id.string();
+  return user;
+}
+
+const getUserById = async (userId) => {
+  helpers.validateId(userId);
+  const userCollection = await users();
+  const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+  if (!user) throw "User not found";
   return user;
 }
 
 module.exports = {
   createUser,
-  getAllUsers,
+  checkUser,
+  getUserByUsername,
   getUserById,
+  saveImgToDB,
+  modifyImage
 };

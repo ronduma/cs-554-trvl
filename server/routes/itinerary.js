@@ -5,7 +5,6 @@ const redis = require("redis");
 const client = redis.createClient();
 client.connect().then(() => {});
 
-
 const apiKey ='PzubXsGTOr6esV9Io46ba7SHL6nN5GiX_BT39rtnwAIvnjEF8zNH2AencToseOklf2PJ4NoCH7barK0EkAX6jHl5AEFmu9sXI3tJAwYjV7f5xnKsrGVZqAXU9M5TZHYx'
 
 router.route('/').get(async (req, res) => {
@@ -19,7 +18,22 @@ router.route('/').get(async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: error});
     }
+});
 
+// Adjust this route to post iternary
+router.route('/:userId').post(async (req, res) => {
+    try {
+        const {restaurantsid, hotelid, eventid } = req.body;
+    
+        // Call postItineraryToUser function to update the user's itinerary
+        await postItineraryToUser(username, restaurantsid, hotelid, eventid);
+
+        return res.status(200).json({ message: 'Itinerary updated successfully!' });
+    
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error });
+      }
 });
 
 router.route('/:location/:price?').get(async (req, res) => {
