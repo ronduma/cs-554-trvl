@@ -14,6 +14,8 @@ import axios from 'axios';
 
 import UploadAndDisplayImage from './UploadAndDisplay';
 
+import pfp from '../../img/pfp.jpg'
+
 import '../../App.css';
 import {
   // Alert,
@@ -48,6 +50,10 @@ function Profile() {
       
   }
 
+  const updateUserData = (newUserData) => {
+    setUserData(newUserData);
+  };
+
   useEffect (() => {
     console.log('/profile')
     axios.get('/profile', {
@@ -67,6 +73,10 @@ function Profile() {
       setIsLoading(false);
     });
   }, [navigate])
+
+  // useEffect (() => {
+  //   console.log(hasPic)
+  // }, [hasPic])
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -88,8 +98,25 @@ function Profile() {
       <h1 className="Profile">
         Profile
       </h1>
-      
-      <UploadAndDisplayImage></UploadAndDisplayImage>
+
+      {userData.profilePic ? (
+        <img
+        src={"data:image/image/png;base64," + userData.profilePic.toString('base64')}
+        width="100%"
+        alt="pfp"
+      />
+      )
+        :       
+        <img
+            src={pfp}
+            alt="pfp"
+            width="100%"
+          >
+            
+          </img>
+      }
+
+      <UploadAndDisplayImage userData={userData} updateUserData={updateUserData}></UploadAndDisplayImage>
       <div>
         <TextField 
           id="outlined-basic" 

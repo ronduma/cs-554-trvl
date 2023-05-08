@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { 
+  useState, 
+  // useEffect 
+} from "react";
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
-import pfp from '../../img/pfp.jpg'
-
-const UploadAndDisplayImage = () => {
+const UploadAndDisplayImage = (props) => {
   const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const [hasPic, setHasPic] = useState(false)
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(props.userData);
 
   const handleButtonClick = (event) => {
     event.preventDefault();
-    setHasPic(true);
+    // setHasPic(true);
     const formData = new FormData();
     formData.append('image', selectedImage);
 
@@ -22,14 +22,15 @@ const UploadAndDisplayImage = () => {
     .then(response => {
       if (response.data){
         console.log("RESPONSE", response);
-        setUserData(response.data)
+        // setUserData(response.data)
+        props.updateUserData(response.data);
         // console.log('userdata', userData.profilePic)
+        navigate('/profile');
       }
     })
     .catch(error => {
       console.log(error);
     })
-    navigate('/profile');
   }
 
   const handleImageUpload = (event) => {
@@ -41,23 +42,6 @@ const UploadAndDisplayImage = () => {
   return (
     <div>
       <div>Profile Picture</div>
-
-      {!hasPic && (
-      <img
-        src={pfp}
-        alt="pfp"
-        width="100%"
-      >
-        
-      </img>)}
-
-      {userData && (
-        <img
-          src={"data:image/image/png;base64," + userData.profilePic.toString('base64')}
-          width="100%"
-          alt="pfp"
-        />
-      )}
 
       <br />
 
