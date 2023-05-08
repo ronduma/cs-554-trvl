@@ -33,7 +33,6 @@ function Profile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasPic, setHasPic] = useState(false)
   // D testing
   const dispatch = useDispatch();
   const allCollectors = useSelector((state) => state.yelp);

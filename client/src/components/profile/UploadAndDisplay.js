@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { 
+  useState, 
+  // useEffect 
+} from "react";
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -7,7 +10,7 @@ const UploadAndDisplayImage = (props) => {
   const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const [userData, setUserData] = useState(props.userData);
+  // const [userData, setUserData] = useState(props.userData);
 
   const handleButtonClick = (event) => {
     event.preventDefault();
@@ -19,7 +22,7 @@ const UploadAndDisplayImage = (props) => {
     .then(response => {
       if (response.data){
         console.log("RESPONSE", response);
-        setUserData(response.data)
+        // setUserData(response.data)
         props.updateUserData(response.data);
         // console.log('userdata', userData.profilePic)
         navigate('/profile');
