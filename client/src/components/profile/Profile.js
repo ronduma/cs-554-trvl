@@ -65,12 +65,13 @@ function Profile() {
       <h1 className="Profile">
         Profile
       </h1>
+      
       <UploadAndDisplayImage></UploadAndDisplayImage>
       <div>
         <TextField 
           id="outlined-basic" 
           label={userData.username}
-          disabled="true"
+          disabled
           variant="outlined" 
           sx={{ width: '100%' }}
         />
