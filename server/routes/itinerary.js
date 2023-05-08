@@ -36,6 +36,35 @@ router.route('/:userId').post(async (req, res) => {
       }
 });
 
+router.route('/:location/:price?/randomize').get(async (req, res) => {
+  const location = req.params.location;
+  const price = req.params.price;
+  console.log(location, price)
+  const restaurants = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&price=${price || '1,2,3,4'}&limit=50`, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`
+    }
+  })
+
+  // generate 4 random restaurants
+  let randomNumbers = [];
+  let randomRestaurants = [];
+
+  while(randomNumbers.length < 4) {
+    let randomNumber = Math.floor(Math.random() * 50);
+    if(!randomNumbers.includes(randomNumber)) {
+      randomNumbers.push(randomNumber)
+      randomRestaurants.push(restaurants.data.businesses[randomNumber]);
+    }
+  }
+
+  console.log(randomRestaurants)
+
+
+
+  return res.status(200).json(response.data)
+})
+
 router.route('/:location/:price?').get(async (req, res) => {
     console.log("getting location")
     const location = req.params.location;
@@ -60,6 +89,7 @@ router.route('/:location/:price?').get(async (req, res) => {
 
         // console.log(response.data)
         result = response.data;
+        console.log(result)
         if (!result){
             return res.status(404).json({ message: 'No resturants in location found' });
         }
@@ -76,7 +106,5 @@ router.route('/:location/:price?').get(async (req, res) => {
     }
 
 });
-
-
 
 module.exports = router;

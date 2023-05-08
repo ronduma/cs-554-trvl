@@ -100,6 +100,14 @@ const handleOnSubmit = (collectorid, character, action) => {
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
   
+  const generateRandom = async() => {
+    if (location === null || location === undefined || !location){
+      return setErrorMessage('Location can not be blank');
+    }
+    let test = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
+    console.log(test)
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (location === null || location === undefined || !location){
@@ -284,6 +292,8 @@ const handleOnSubmit = (collectorid, character, action) => {
     </label>
     <button type="submit" className="search-button">Explore</button>
   </form>
+    <h2>Feeling Lucky?</h2>
+    <button onClick={generateRandom} type="submit" className="search-button">Randomize your trip!</button>
   {errorMessage && (
         <div className="error-message">{errorMessage}</div>
       )}
