@@ -105,6 +105,45 @@ a.navbar-link:visited{
   background-color: #3367d6;
 }
 
+/* each business */
+.reviews {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.review {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.rating {
+  font-style: italic;
+}
+
+.text {
+  margin-bottom: 5px;
+}
+
+.created {
+  font-size: 0.8em;
+  color: #888;
+}
+.bussiness {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+
 
 /* Community Section */
 .cards {
@@ -153,6 +192,10 @@ a.navbar-link:visited{
   color: #1a237e;
 }
 
+/* .bussiness-img{
+  height: 100%;
+  width: 100%
+  } */
 
 
 
