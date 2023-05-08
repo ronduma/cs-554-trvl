@@ -8,7 +8,7 @@ const saltRounds = 10;
 const createUser = async (
   username,
   password,
-  itinerary = {},
+  itinerary = [],
   posts = [],
   likes = []
 ) => {

@@ -20,18 +20,20 @@ router.route('/').get(async (req, res) => {
     }
 });
 
-router.route('/').post(async (req, res) => {
+// Adjust this route to post iternary
+router.route('/:userId').post(async (req, res) => {
     try {
-        console.log("post iinerary here");
-        
-        return res.status(200).json("Location!")
+        const {restaurantsid, hotelid, eventid } = req.body;
+    
+        // Call postItineraryToUser function to update the user's itinerary
+        await postItineraryToUser(username, restaurantsid, hotelid, eventid);
 
-        
-    } catch (error) {
-        
+        return res.status(200).json({ message: 'Itinerary updated successfully!' });
+    
+      } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: error});
-    }
+        return res.status(500).json({ message: error });
+      }
 });
 
 router.route('/:location/:price?').get(async (req, res) => {
