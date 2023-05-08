@@ -2,15 +2,65 @@ const { ObjectId } = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const helpers = require("../helpers");
 const users = mongoCollections.users;
+const mongoose = require('mongoose');
+const fs = require('fs');
 const bcrypt = require('bcryptjs');
+const { empty } = require('@apollo/client');
 const saltRounds = 10;
+
+mongoose.connect('mongodb://localhost:27017');
+
+const emptyUploadsFolder = async () => {
+  const folderPath = './uploads';
+  const files = await fs.promises.readdir(folderPath);
+
+  // console.log(files)
+  for (const file of files) {
+    await fs.promises.unlink(`${folderPath}/${file}`);
+  }
+};
+
+const saveImgToDB = async (username, path) => {
+  const userSchema = new mongoose.Schema({
+    profilePic : Buffer
+  })
+  
+  const User = mongoose.model('User', userSchema, 'users_collection');
+  
+  const image = fs.readFileSync(path);
+
+  const user = new User({
+    profilePic : image
+  });
+
+  try {
+    const userCollection = await users();
+    const userExists = await userCollection.findOne({ username: username });
+    if (userExists) { console.log('A user with that username already exists.') }
+    const updatedUser = await userCollection.findOneAndUpdate(
+      { username: username },
+      { $set: {profilePic: image} },
+      { returnOriginal: false }
+    );
+
+    if (!updatedUser) {
+      throw `Error: User with username ${username} not found`;
+    }
+
+    console.log('User updated: ', updatedUser);
+    await emptyUploadsFolder()
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 const createUser = async (
   username,
   password,
   itinerary = [],
   posts = [],
-  likes = []
+  likes = [],
+  profilePic = null
 ) => {
   // input validation
   helpers.validateUsername(username);
@@ -28,7 +78,8 @@ const createUser = async (
     password: password,
     itinerary: itinerary,
     posts: posts,
-    likes: likes
+    likes: likes,
+    profilePic: profilePic
   };
   const insertInfo = await userCollection.insertOne(newUser);
   // console.log(insertInfo)
@@ -83,5 +134,6 @@ module.exports = {
   createUser,
   checkUser,
   getUserByUsername,
-  getUserById
+  getUserById,
+  saveImgToDB
 };

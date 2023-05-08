@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const configRoutes = require('./routes');
 const session = require('express-session');
+
+const bodyParser = require('body-parser');
+
 const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
@@ -22,6 +25,9 @@ session({
     cookie: {secure: false}
   })
 );
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }));
 
 app.use('/register', (req, res, next) => {
   if (req.session.user) {
@@ -64,8 +70,8 @@ app.use('/logout', (req, res, next) => {
 });
 
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+// app.use(express.json());
+// app.use(express.urlencoded({extended: true}));
 
 configRoutes(app);
 
