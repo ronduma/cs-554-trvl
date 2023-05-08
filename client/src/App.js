@@ -19,7 +19,7 @@ function App() {
           <Navbar />
 
         </header>
-        <body>
+        <main>
           <Routes>
             <Route path="/" element={<Home/>} /> 
             <Route path="/itinerary" element={<Itinerary/>} />
@@ -30,7 +30,7 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/logout" element={<Logout/>}/>
           </Routes>
-        </body>
+        </main>
       </div>
     </Router>
   );
