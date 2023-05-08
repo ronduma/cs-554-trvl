@@ -17,7 +17,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-
 router.get('/', async(req,res) => {
     let userObj = await users.getUserByUsername(req.session.user);
     // console.log(userObj)
@@ -25,12 +24,14 @@ router.get('/', async(req,res) => {
 });
 
 router.post('/pfp', upload.single('image'), async(req,res) => {
-    console.log("yo")
     let userObj = await users.getUserByUsername(req.session.user);
-    // console.log(userObj)
-    // console.log(req.body)
-    console.log(req.file)
-    return res.status(200).json(userObj);
+    console.log("file", req.file)
+    const file = req.file;
+    if (file){
+      console.log("saving file to /uploads")
+      await users.saveImgToDB(req.session.user, file.path);
+    }
+    return res.redirect('/profile');
 });
 
 module.exports = router;

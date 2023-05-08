@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
 import pfp from '../../img/pfp.jpg'
 
 const UploadAndDisplayImage = () => {
+  const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasPic, setHasPic] = useState(false)
@@ -24,6 +26,7 @@ const UploadAndDisplayImage = () => {
     .catch(error => {
       console.log(error);
     })
+    navigate('/profile');
   }
 
   return (
