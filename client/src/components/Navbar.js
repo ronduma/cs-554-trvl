@@ -13,8 +13,10 @@ import axios from 'axios';
 
 function Navbar() {
   const [showProfile, setShowProfile] = useState(false);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   useEffect (() => {
+    setLoading(true);
     axios.get('/login', {
       withCredentials : true
     })
@@ -22,39 +24,51 @@ function Navbar() {
       // console.log(response)
       if (response.data){
         setShowProfile(true);
-      } else setShowProfile(false);
+      } else {
+        setShowProfile(false)
+      }
+      setLoading(false);
     })
     .catch (error => {
       console.log(error)
     });
   }, [location])
-
-  return (
-    <Typography
-      fontSize={24}
-    > 
-      <div className="navbar">
-        <div className="navbar-logo">
-          <Link className="navbar-link" to="/">T R V L</Link>
-        </div>
-        <Link className="navbar-link" to="/itinerary">Itinerary</Link>
-        <Link className="navbar-link" to="/community">Community</Link>
-        {showProfile ? 
-          <span>
-            <Link className="navbar-link" to="/profile">Profile</Link> 
-            <Link className="navbar-link" to="/logout">Logout</Link>
-          </span>
-        : null}
-
-        {!showProfile ? 
-          <span>
-            <Link className="navbar-link" to="/register">Register</Link>
-            <Link className="navbar-link" to="/login">Login</Link>
-          </span>
-        : null}
+  if(loading){
+    return(
+    <Typography fontSize={24}>
+      <div>
+        Loading...
       </div>
-    </Typography>
-  );
+  </Typography>);
+  }
+  else{
+    return (
+      <Typography
+        fontSize={24}
+      > 
+        <div className="navbar">
+          <div className="navbar-logo">
+            <Link className="navbar-link" to="/">T R V L</Link>
+          </div>
+          <Link className="navbar-link" to="/itinerary">Itinerary</Link>
+          <Link className="navbar-link" to="/community">Community</Link>
+          {showProfile ? 
+            <span>
+              <Link className="navbar-link" to="/profile">Profile</Link> 
+              <Link className="navbar-link" to="/logout">Logout</Link>
+            </span>
+          : null}
+  
+          {!showProfile ? 
+            <span>
+              <Link className="navbar-link" to="/register">Register</Link>
+              <Link className="navbar-link" to="/login">Login</Link>
+            </span>
+          : null}
+        </div>
+      </Typography>
+    );
+  }
 }
 
 export default Navbar;

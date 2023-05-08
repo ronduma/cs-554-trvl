@@ -25,12 +25,14 @@ function Profile() {
   const [userData, setUserData] = useState(undefined);
   useEffect (() => {
     console.log('/profile')
+    console.log(userData)
     axios.get('/profile', {
       withCredentials : true
     })
     .then (response => {
       console.log(response)
       setUserData(response.data)
+      console.log(userData)
     })
     .catch (error => {
       console.log(error)
@@ -55,7 +57,7 @@ function Profile() {
       <div>
         <TextField 
           id="outlined-basic" 
-          label={userData.username}
+          label={userData}
           disabled="true"
           variant="outlined" 
           sx={{ width: '100%' }}
