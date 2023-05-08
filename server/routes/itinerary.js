@@ -20,6 +20,20 @@ router.route('/').get(async (req, res) => {
     }
 });
 
+router.route('/').post(async (req, res) => {
+    try {
+        console.log("post iinerary here");
+        
+        return res.status(200).json("Location!")
+
+        
+    } catch (error) {
+        
+        console.error(error);
+        return res.status(500).json({ message: error});
+    }
+});
+
 router.route('/:location/:price?').get(async (req, res) => {
     console.log("getting location")
     const location = req.params.location;
