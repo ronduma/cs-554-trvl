@@ -32,34 +32,64 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
-
 /* Navbar Section */
-.navbar{
-  padding:2vh 0 2vh 0;
+.navbar {
+  padding: 2vh 0 2vh 0;
+  background-color: #bff3ff;
+  color: #fff;
+  display: block;
 }
-a.navbar-link{
-  color:black;
-  margin:0 2vw 0 2vw;
-  text-decoration:none;
+
+a.navbar-link {
+  color: black;
+  margin: 0 2vw 0 2vw;
+  text-decoration: none;
+  font-size: 25px;
 }
-a.navbar-link:visited{
-  color:black;
+
+a.navbar-link:visited {
+  color: black;
 }
-.navbar-logo{
+
+.navbar-logo {
   margin-bottom: 2vh;
 }
 
 /* Home Section */
+/* .homepage-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} */
+.home{
 
+  margin: 0 auto;
+  width: 800px;
+  padding: 50px;
+  background-color: #effcff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 50px;
+
+}
 
 /* Itinerary Section */
-.titleForSearchItinerary{
+.Card {
+  max-width: 200px;
+}
+
+.titleForSearchItinerary {
   margin-bottom: 0px;
 }
+
 .search-box {
   display: flex;
   flex-direction: column;
@@ -137,6 +167,7 @@ a.navbar-link:visited{
   font-size: 0.8em;
   color: #888;
 }
+
 .bussiness {
   width: 300px;
   height: 300px;
@@ -193,7 +224,24 @@ a.navbar-link:visited{
   color: #2e304b;
 }
 
-.t
+.eventcard {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 2px solid #ccc;
+  max-width: 250px;
+  height: 400px;
+  box-sizing: border-box;
+  align-content: space-around;
+  font-size: 14px;
+}
+
+/* .searchCommunity {
+  margin: 0 auto;
+  padding-top: 20px;
+  width: 200px;
+  height: 200px;
+} */
+
 /* .bussiness-img{
   height: 100%;
   width: 100%
@@ -224,6 +272,7 @@ a.navbar-link:visited{
 .container-name {
   font-size: 20px;
   font-weight: bold;
+  justify-content: center;
 }
 
 .container-image {
@@ -250,5 +299,3 @@ a.navbar-link:visited{
   width: 100%;
   height: auto;
 }
-
-

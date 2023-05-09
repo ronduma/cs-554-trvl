@@ -16,21 +16,6 @@ function Community() {
   let li = null;
   // const [postDetails, setPostDetails] = useState(false);
 
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       let { data } = await axios.get('http://localhost:5000/posts');
-  //       setPostsData(data)
-  //       setIsLoading(false)
-  //       console.log(data);
-  //     } catch (e) {
-  //       setIsLoading(true)
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -48,41 +33,6 @@ function Community() {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
-
-
-
-  // const buildCard = (post) => {
-  //     const [communityData, setCommunityData] = useState([]);
-  //   const [searchTerm, setSearchTerm] = useState('');
-  //   const [suggestions, setSuggestions] = useState([]);
-
-  // useEffect(() => {
-  //     console.log("Community Search")
-  //     axios.get(`http://localhost:5000/posts?searchTerm=${searchTerm}`)
-  //       .then(response => {
-  //         console.log()
-  //         setCommunityData(response.data);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   }, [searchTerm]);
-  // const handleSearch = (event) => {
-  //     setSearchTerm(event.target.value);
-  //   };
-
-
-
-  // return (
-  //     <div>
-  //       <input
-  //         type="text"
-  //         placeholder="Search posts"
-  //         value={searchTerm}
-  //         onChange={handleSearch}
-  //       />
-  //     </div>
 
   useEffect(() => {
     async function fetchData() {
@@ -131,28 +81,28 @@ function Community() {
     console.log("postsBuild")
     console.log(post);
     return (
-        <div class="communityContainer">
-          <div class=" cards">
-            <div class="card">
+      <div class="communityContainer">
+        <div class=" cards">
+          <div class="card">
             <Link to={`/community/${post._id}`}><h2>{post.title}</h2></Link>
-              {/* <h2>{post.title}</h2> */}
-              <div class="card__content">
-                <p>
-                  {post.content}
-                </p>
-                <div>Posted by: {post.username}</div>
-                <div class="card_stats">
-                  <div>
-                    <p>Likes: {post.likes.length} </p>
-                  </div>
-                  <div>
-                    <p>Comments: {post.replies.length}</p>
-                  </div>
+            {/* <h2>{post.title}</h2> */}
+            <div class="card__content">
+              <p>
+                {post.content}
+              </p>
+              <div>Posted by: {post.username}</div>
+              <div class="card_stats">
+                <div>
+                  <p>Likes: {post.likes.length} </p>
+                </div>
+                <div>
+                  <p>Comments: {post.replies.length}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
     );
   }
@@ -160,8 +110,8 @@ function Community() {
     return buildCard(post);
   });
   return (
-    <div className="Community"> Community
-    <div>
+    <div className="Community">
+      <div>
         <input
           type="text"
           placeholder="Search posts"
@@ -169,22 +119,22 @@ function Community() {
           onChange={handleSearch}
         />
       </div>
-    
 
-    <div className="App-body">
-      <h1>Community Feed</h1>
-      {
-        isLoggedin ? (
-          <button onClick={() => {
-            navigate('/postform', { state: { userData } })
-          }}></button>
-        ) : (
-          <p>Must be logged in to post</p>
-        )
-      }
-      
-      <ul className="list-unstyled">{li}</ul>
-    </div>
+
+      <div className="App-body">
+        <h1>Community Feed</h1>
+        {
+          isLoggedin ? (
+            <button onClick={() => {
+              navigate('/postform', { state: { userData } })
+            }}>Add Post</button>
+          ) : (
+            <p>Must be logged in to post</p>
+          )
+        }
+
+        <ul className="list-unstyled">{li}</ul>
+      </div>
     </div>
   );
 }
