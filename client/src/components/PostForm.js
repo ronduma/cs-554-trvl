@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom'
+import { useLocation} from 'react-router-dom'
 
 function PostForm() {
     const [formData, setFormData] = useState({
@@ -8,13 +8,22 @@ function PostForm() {
         content: '',
     });
     const location = useLocation();
-
     const data = location.state;
     console.log(data)
-    const handleSubmit = (event) => {
+
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // handle form submission here
-    };
+        try {
+          await axios.post(`/posts/${data.userData._id}`, formData);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     // handle form submission here
+    // };
 
     const handleChangeTitle = (event) => {
         const name = event.target.value;
@@ -25,6 +34,9 @@ function PostForm() {
         setFormData({ title: formData.title, content: content });
     };
     console.log(formData);
+    console.log("This is the data in postform")
+    console.log(data)
+    console.log(data.userData)
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -42,9 +54,10 @@ function PostForm() {
                         onChange={handleChangeContent}
                     />
                 </label>
-                <button onClick={() => {
+                {/* <button onClick={() => {
                     axios.post(`/posts/${data.userData._id}`, formData)
-                }} type="submit">Submit</button>
+                }} type="submit">Submit</button> */}
+                <button type="submit">Submit</button>
             </form>
         </div>
     );
