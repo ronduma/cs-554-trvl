@@ -26,9 +26,7 @@ router.route('/').get(async (req, res) => {
 router.route('/:userId').post(async (req, res) => {
     try {
         let postForm = req.body;
-        console.log(postForm);
         let createPost = await posts.createPost(postForm.title, req.params.userId, postForm.content);
-        console.log('bruh');
         return res.status(200).json(createPost)
     } catch (e) {
         console.log(e)
@@ -38,7 +36,9 @@ router.route('/:userId').post(async (req, res) => {
 })
 router.route('/:postId').get(async (req, res) => {
     try {
+        console.log(req.params.postId);
         let getPost = await posts.getPostById(req.params.postId);
+        console.log(getPost);
         return res.json(getPost);
     } catch (e) {
         return res.status(500).json(e);
@@ -62,7 +62,6 @@ router.route('/reply/:userId/:postId').post(async (req, res) => {
     }
 })
 
-//pls bring back the session.user
 router.route('/reply/:userId/:postId/:replyId').delete(async (req, res) => {
     try {
         let deleteReply = await posts.deleteReply(req.params.replyId, req.params.postId, req.params.userId);

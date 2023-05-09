@@ -400,12 +400,15 @@ const handleOnSubmit = (collectorid, character, action) => {
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
     <div className="search-box">
-      <h2>Search for a <select value={need} onChange={handleNeed}>
+      <h2 className = "titleForSearchItinerary">Search for something specific?</h2>
+      <p>choose from either resturants, hotels or events!</p>
+      <select value={need} onChange={handleNeed}>
         <option value="restaurant">Restaurant</option>
         <option value="category">Category</option>
         <option value="hotel">Hotel</option>
         <option value="event">Event</option>
-      </select></h2>
+      </select>
+
   <form onSubmit={handleSubmit}>
     <label className="location-label">
       Location:
@@ -440,7 +443,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     <button type="submit" className="search-button">Explore</button>
   </form>
     <h2>Feeling Lucky?</h2>
-    <button onClick={generateRandom} type="submit" className="search-button">Randomize your trip!</button>
+    <button onClick={generateRandom} type="submit" className="search-button" >Randomize your trip!</button>
   {errorMessage && (
         <div className="error-message">{errorMessage}</div>
       )}
