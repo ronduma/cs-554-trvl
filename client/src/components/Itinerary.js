@@ -49,6 +49,7 @@ function Itinerary() {
   const [randomized, setRandomized] = useState();
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
+  
   // const classes = useStyles();
   // let card = null;
   
@@ -62,7 +63,6 @@ function Itinerary() {
   let selectedCharacters = [];
   const dispatch=useDispatch();
   // these will handle changes
-
   const handleLocationChange = (event) => {
     // console.log(event.target.name)
     setLocation(event.target.value);
@@ -160,6 +160,7 @@ const handleOnSubmit = (collectorid, character, action) => {
       }
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
       console.log(response.data);
+      console.log(selectedCollector[0])
       // setyelpAPI(response.data.businesses)
       // Do something with the response data, such as displaying the results
     } catch (error) {

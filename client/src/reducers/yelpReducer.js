@@ -1,5 +1,5 @@
 import {v4 as uuid} from 'uuid';
-
+import axios from 'axios';
 const initalState = [
   {
     id: uuid(),
@@ -39,6 +39,7 @@ const yelpReducer = (state = initalState, action) => {
       ...collector,
       collections: [...collector.collections, payload.character]
     };
+    // console.log(updatedCollector);
     return [
       ...state.slice(0, collectorIndex),
       updatedCollector,
@@ -59,18 +60,24 @@ const yelpReducer = (state = initalState, action) => {
     collections: updatedCollectionsG,
   };
   giveUpState.splice(collectorIndexG, 1, updatedCollectorG);
+  console.log(giveUpState[0].collections);
+  axios.post('/profile/collections', giveUpState[0].collections);
+  // console.log("help");
   return giveUpState;
 
   case 'SET_USER_DATA':
     console.log("Set-User")
     console.log(payload)
       return state.map(collector => {
-        if (collector.id !== payload.collectorid.id) {
+        if (collector.id === payload._id) {
           return collector;
         }
         return {
           ...collector,
-          userData: payload.userData,
+          id: payload._id,
+          userData: payload,
+          selected: true,
+          collections: payload.itinerary
         };
       });
     default:

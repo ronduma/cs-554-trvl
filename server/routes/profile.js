@@ -34,4 +34,20 @@ router.post('/pfp', upload.single('image'), async(req,res) => {
     return res.redirect('/profile');
 });
 
+router.post('/collections', async(req,res) => {
+  try{
+    console.log(req.body);
+    const collection = req.body;
+    console.log(collection);
+    let result;
+    if(collection){
+      console.log("uploading collection");
+      result = await users.saveCollectionsToDB(req.session.user, collection);
+      return res.status(200).json(result);
+    } 
+  }catch(e){
+    return res.status(404).json(e);
+  }
+});
+
 module.exports = router;

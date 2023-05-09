@@ -46,8 +46,7 @@ function Profile() {
     console.log("selectedCollector")
     console.log(selectedCollector[0].collections)
     selectedCharacters = selectedCollector[0].collections.map(character => character.id);
-      console.log("Selected Ids ", selectedCharacters);
-      
+      console.log("Selected Ids ", selectedCharacters);   
   }
 
   const updateUserData = (newUserData) => {
@@ -65,6 +64,7 @@ function Profile() {
       }
       setUserData(response.data);
       // D testing 
+      console.log(response.data)
       dispatch(actions.setUserData(response.data));
       setIsLoading(false);
     })
@@ -74,6 +74,8 @@ function Profile() {
     });
   }, [navigate])
 
+  console.log(userData);
+  console.log(allCollectors)
   // useEffect (() => {
   //   console.log(hasPic)
   // }, [hasPic])
@@ -133,12 +135,8 @@ function Profile() {
 {allCollectors.map(collector => (
   <div key={collector.id}>
       <div className='collectorContainer'>
-          <label htmlFor="name">Collector: {collector.name}</label>
+          <label htmlFor="name">Collector: {collector.userData.username}</label>
       </div>
-      {collector.selected ?
-                  <div className='current-collector'>Current Collector</div>:
-                'Not logined in'
-              }
       <br></br>
       <div className='collection-container'>
       {collector.selected && collector.collections.length > 0 ?

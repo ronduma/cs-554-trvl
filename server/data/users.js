@@ -41,7 +41,23 @@ const saveImgToDB = async (username, path) => {
     console.error(err);
   }
 }
-
+const saveCollectionsToDB = async (username, collections) => {
+  try{
+    const userCollection = await users();
+    const userExists = await userCollection.findOne({username: username});
+    if(userExists){ console.log('User found, updating the mongoDB collections')}
+    const updatedUser = await userCollection.findOneAndUpdate(
+      {username: username},
+      {$set : {itinerary : collections}}
+    );
+    if(!updatedUser){
+      throw `Error: User with username ${username} not found`;
+    }
+    console.log('User updated');
+  }catch(error){
+    console.error(error);
+  }
+}
 const modifyImage = async (username, imageBuffer) => {
   if (imageBuffer && imageBuffer.length > 0) {
     let updated = await new Promise((resolve, reject) => {
@@ -148,5 +164,6 @@ module.exports = {
   getUserByUsername,
   getUserById,
   saveImgToDB,
+  saveCollectionsToDB,
   modifyImage
 };
