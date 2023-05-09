@@ -28,9 +28,9 @@ router.post('/', async (req, res) => {
         data.username = data.username.toLowerCase();
         const postRegister = await users.checkUser(data.username, data.password);
         if (postRegister.authenticatedUser) {
-            // req.session.user = data.username;
-            let user = await users.getUserByUsername(data.username);
-            req.session.user = user;
+            req.session.user = data.username;
+            // let user = await users.getUserByUsername(data.username);
+            // req.session.user = user;
             console.log('successfully logged in: ', req.session.user);
             return res.status(200).redirect('/profile');
         }
