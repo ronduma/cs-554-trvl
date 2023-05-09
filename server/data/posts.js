@@ -63,21 +63,24 @@ const createPost = async (title, userPosted, content) => {
     if (!insertInfoToPost.acknowledged || !insertInfoToPost.insertedId) {
         throw "Could not add post";
     }
+
     // add post in elasticsearch
-    // let newPost1 = {
-    //     title: title.trim(),
-    //     userPosted: userPosted.trim(),
-    //     username: findUsername.username,
-    //     content: content.trim(),
-    //     likes: [],
-    //     replies: [],
-    //     time: now.toLocaleTimeString(),
-    // };
+    let elasticid = insertInfoToPost.insertedId.toString();
+    let newPost1 = {
+        title: title.trim(),
+        postPosted: elasticid,
+        userPosted: userPosted.trim(),
+        username: findUsername.username,
+        content: content.trim(),
+        likes: [],
+        replies: [],
+        time: now.toLocaleTimeString(),
+    };
     // index the new post in Elasticsearch
-    // await elasticClient.index({
-    //     index: 'posts',
-    //     body: newPost1,
-    // });
+    await elasticClient.index({
+        index: 'posts',
+        body: newPost1,
+    });
     return { newPost: true, insertedId: insertInfoToPost.insertedId }
 }
 const searchPosts = async (searchTerm) => {
@@ -92,6 +95,7 @@ const searchPosts = async (searchTerm) => {
                 },
             },
         });
+        console.log(result)
     } catch (e) {
         console.log("Elasticsearch search error");
         console.log(e);
