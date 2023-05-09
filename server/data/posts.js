@@ -59,9 +59,11 @@ const createPost = async (title, userPosted, content) => {
     if (!insertInfoToPost.acknowledged || !insertInfoToPost.insertedId) {
         throw "Could not add post";
     }
+    let elasticid = insertInfoToPost.insertedId;
     // add post in elasticsearch
     let newPost1 = {
         title: title.trim(),
+        postid: newPost._id.toString(),
         userPosted: userPosted.trim(),
         username: findUsername.username,
         content: content.trim(),
