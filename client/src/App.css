@@ -244,3 +244,18 @@ a.navbar-link:visited{
 
 /* Login Section */
 
+
+/* home */
+.Home {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.Home img {
+  width: 100%;
+  height: auto;
+}
+
+
