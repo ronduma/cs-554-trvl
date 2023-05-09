@@ -105,8 +105,6 @@ function Community() {
   //             </div>
   //           </div>
 
-
-
   useEffect(() => {
     async function fetchData() {
       try {
