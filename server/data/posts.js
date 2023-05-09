@@ -63,6 +63,7 @@ const createPost = async (title, userPosted, content) => {
     let newPost1 = {
         title: title.trim(),
         userPosted: userPosted.trim(),
+        username: findUsername.username,
         content: content.trim(),
         likes: [],
         replies: [],
