@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
-import actions, {handleAdd} from '../actions'
+import actions from '../actions'
 // const useStyles = makeStyles({
 // 	card: {
 // 		maxWidth: 550,
@@ -51,6 +51,7 @@ function Itinerary() {
   const [categories, setCategories] = useState('')
   // const classes = useStyles();
   // let card = null;
+  const [collectedIds, setCollectedIds] = useState([]);
   
   
   const allCollectors = useSelector((state) => state.yelp);
@@ -86,6 +87,12 @@ function Itinerary() {
     let lowercase = (event.target.value).toLowerCase();
     setCategories(lowercase);
   };
+  // Collect Itinerarys
+    const handleCollectIds = () => {
+    dispatch(actions.collectIds('Itinerary1', collectedIds));
+    dispatch(actions.collectIds('Itinerary2', collectedIds));
+    dispatch(actions.collectIds('Itinerary3', collectedIds));
+  }
   
   if(selectedCollector !== undefined || selectedCollector !== null) {
     // console.log("selectedCollector")
@@ -111,6 +118,14 @@ const handleOnSubmit = (collectorid, character, action) => {
 
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
+  const collectIds = (items) => {
+    const ids = items.map((item) => item.id);
+    setCollectedIds(ids);
+    console.log(collectedIds)
+    
+  };
+
+  
   
   const generateRandom = async() => {
     if (location === null || location === undefined || !location){
@@ -118,6 +133,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     }
     let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
     setyelpAPI([])
+    console.log(random.data)
     setRandomized(random.data)
     console.log("response", randomized.itinerary1)
     // randomized.restaurants.forEach((restaurant) => {
@@ -396,6 +412,7 @@ const handleOnSubmit = (collectorid, character, action) => {
   //   )
   // }
   else {
+    // const collected = selectedCharacters.includes(restaurant.id);
   return (
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
@@ -408,7 +425,6 @@ const handleOnSubmit = (collectorid, character, action) => {
         <option value="hotel">Hotel</option>
         <option value="event">Event</option>
       </select>
-
   <form onSubmit={handleSubmit}>
     <label className="location-label">
       Location:
@@ -485,8 +501,9 @@ const handleOnSubmit = (collectorid, character, action) => {
       >
         <h3>Itinerary 1</h3>
         <Grid container spacing={0}>
-          {randomized.itinerary1.map((item) => buildCard(item))}
+          {randomized.itinerary1.map((item) => buildCard  (item))}
         </Grid>
+        <button onClick={() => collectIds(randomized.itinerary1)}>Collect Ids</button>
       </Box>
       <Box
         bgcolor="lightgray"
@@ -495,6 +512,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         <Grid container spacing={0}>
           {randomized.itinerary2.map((item) => buildCard(item))}
         </Grid>
+        <button onClick={() => collectIds(randomized.itinerary2)}>Collect Ids</button>
       </Box>
       <Box
         bgcolor="lightgray"
@@ -503,6 +521,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         <Grid container spacing={0}>
           {randomized.itinerary3.map((item) => buildCard(item))}
         </Grid>
+        <button onClick={() => collectIds(randomized.itinerary3)}>Collect Ids</button>
       </Box>
     </div>   
   )}

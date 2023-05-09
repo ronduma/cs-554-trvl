@@ -14,12 +14,18 @@ const handleAdd = (collectorid, character) => ({
 
   });
 
+  const collectIds = (itineraryNumber, ids) => ({
+    type: "COLLECT_IDS",
+    payload: {
+      itineraryNumber: itineraryNumber,
+      ids: ids,
+    },
+  });
 
-
-    
   module.exports = {
     handleAdd,
     handleRemove,
-    setUserData
+    setUserData,
+    collectIds
 
   };

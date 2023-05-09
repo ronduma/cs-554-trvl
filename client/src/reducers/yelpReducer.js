@@ -61,6 +61,8 @@ const yelpReducer = (state = initalState, action) => {
   giveUpState.splice(collectorIndexG, 1, updatedCollectorG);
   return giveUpState;
 
+
+
   case 'SET_USER_DATA':
     console.log("Set-User")
     console.log(payload)
@@ -73,6 +75,87 @@ const yelpReducer = (state = initalState, action) => {
           userData: payload.userData,
         };
       });
+      // collect entire itinerary
+      case 'COLLECT_ITINERARY': {
+        const collectorId = payload.collectorId;
+        const itineraryIds = payload.itineraryIds;
+  
+        // Find the collector by ID
+        const collector = state.find(collector => collector.id === collectorId);
+  
+        if (!collector) {
+          return state; // Collector not found, return the original state
+        }
+  
+        // Collect the itinerary IDs
+        const updatedCollector = {
+          ...collector,
+          collections: [...collector.collections, ...itineraryIds],
+        };
+  
+        // Update the state with the new collector
+        return state.map(collector => {
+          if (collector.id === collectorId) {
+            return updatedCollector;
+          } else {
+            return collector;
+          }
+        });
+      }
+      case 'COLLECT_ITINERARY': {
+      const collectorId = payload.collectorId;
+      const itineraryIds = payload.itineraryIds;
+
+      // Find the collector by ID
+      const collector = state.find(collector => collector.id === collectorId);
+
+      if (!collector) {
+        return state; // Collector not found, return the original state
+      }
+
+      // Collect the itinerary IDs
+      const updatedCollector = {
+        ...collector,
+        collections: [...collector.collections, ...itineraryIds],
+      };
+
+      // Update the state with the new collector
+      return state.map(collector => {
+        if (collector.id === collectorId) {
+          return updatedCollector;
+        } else {
+          return collector;
+        }
+      });
+    }
+    case 'REMOVE_ITINERARY': {
+      const collectorId = payload.collectorId;
+      const itineraryId = payload.itineraryId;
+
+      // Find the collector by ID
+      const collector = state.find(collector => collector.id === collectorId);
+
+      if (!collector) {
+        return state; // Collector not found, return the original state
+      }
+
+      // Remove the itinerary ID from the collections
+      const updatedCollections = collector.collections.filter(id => id !== itineraryId);
+
+      const updatedCollector = {
+        ...collector,
+        collections: updatedCollections,
+      };
+
+      // Update the state with the new collector
+      return state.map(collector => {
+        if (collector.id === collectorId) {
+          return updatedCollector;
+        } else {
+          return collector;
+        }
+      });
+    }
     default:
       return state;
   }
