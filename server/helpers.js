@@ -35,10 +35,15 @@ function validatePassword(password) {
     if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password)) throw 'Error: Password should be at least 6 characters long, and have at least one uppercase character, one number and one special character.'
     return true;
 }
-
+function validateNumber(num){
+    if(!num) throw "Error: no number for pages";
+    if(num < 0 || typeof Number(num) == 'NaN') throw 'Error: number of pages cannot be less than 1';
+    
+}
 module.exports = {
     validateId,
     validateUsername,
     validatePassword,
+    validateNumber
 
 }

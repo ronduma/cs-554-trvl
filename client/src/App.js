@@ -8,6 +8,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import SingleResturant from './components/SingleResturant'
 import Logout from './components/Logout';
+import SingleEvent from './components/SingleEvent'
 
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/register" element={<Register/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/logout" element={<Logout/>}/>
+            <Route path="/events/:id" element={<SingleEvent/>}/>
           </Routes>
         </main>
       </div>
