@@ -5,7 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
 import actions, {handleAdd} from '../actions'
@@ -41,7 +41,7 @@ import actions, {handleAdd} from '../actions'
 function Itinerary() {
   //we take in location and price
   const [location, setLocation] = useState('');
-  const [need, setNeed] = useState('restuarant');
+  const [need, setNeed] = useState('restaurant');
   const [price, setPrice] = useState('1');
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
@@ -384,14 +384,15 @@ const handleOnSubmit = (collectorid, character, action) => {
     return (
       <div>
         <h2>Error 404:Out of Bounds</h2>
+        <Button onClick={() => {window.location.reload()}}>Return to Itinerary</Button>
       </div>
     )
   }
   if (errorMessage) {
     return (
       <div>
-        <h2>Location does not exists</h2>
-          
+        <h2>Location Does not Exist</h2>
+        <Button onClick={() => {window.location.reload()}}>Return to Itinerary</Button>
       </div>
     )
   }
@@ -400,12 +401,14 @@ const handleOnSubmit = (collectorid, character, action) => {
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
     <div className="search-box">
-      <h2>Search for a <select value={need} onChange={handleNeed}>
+      <h2>Search for a 
+        <select value={need} onChange={handleNeed}>
         <option value="restaurant">Restaurant</option>
         <option value="category">Category</option>
         <option value="hotel">Hotel</option>
         <option value="event">Event</option>
-      </select></h2>
+        </select>
+      </h2>
   <form onSubmit={handleSubmit}>
     <label className="location-label">
       Location:
@@ -438,7 +441,7 @@ const handleOnSubmit = (collectorid, character, action) => {
       </select>
     </label>
     : null)}
-    <button type="submit" className="search-button">Explore</button>
+    <Button type="submit" className="search-button">Explore</Button>
   </form>
     <h2>Feeling Lucky?</h2>
     <button onClick={generateRandom} type="submit" className="search-button">Randomize your trip!</button>
@@ -476,6 +479,7 @@ const handleOnSubmit = (collectorid, character, action) => {
          {YelpData.map((category) => buildCategoriesCard(category))}
      </Grid>
   )}
+  
   {/* {randomized && (
     <Grid container spacing={5}>
       {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
