@@ -158,8 +158,6 @@ const handleOnSubmit = (collectorid, character, action) => {
         response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
         setyelpAPI(response.data.businesses);
       }
-      console.log("response", response.data);
-      setyelpAPI(response.data.businesses);
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
       // console.log(response.data);
       // setyelpAPI(response.data.businesses)
@@ -386,7 +384,6 @@ const handleOnSubmit = (collectorid, character, action) => {
     return (
       <div>
         <h2>Error 404:Out of Bounds</h2>
-        
       </div>
     )
   }
@@ -478,11 +475,11 @@ const handleOnSubmit = (collectorid, character, action) => {
          {YelpData.map((category) => buildCategoriesCard(category))}
      </Grid>
   )}
-  {randomized && (
+  {/* {randomized && (
     <Grid container spacing={5}>
       {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
     </Grid>
-  )}
+  )} */}
   </ul>
   </div>
   );
