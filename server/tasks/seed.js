@@ -61,6 +61,12 @@ async function main() {
     //     console.log(e);
     // }
 
+    try {
+        console.log(await posts.getAllPosts());
+    }catch(e){
+        console.log(e);
+    }
+
     await connection.closeConnection();
     console.log("Done!");
 }

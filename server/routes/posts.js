@@ -24,17 +24,25 @@ router.route('/').get(async (req, res) => {
 
 })
 router.route('/:userId').post(async (req, res) => {
-    let postForm = req.body;
-    let createPost = await posts.createPost(postForm.title, req.params.userId, postForm.content);
+    try {
+        let postForm = req.body;
+        let createPost = await posts.createPost(postForm.title, req.params.userId, postForm.content);
 
-    return res.json(createPost)
+        return res.status(200).json(createPost)
+    } catch (e) {
+        return res.status(400).json(e)
+    }
+
 })
 router.route('/:postId').get(async (req, res) => {
-    let getPost = await posts.getPostById(req.params.postId);
-    return res.json(getPost);
+    try {
+        let getPost = await posts.getPostById(req.params.postId);
+        return res.json(getPost);
+    } catch (e) {
+        return res.status(500).json(e);
+    }
 })
-router.route('/like/:postId/:userId').put(async (req, res) => {
-
+router.route('/like/:userId/:postId').put(async (req, res) => {
     try {
         let likePost = await posts.likePost(req.params.postId, req.params.userId);
         return res.json(likePost);
@@ -42,7 +50,7 @@ router.route('/like/:postId/:userId').put(async (req, res) => {
         return res.status(400).json(e);
     }
 })
-router.route('/reply/:postId/:userId').post(async (req, res) => {
+router.route('/reply/:userId/:postId').post(async (req, res) => {
     let replyForm = req.body;
     try {
         let createComment = await posts.createReply(req.params.postId, req.params.userId, replyForm.reply);
@@ -53,7 +61,7 @@ router.route('/reply/:postId/:userId').post(async (req, res) => {
 })
 
 //pls bring back the session.user
-router.route('/reply/:replyId/:postId/:userId').delete(async (req, res) => {
+router.route('/reply/:userId/:postId/:replyId').delete(async (req, res) => {
     try {
         let deleteReply = await posts.deleteReply(req.params.replyId, req.params.postId, req.params.userId);
         return res.json(deleteReply);

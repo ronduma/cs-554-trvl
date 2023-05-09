@@ -22,11 +22,13 @@ const createPost = async (title, userPosted, content) => {
     }
 
     const now = new Date();
+    let findUsername = await user.getUserById(userPosted.trim());
 
     let newPost = {
         _id: new ObjectId(),
         title: title.trim(),
         userPosted: userPosted.trim(),
+        username: findUsername.username,
         content: content.trim(),
         likes: [],
         replies: [],
