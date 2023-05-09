@@ -38,7 +38,7 @@ function Profile() {
         console.log(error)
       });
   }, [])
-
+  console.log(userData)
   return (
     <Box
       component="form"

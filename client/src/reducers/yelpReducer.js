@@ -2,7 +2,7 @@ import {v4 as uuid} from 'uuid';
 
 const initalState = [
   {
-    id: uuid(),
+    id: null,
     userData: null,
     selected: true,
     collections: []
@@ -27,6 +27,7 @@ const yelpReducer = (state = initalState, action) => {
       return state; // Collector not found, return the original state
     }
     const collector = state[collectorIndex];
+    console.log(collector)
     console.log("Before collections")
     if (collector.collections){
       if ( collector.collections && collector.collections.length >= 10) {
@@ -39,6 +40,7 @@ const yelpReducer = (state = initalState, action) => {
       ...collector,
       collections: [...collector.collections, payload.character]
     };
+    console.log(updatedCollector);
     return [
       ...state.slice(0, collectorIndex),
       updatedCollector,
@@ -65,12 +67,20 @@ const yelpReducer = (state = initalState, action) => {
     console.log("Set-User")
     console.log(payload)
       return state.map(collector => {
-        if (collector.id !== payload.collectorid.id) {
+        console.log(collector);
+        console.log("payload")
+        console.log(payload._id); 
+
+        if (collector.id !== payload._id) {
           return collector;
         }
+        console.log("here");
         return {
           ...collector,
-          userData: payload.userData,
+          id: payload._id,
+          userData: payload,
+          selected: true,
+          collections: payload.itinerary
         };
       });
     default:

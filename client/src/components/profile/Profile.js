@@ -38,7 +38,7 @@ function Profile() {
   const allCollectors = useSelector((state) => state.yelp);
   // console.log(allCollectors)
   const selectedCollector = allCollectors.filter(collector => collector.selected === true);
-  // console.log("Current COllector ")
+  // console.log("Current COllector ")                              
   // console.log(selectedCollector)
   let selectedCharacters = [];
 
@@ -77,7 +77,8 @@ function Profile() {
   // useEffect (() => {
   //   console.log(hasPic)
   // }, [hasPic])
-
+  console.log(allCollectors)
+  console.log(userData);
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -128,7 +129,6 @@ function Profile() {
         </div>
 
       </Box>
-
       {/* Save to backend */}
       {allCollectors.map(collector => (
         <div key={collector.id}>

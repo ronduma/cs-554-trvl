@@ -1,9 +1,9 @@
 import React, { useState, 
-  // useEffect 
+  useEffect 
 } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
@@ -49,6 +49,29 @@ function Itinerary() {
   const [randomized, setRandomized] = useState();
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
+  const [userData, setUserData] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  useEffect(() => {
+    // console.log('/profile')
+    axios.get('/profile', {
+      withCredentials: true
+    })
+      .then(response => {
+        if (!response.data) {
+          navigate('/login')
+        }
+        setUserData(response.data);
+        // D testing 
+        dispatch(actions.setUserData(response.data));
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error)
+        setIsLoading(false);
+      });
+  }, [navigate])
+  
   // const classes = useStyles();
   // let card = null;
   
@@ -95,11 +118,14 @@ function Itinerary() {
   }
   const handleCollect = (collectorid, character) => {
     // console.log("We are trying to collect character")
+    console.log(collectorid);
     dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
-}
+    
+  }
 const handleGiveUp = (collectorid, character) => {
   // console.log("We are trying to delete character")
-    dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
+  console.log(collectorid);
+  dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
 }
 const handleOnSubmit = (collectorid, character, action) => {
   if (action === "collect") {
