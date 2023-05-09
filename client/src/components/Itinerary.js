@@ -5,7 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
 import actions, {handleAdd} from '../actions'
@@ -41,12 +41,12 @@ import actions, {handleAdd} from '../actions'
 function Itinerary() {
   //we take in location and price
   const [location, setLocation] = useState('');
-  const [need, setNeed] = useState('restuarant');
+  const [need, setNeed] = useState('restaurant');
   const [price, setPrice] = useState('1');
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [randomized, setRandomized] = useState();
+  const [randomized, setRandomized] = useState([]);
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
   // const classes = useStyles();
@@ -119,10 +119,10 @@ const handleOnSubmit = (collectorid, character, action) => {
     let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
     setyelpAPI([])
     setRandomized(random.data)
-    console.log("response", randomized.itinerary1)
-    // randomized.restaurants.forEach((restaurant) => {
-    //   console.log(restaurant)
-    // })
+    console.log("response",randomized.restaurants)
+    randomized.restaurants.forEach((restaurant) => {
+      console.log(restaurant)
+    })
   }
 
   const handleSubmit = async (event) => {
@@ -159,7 +159,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         setyelpAPI(response.data.businesses);
       }
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
-      console.log(response.data);
+      // console.log(response.data);
       // setyelpAPI(response.data.businesses)
       // Do something with the response data, such as displaying the results
     } catch (error) {
@@ -219,7 +219,7 @@ const handleOnSubmit = (collectorid, character, action) => {
               handleOnSubmit(selectedCollector[0], restaurant, "collect")
             }
           >
-            Save to Profile
+            Add
           </button>
         )}
         </Card>
@@ -384,40 +384,43 @@ const handleOnSubmit = (collectorid, character, action) => {
     return (
       <div>
         <h2>Error 404:Out of Bounds</h2>
+        <Button onClick={() => {window.location.reload()}}>Return to Itinerary</Button>
       </div>
     )
   }
-  // if (errorMessage) {
-  //   return (
-  //     <div>
-  //       <h2>Location does not exists</h2>
-          
-  //     </div>
-  //   )
-  // }
+  if (errorMessage) {
+    return (
+      <div>
+        <h2>Location Does not Exist</h2>
+        <Button onClick={() => {window.location.reload()}}>Return to Itinerary</Button>
+      </div>
+    )
+  }
   else {
   return (
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
     <div className="search-box">
-      <h2>Search for a <select value={need} onChange={handleNeed}>
+      <h2>Search for a 
+        <select value={need} onChange={handleNeed}>
         <option value="restaurant">Restaurant</option>
         <option value="category">Category</option>
         <option value="hotel">Hotel</option>
         <option value="event">Event</option>
-      </select></h2>
+        </select>
+      </h2>
   <form onSubmit={handleSubmit}>
     <label className="location-label">
       Location:
       <input type="text" value={location} onChange={handleLocationChange} />
     </label>
-    {(need ==='category') ? 
+    {(need ==='category') ?
     <label className="location-label">
-      Specifcations:
-      <input type="text" value={categories} onChange={handleCategories} />
+      Specifcations (Default = Mueseums): 
+      <input type="text" value={categories} onChange={handleCategories}/>
     </label> 
     : null}
-    {(need === 'event'  ? 
+    {(need === 'event' ? 
     <label className="price-label">
       Free:
       <select value={is_free} onChange={handleFreeChange}>
@@ -426,7 +429,8 @@ const handleOnSubmit = (collectorid, character, action) => {
         <option value="false">No</option>
       </select>
     </label>
-    :
+    : null)}
+    {(need === 'restaurant' || need=== 'hotel' ?
     <label className="price-label">
       Price:
       <select value={price} onChange={handlePriceChange}>
@@ -436,8 +440,8 @@ const handleOnSubmit = (collectorid, character, action) => {
         <option value="4">$$$$</option>
       </select>
     </label>
-    )}
-    <button type="submit" className="search-button">Explore</button>
+    : null)}
+    <Button type="submit" className="search-button">Explore</Button>
   </form>
     <h2>Feeling Lucky?</h2>
     <button onClick={generateRandom} type="submit" className="search-button">Randomize your trip!</button>
@@ -475,34 +479,12 @@ const handleOnSubmit = (collectorid, character, action) => {
          {YelpData.map((category) => buildCategoriesCard(category))}
      </Grid>
   )}
-  {randomized && (
-    <div>
-      <Box
-        bgcolor="lightgray"
-      >
-        <h3>Itinerary 1</h3>
-        <Grid container spacing={0}>
-          {randomized.itinerary1.map((item) => buildCard(item))}
-        </Grid>
-      </Box>
-      <Box
-        bgcolor="lightgray"
-      >
-        <h3>Itinerary 2</h3>
-        <Grid container spacing={0}>
-          {randomized.itinerary2.map((item) => buildCard(item))}
-        </Grid>
-      </Box>
-      <Box
-        bgcolor="lightgray"
-      >
-        <h3>Itinerary 3</h3>
-        <Grid container spacing={0}>
-          {randomized.itinerary3.map((item) => buildCard(item))}
-        </Grid>
-      </Box>
-    </div>   
-  )}
+  
+  {/* {randomized && (
+    <Grid container spacing={5}>
+      {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
+    </Grid>
+  )} */}
   </ul>
   </div>
   );

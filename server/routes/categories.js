@@ -31,11 +31,21 @@ router.route('/:location/:categories?').get(async (req, res) => {
         }
         else{
             console.log(`Searching for places within categories = ${categories} and location = ${location}`);
-            const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&categories=${categories}`, {
+            let response;
+            if(categories === undefined){
+                response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&categories=museums`, {
+                headers: {
+                    Authorization: `Bearer ${API_KEY}`
+                }
+                });
+            }
+            else{
+                response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&categories=${categories}`, {
                 headers: {
                     Authorization: `Bearer ${API_KEY}`
                 }
             });
+            }
             const result = response.data;
             if (!result || result.businesses.length === 0) {
                 console.log('bruh');

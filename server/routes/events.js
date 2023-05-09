@@ -34,8 +34,8 @@ router.route('/:location/:is_free?').get(async(req, res) => {
                 return res.status(200).json(JSON.parse(cache));
             }
             else{
-                console.log(`Events near ${location}  found in the cache`);
-                const cache= await client.get(`events:${location}`);
+                console.log(`Events near ${location} found in the cache`);
+                const cache= await client.get(`events:${location}:is_free:${is_free}`);
                 return res.status(200).json(JSON.parse(cache));
             }
         }
