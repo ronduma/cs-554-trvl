@@ -176,5 +176,24 @@ function Community() {
       </div>
     );
   }
+  li = postsData && postsData.map((post) => {
+    return buildCard(post);
+  });
+  return (
+    <div className="App-body">
+      {
+        isLoggedin ? (
+          <button onClick={() => {
+            navigate('/postform')
+          }}>add post</button>
+        ) : (
+          <p>Must be logged in to post</p>
+        )
+      }
+      <ul className="list-unstyled">{li}</ul>
+    </div>
+  );
 }
+
+
 export default Community;
