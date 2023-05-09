@@ -11,6 +11,7 @@ import Logout from './components/Logout';
 import SingleEvent from './components/SingleEvent'
 import PostForm from './components/PostForm';
 import PostDetails from './components/PostDetails';
+import Communityid from './components/Communityid'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/itinerary" element={<Itinerary/>} />
             <Route path="/itinerary/:id" element={<SingleResturant/>} />
             <Route path="/community" element={<Community/>} />
+            <Route path="/community/:id" element={<Communityid/>} />
             <Route path="/postform" element={<PostForm />} />
             <Route path="/community/:id" element={<PostDetails/>}/>
             <Route path="/profile" element={<Profile/>} />
