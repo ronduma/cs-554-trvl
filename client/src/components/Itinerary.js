@@ -5,7 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
 import actions, {handleAdd} from '../actions'
@@ -480,34 +480,11 @@ const handleOnSubmit = (collectorid, character, action) => {
      </Grid>
   )}
   
-  {randomized && (
-    <div>
-      <Box
-        bgcolor="lightgray"
-      >
-        <h3>Itinerary 1</h3>
-        <Grid container spacing={0}>
-          {randomized.itinerary1.map((item) => buildCard(item))}
-        </Grid>
-      </Box>
-      <Box
-        bgcolor="lightgray"
-      >
-        <h3>Itinerary 2</h3>
-        <Grid container spacing={0}>
-          {randomized.itinerary2.map((item) => buildCard(item))}
-        </Grid>
-      </Box>
-      <Box
-        bgcolor="lightgray"
-      >
-        <h3>Itinerary 3</h3>
-        <Grid container spacing={0}>
-          {randomized.itinerary3.map((item) => buildCard(item))}
-        </Grid>
-      </Box>
-    </div>   
-  )}
+  {/* {randomized && (
+    <Grid container spacing={5}>
+      {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
+    </Grid>
+  )} */}
   </ul>
   </div>
   );
