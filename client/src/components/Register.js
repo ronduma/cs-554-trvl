@@ -18,6 +18,8 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import {doCreateUserWithEmailAndPassword} from '../firebase/FirebaseFunctions';
+
 function Register() {
   const navigate = useNavigate();
   

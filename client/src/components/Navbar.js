@@ -1,8 +1,10 @@
 import React, {
   useState, 
-  useEffect
+  useEffect,
+  useContext
 } from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import {AuthContext} from '../firebase/Auth';
+import {NavLink, useLocation} from 'react-router-dom';
 
 import '../App.css';
 import {
@@ -13,64 +15,45 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 import axios from 'axios';
 
-function Navbar() {
-  const [showProfile, setShowProfile] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const location = useLocation();
-  useEffect (() => {
-    setLoading(true);
-    axios.get('/login', {
-      withCredentials : true
-    })
-    .then (response => {
-      // console.log(response)
-      if (response.data){
-        setShowProfile(true);
-      } else {
-        setShowProfile(false)
-      }
-      setLoading(false);
-    })
-    .catch (error => {
-      console.log(error)
-    });
-  }, [location])
-  if(loading){
-    return(
-    <Typography fontSize={24}>
-      <div>
-        Loading...
+const Navbar = () => {
+  const {currentUser} = useContext(AuthContext)
+  return <div>{currentUser ? <NavigationAuth/> : <NavigationNonAuth/>}</div>
+}
+
+const NavigationAuth = () => {
+  return (
+    <Typography
+      fontSize={24}
+    > 
+      <div className="navbar">
+        <div className="navbar-logo">
+          <NavLink className="navbar-link" to="/">T R V L <DirectionsRunIcon></DirectionsRunIcon></NavLink>
+        </div>
+        <NavLink className="navbar-link" to="/itinerary">Itinerary</NavLink>
+        <NavLink className="navbar-link" to="/community">Community</NavLink>
+        <NavLink className="navbar-link" to="/profile">Profile</NavLink> 
+        <NavLink className="navbar-link" to="/logout">Logout</NavLink>
       </div>
-  </Typography>);
-  }
-  else{
-    return (
-      <Typography
+    </Typography>
+  )
+}
+
+const NavigationNonAuth = () => {
+  return (
+  <Typography
         fontSize={24}
       > 
-        <div className="navbar">
-          <div className="navbar-logo">
-            <Link className="navbar-link" to="/">T R V L <DirectionsRunIcon></DirectionsRunIcon></Link>
-          </div>
-          <Link className="navbar-link" to="/itinerary">Itinerary</Link>
-          <Link className="navbar-link" to="/community">Community</Link>
-          {showProfile ? 
-            <span>
-              <Link className="navbar-link" to="/profile">Profile</Link> 
-              <Link className="navbar-link" to="/logout">Logout</Link>
-            </span>
-          : null}
-  
-          {!showProfile ? 
-            <span>
-              <Link className="navbar-link" to="/register">Register</Link>
-              <Link className="navbar-link" to="/login">Login</Link>
-            </span>
-          : null}
-        </div>
-      </Typography>
-    );
-  }
+    <div className="navbar">
+      <div className="navbar-logo">
+        <NavLink className="navbar-link" to="/">T R V L <DirectionsRunIcon></DirectionsRunIcon></NavLink>
+      </div>
+      <NavLink className="navbar-link" to="/itinerary">Itinerary</NavLink>
+      <NavLink className="navbar-link" to="/community">Community</NavLink>
+      <NavLink className="navbar-link" to="/register">Register</NavLink>
+      <NavLink className="navbar-link" to="/login">Login</NavLink>
+    </div>
+  </Typography>
+  )
 }
 
 export default Navbar;
