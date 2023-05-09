@@ -28,7 +28,7 @@ router.route('/:location/:is_free?').get(async(req, res) => {
     try{
         const redisExist = await client.exists(`events:${location}:is_free:${is_free}`);
         if(redisExist){
-            if(is_free !== "undefined"){
+            if(is_free !== undefined){
                 console.log(`Events near ${location} with is_free = ${is_free} found in the cache`);
                 const cache= await client.get(`events:${location}:is_free:${is_free}`);
                 return res.status(200).json(JSON.parse(cache));
@@ -42,7 +42,8 @@ router.route('/:location/:is_free?').get(async(req, res) => {
         else{
             console.log(`Searching for events near ${location} with is_free = ${is_free}`)
             let response = null;
-            if(is_free !== "undefined") {
+            console.log(is_free);
+            if(is_free !== undefined) {
                 response = await axios.get(`https://api.yelp.com/v3/events?limit=50&location=${location}&is_free=${is_free}`, {
                 headers: {
                     Authorization: `Bearer ${API_KEY}`
