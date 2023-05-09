@@ -5,9 +5,9 @@ const session = require('express-session');
 
 const bodyParser = require('body-parser');
 
-const redis = require('redis');
-const client = redis.createClient();
-client.connect().then(() => {});
+// const redis = require('redis');
+// const client = redis.createClient();
+// client.connect().then(() => {});
 
 const cors = require('cors');
 
