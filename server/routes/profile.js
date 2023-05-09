@@ -29,7 +29,7 @@ router.post('/pfp', upload.single('image'), async(req,res) => {
       console.log("saving file to /uploads")
       await users.saveImgToDB(req.session.user, file.path);
       let userObj = await users.getUserByUsername(req.session.user);
-      // await users.modifyImage(userObj.profilePic.buffer);
+      await users.modifyImage(req.session.user, userObj.profilePic.buffer);
     }
     return res.redirect('/profile');
 });
