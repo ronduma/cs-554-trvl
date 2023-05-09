@@ -119,10 +119,10 @@ const handleOnSubmit = (collectorid, character, action) => {
     let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
     setyelpAPI([])
     setRandomized(random.data)
-    console.log("response",randomized)
-    randomized.restaurants.forEach((restaurant) => {
-      console.log(restaurant)
-    })
+    console.log("response", randomized.itinerary1)
+    // randomized.restaurants.forEach((restaurant) => {
+    //   console.log(restaurant)
+    // })
   }
 
   const handleSubmit = async (event) => {
@@ -159,7 +159,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         setyelpAPI(response.data.businesses);
       }
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
-      // console.log(response.data);
+      console.log(response.data);
       // setyelpAPI(response.data.businesses)
       // Do something with the response data, such as displaying the results
     } catch (error) {
@@ -475,11 +475,11 @@ const handleOnSubmit = (collectorid, character, action) => {
          {YelpData.map((category) => buildCategoriesCard(category))}
      </Grid>
   )}
-  {/* {randomized && (
-    <Grid container spacing={5}>
-      {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
+  {randomized && (
+    <Grid container spacing={0}>
+      {randomized.itinerary1.map((item) => buildCard(item))}
     </Grid>
-  )} */}
+  )}
   </ul>
   </div>
   );

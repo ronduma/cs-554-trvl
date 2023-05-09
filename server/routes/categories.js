@@ -26,7 +26,7 @@ router.route('/:location/:categories?').get(async (req, res) => {
         if(redisExist){
             console.log(`Find places within the categories = ${categories} and location = ${location}`);
             const cache = await client.get(`location:${location}:cateogries:${categories || 'any'}`);
-            console.log(JSON.stringify(cache))
+            // console.log(JSON.stringify(cache))
             return res.status(200).json(JSON.parse(cache));
         }
         else{
