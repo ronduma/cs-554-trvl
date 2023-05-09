@@ -147,6 +147,7 @@ function Community() {
 
 
   const buildCard = (post) => {
+    console.log(post);
     return (
 
       <div className="Community"> Community
