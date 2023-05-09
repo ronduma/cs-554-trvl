@@ -3,7 +3,7 @@ import React,
   // useEffect 
 } from 'react';
 import { Link } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+// import {useDispatch, useSelector} from 'react-redux';
 
 import '../App.css';
 import { 
@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 
 import axios from 'axios';
-import actions, {handleAdd} from '../actions'
+// import actions, {handleAdd} from '../actions'
 
 function Itinerary() {
   //we take in location and price
@@ -33,13 +33,6 @@ function Itinerary() {
   const [categories, setCategories] = useState('')
   // const classes = useStyles();
   // let card = null;
-  
-  
-  const allCollectors = useSelector((state) => state.yelp);
-
-  const selectedCollector = allCollectors.filter(collector => collector.selected === true);
-  let selectedCharacters = [];
-  const dispatch=useDispatch();
 
   // these will handle changes
   const handleLocationChange = (event) => {
@@ -63,22 +56,20 @@ function Itinerary() {
     setCategories(lowercase);
   };
   
-  if(selectedCollector !== undefined || selectedCollector !== null) {
-    selectedCharacters = selectedCollector[0].collections.map(character => character.id);
-  }
-  const handleCollect = (collectorid, character) => {
-    dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
-  }
-  const handleGiveUp = (collectorid, character) => {
-      dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
-  }
-  const handleOnSubmit = (collectorid, character, action) => {
-    if (action === "collect") {
-      handleCollect(collectorid, character);
-    } else if (action === "giveUp") {
-      handleGiveUp(collectorid, character);
-    }
-  };
+
+  // const handleCollect = (collectorid, character) => {
+  //   dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
+  // }
+  // const handleGiveUp = (collectorid, character) => {
+  //     dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
+  // }
+  // const handleOnSubmit = (collectorid, character, action) => {
+  //   if (action === "collect") {
+  //     handleCollect(collectorid, character);
+  //   } else if (action === "giveUp") {
+  //     handleGiveUp(collectorid, character);
+  //   }
+  // };
 
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
@@ -134,7 +125,6 @@ function Itinerary() {
     }
   };
   const buildCard = (restaurant) => {
-    const collected = selectedCharacters.includes(restaurant.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={restaurant.id}>
         <Card 
@@ -169,7 +159,7 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {collected ? (
+          {/* {collected ? (
           <button
             onClick={() =>
               handleOnSubmit(selectedCollector[0], restaurant, "giveUp")
@@ -185,13 +175,13 @@ function Itinerary() {
           >
             Save to Profile
           </button>
-        )}
+        )} */}
         </Card>
       </Grid>
     );
   };
   const buildHotelCard = (hotel) => {
-    const collected = selectedCharacters.includes(hotel.id);
+
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={hotel.id}>
         <Card variant='outlined'>
@@ -220,7 +210,7 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {collected ? (
+          {/* {collected ? (
           <button
             onClick={() =>
               handleOnSubmit(selectedCollector[0], hotel, "giveUp")
@@ -236,13 +226,12 @@ function Itinerary() {
           >
             Add
           </button>
-        )}
+        )} */}
         </Card>
       </Grid>
     );
   };
   const buildCategoriesCard = (category) => {
-    const collected = selectedCharacters.includes(category.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={category.id}>
         <Card variant='outlined'>
@@ -271,29 +260,12 @@ function Itinerary() {
           </CardActionArea>
           </Link>
           {/* button for collecting */}
-          {collected ? (
-          <button
-            onClick={() =>
-              handleOnSubmit(selectedCollector[0], category, "giveUp")
-            }
-          >
-            Remove
-          </button>
-        ) : (
-          <button
-            onClick={() =>
-              handleOnSubmit(selectedCollector[0], category, "collect")
-            }
-          >
-            Add
-          </button>
-        )}
+
         </Card>
       </Grid>
     );
   };
   const buildEventCard = (event) => {
-    const collected = selectedCharacters.includes(event.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={event.id}>
         <Card variant='outlined'>
@@ -322,23 +294,6 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {collected ? (
-          <button
-            onClick={() =>
-              handleOnSubmit(selectedCollector[0], event, "giveUp")
-            }
-          >
-            Remove
-          </button>
-        ) : (
-          <button
-            onClick={() =>
-              handleOnSubmit(selectedCollector[0], event, "collect")
-            }
-          >
-            Add
-          </button>
-        )}
         </Card>
       </Grid>
     );
