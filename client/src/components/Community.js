@@ -14,6 +14,8 @@ function Community() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   let li = null;
+  // const [postDetails, setPostDetails] = useState(false);
+
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -47,30 +49,7 @@ function Community() {
     setSearchTerm(event.target.value);
   };
 
-  //checking if the user is logged in to make a post
-  useEffect(() => {
-    console.log('/profile')
-    axios.get('/profile', {
-      withCredentials: true
-    })
-      .then(response => {
-        if (!response.data) {
-          navigate('/community')
-        }
-        // setUserData(axios.get('http://localhost:5000/profile'));
-        setUserData(response.data);
-        console.log(response.data);
-        setIsLoggedin(true);
-        // D testing 
-        // dispatch(actions.setUserData(response.data));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log(error)
-        setIsLoggedin(true);
-        setIsLoading(false);
-      });
-  }, [navigate])
+
 
 
   // const buildCard = (post) => {
@@ -105,39 +84,20 @@ function Community() {
   //       />
   //     </div>
 
-  // <div className="Community"> Community
-  //   <div class="communityContainer">
-  //     <div class=" cards">
-  //       <div class="card">
-  //         <h2>{post.title}</h2>
-  //         <div class="card__content">
-  //           <p>
-  //             {post.content}
-  //           </p>
-  //           <div>Posted by: {post.username}</div>
-  //           <div class="card_stats">
-  //             <div>
-  //               <p>Likes: {post.likes.length} </p>
-  //             </div>
-  //             <div>
-  //               <p>Comments: {post.replies.length}</p>
-  //             </div>
-  //           </div>
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       let { data } = await axios.get('http://localhost:5000/posts');
-  //       setPostsData(data)
-  //       setIsLoading(false)
-  //       console.log(data);
-  //     } catch (e) {
-  //       setIsLoading(true)
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let { data } = await axios.get('http://localhost:5000/posts');
+        setPostsData(data)
+        setIsLoading(false)
+        console.log(data);
+      } catch (e) {
+        setIsLoading(true)
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
 
   //checking if the user is logged in to make a post
   useEffect(() => {
@@ -163,6 +123,9 @@ function Community() {
       });
   }, [navigate])
 
+  // const handleClick = (post) => {
+  //   navigate(`/community/${post._id}`, { state: { postsData } })
+  // }
 
   const buildCard = (post) => {
     console.log("postsBuild")
@@ -189,7 +152,6 @@ function Community() {
               </div>
             </div>
           </div>
-
         </div>
 
     );
@@ -210,6 +172,7 @@ function Community() {
     
 
     <div className="App-body">
+      <h1>Community Feed</h1>
       {
         isLoggedin ? (
           <button onClick={() => {
@@ -219,6 +182,7 @@ function Community() {
           <p>Must be logged in to post</p>
         )
       }
+      
       <ul className="list-unstyled">{li}</ul>
     </div>
     </div>

@@ -62,9 +62,10 @@ function Login() {
   }
   return (
     <Box sx={{display: 'flex', flexWrap: 'wrap', flexDirection: 'column'}} justifyContent="center" container alignItems="center">
-      <h1>
-        Login
-      </h1>
+      <h1>Login</h1>
+      <p>
+        sign in with your username and password!
+      </p>
       <div>
         <TextField
           id = "outlined-basic"
@@ -73,7 +74,7 @@ function Login() {
           variant="outlined"
           value={username}
           margin="normal"
-          sx={{width: '100%'}}
+          sx={{width: "200px"}}
         />
       </div>
       <div>
@@ -99,7 +100,7 @@ function Login() {
               </InputAdornment>
             )
           }}
-          sx={{width: '100%'}}
+          sx={{width: '200px'}}
         />
       </div>
       <Button variant="contained"
@@ -109,7 +110,7 @@ function Login() {
             withCredentials:true
           })
             .then(response => {
-              console.log("response", response)
+              // console.log("response", response)
               navigate('/profile');
             })
             .catch(error => {

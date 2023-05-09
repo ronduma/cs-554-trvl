@@ -42,9 +42,7 @@ const UploadAndDisplayImage = (props) => {
   return (
     <div>
       <div>Profile Picture</div>
-
       <br />
-
       <form action="/profile/pfp" method="post" enctype="multipart/form-data">
         <input
           type="file"

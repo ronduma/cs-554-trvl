@@ -9,7 +9,9 @@ function PostForm() {
     });
     const location = useLocation();
     const data = location.state;
-    console.log(data)
+    
+    // const handleSubmit = (event) => {
+    // console.log(data)
 
 
     const handleSubmit = async (event) => {
