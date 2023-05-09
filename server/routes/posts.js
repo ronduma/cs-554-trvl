@@ -46,6 +46,7 @@ router.route('/:postId').get(async (req, res) => {
 })
 router.route('/like/:userId/:postId').put(async (req, res) => {
     try {
+        // console.log(req.params.postId, req.params.userId)
         let likePost = await posts.likePost(req.params.postId, req.params.userId);
         return res.json(likePost);
     } catch (e) {
