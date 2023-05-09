@@ -145,9 +145,6 @@ a.navbar-link:visited{
   justify-content: space-between;
 }
 
-
-
-
 /* Community Section */
 .cards {
   display: flex;
@@ -196,6 +193,7 @@ a.navbar-link:visited{
   color: #2e304b;
 }
 
+.t
 /* .bussiness-img{
   height: 100%;
   width: 100%

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom'
-
+import '../App.css';
 function PostForm() {
     const [formData, setFormData] = useState({
         title: '',
@@ -41,11 +41,11 @@ function PostForm() {
                 <div>
                     <label>
                         Title:
-                        <input
+                        <input class = "titleinput"
                             value={formData.title}
                             onChange={handleChangeTitle}
                         />
-                    </label>
+                    </label> 
                 </div>
                 <div>
                     <label>
