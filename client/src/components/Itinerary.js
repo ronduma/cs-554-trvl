@@ -1,42 +1,24 @@
-import React, { useState, 
+import React, 
+{ useState, 
   // useEffect 
 } from 'react';
-import '../App.css';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+
+import '../App.css';
+import { 
+  Box, 
+  Card, 
+  CardActionArea, 
+  CardContent, 
+  CardMedia, 
+  Grid, 
+  Typography, 
   // makeStyles 
 } from '@mui/material';
+
+import axios from 'axios';
 import actions, {handleAdd} from '../actions'
-// const useStyles = makeStyles({
-// 	card: {
-// 		maxWidth: 550,
-// 		height: 'auto',
-// 		marginLeft: 'auto',
-// 		marginRight: 'auto',
-// 		borderRadius: 5,
-// 		border: '1px solid #1e8678',
-// 		boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);'
-// 	},
-// 	titleHead: {
-// 		borderBottom: '1px solid #1e8678',
-// 		fontWeight: 'bold'
-// 	},
-// 	grid: {
-// 		flexGrow: 1,
-// 		flexDirection: 'row'
-// 	},
-// 	media: {
-// 		height: '100%',
-// 		width: '100%'
-// 	},
-// 	button: {
-// 		color: '#1e8678',
-// 		fontWeight: 'bold',
-// 		fontSize: 12
-// 	}
-// });
 
 function Itinerary() {
   //we take in location and price
@@ -54,22 +36,17 @@ function Itinerary() {
   
   
   const allCollectors = useSelector((state) => state.yelp);
-  // console.log("HELLO")
-  // console.log(allCollectors)
+
   const selectedCollector = allCollectors.filter(collector => collector.selected === true);
-  // console.log("Current COllector ")
-  // console.log(selectedCollector)
   let selectedCharacters = [];
   const dispatch=useDispatch();
-  // these will handle changes
 
+  // these will handle changes
   const handleLocationChange = (event) => {
-    // console.log(event.target.name)
     setLocation(event.target.value);
   };
 
   const handlePriceChange = (event) => {
-    // console.log(event.target.name)
     setPrice(event.target.value);
   };
   const handleFreeChange = (event) => {
@@ -78,7 +55,6 @@ function Itinerary() {
   };
 
   const handleNeed = (event) => {
-    // console.log(event.target.name);
     setNeed(event.target.value);
   };  
   const handleCategories = (event) => {
@@ -88,30 +64,24 @@ function Itinerary() {
   };
   
   if(selectedCollector !== undefined || selectedCollector !== null) {
-    // console.log("selectedCollector")
-    // console.log(selectedCollector[0].collections)
     selectedCharacters = selectedCollector[0].collections.map(character => character.id);
-      // console.log("Selected Ids ", selectedCharacters);
   }
   const handleCollect = (collectorid, character) => {
-    // console.log("We are trying to collect character")
     dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
-}
-const handleGiveUp = (collectorid, character) => {
-  // console.log("We are trying to delete character")
-    dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
-}
-const handleOnSubmit = (collectorid, character, action) => {
-  if (action === "collect") {
-    handleCollect(collectorid, character);
-  } else if (action === "giveUp") {
-    handleGiveUp(collectorid, character);
   }
-};
+  const handleGiveUp = (collectorid, character) => {
+      dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
+  }
+  const handleOnSubmit = (collectorid, character, action) => {
+    if (action === "collect") {
+      handleCollect(collectorid, character);
+    } else if (action === "giveUp") {
+      handleGiveUp(collectorid, character);
+    }
+  };
 
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
-  
   const generateRandom = async() => {
     if (location === null || location === undefined || !location){
       return setErrorMessage('Location can not be blank');
@@ -120,9 +90,6 @@ const handleOnSubmit = (collectorid, character, action) => {
     setyelpAPI([])
     setRandomized(random.data)
     console.log("response", randomized.itinerary1)
-    // randomized.restaurants.forEach((restaurant) => {
-    //   console.log(restaurant)
-    // })
   }
 
   const handleSubmit = async (event) => {
@@ -132,9 +99,6 @@ const handleOnSubmit = (collectorid, character, action) => {
     }
     else{
     try {
-      // console.log("This is " + location)
-      // console.log("This price" + price)
-      // console.log("is Free " + is_free)
       let response;
       if (need === "hotel") {
         response = await axios.get(`http://localhost:5000/hotels/${location}/${price}`);
@@ -387,27 +351,20 @@ const handleOnSubmit = (collectorid, character, action) => {
       </div>
     )
   }
-  // if (errorMessage) {
-  //   return (
-  //     <div>
-  //       <h2>Location does not exists</h2>
-          
-  //     </div>
-  //   )
-  // }
   else {
   return (
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
-    <div className="search-box">
-      <h2 className = "titleForSearchItinerary">Search for something specific?</h2>
-      <p>choose from either resturants, hotels or events!</p>
-      <select value={need} onChange={handleNeed}>
-        <option value="restaurant">Restaurant</option>
-        <option value="category">Category</option>
-        <option value="hotel">Hotel</option>
-        <option value="event">Event</option>
-      </select>
+
+      <div className="search-box">
+        <h2>Search for a 
+          <select value={need} onChange={handleNeed}>
+            <option value="restaurant">Restaurant</option>
+            <option value="category">Category</option>
+            <option value="hotel">Hotel</option>
+            <option value="event">Event</option>
+          </select>
+        </h2>
 
   <form onSubmit={handleSubmit}>
     <label className="location-label">

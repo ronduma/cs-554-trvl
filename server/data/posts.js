@@ -302,55 +302,48 @@ const deleteReply = async (replyId, postId, userId) => {
 const likePost = async (postId, userId) => {
     helpers.validateId(userId);
     helpers.validateId(postId);
-
     //find the post
     let postFound = await getPostById(postId)
     if (!postFound) {
-        throw "song is not found";
+        throw "post is not found";
     }
-
     //find the user
     let userFound = await user.getUserById(userId)
     if (!userFound) {
         throw "user is not found";
     }
 
-    let currLikes = postFound.likes;
-    if (currLikes.includes(userFound.username)) {
-        throw "user cannot like a post again"
+    let postLikes = postFound.likes;
+    let userLikes = userFound.likes;
+
+    // console.log("before", postLikes, userLikes)
+
+    let username = userFound.username;
+    if (postLikes.includes(username)){
+        // console.log("in array")
+        const postIndex = postLikes.indexOf(username);
+        postLikes.splice(postIndex, 1);
+        const userIndex = userLikes.indexOf(postId);
+        userLikes.splice(userIndex, 1)
+    } else {
+        // console.log("not in array")
+        postLikes.push(userFound.username);
+        userLikes.push(postId);
     }
 
-    //push like (username) into post's like array 
-    currLikes.push(userFound.username);
+    // console.log("after", postLikes, userLikes)
 
-    //update post with +1 like
     const postCollection = await posts();
-
-    const updatePost = await postCollection.updateOne(
+    const updatePosts = await postCollection.updateOne(
         { _id: new ObjectId(postId) },
-        { $set: { likes: currLikes } }
+        { $set: { likes: postLikes } }
     )
 
-    if (updatePost.modifiedCount === 0) {
-        throw "could not like from the post"
-    }
-
-    //update the liked post on the user db
     const userCollection = await users();
-
-    userLikedPostList = userFound.likes;
-    userLikedPostList.push(postId);
-
-    const updateUser = await userCollection.updateOne(
+    const updateUsers = await userCollection.updateOne(
         { _id: new ObjectId(userId) },
-        { $set: { likes: userLikedPostList } }
+        { $set: { likes: userLikes } }
     )
-
-    if (updateUser.modifiedCount === 0) {
-        throw "could not like the post"
-    }
-
-    return "Liked Sucessfully";
 }
 
 module.exports = {

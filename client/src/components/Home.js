@@ -4,7 +4,15 @@ import vaction from '../img/Vacation.jpg'
 function Home() {
   return (
     <div className="Home">
-      <Container maxWidth="sm">
+
+      <Container
+        sx={{
+          display:"flex",
+          justifyContent:"center",
+          alignItems:"center"
+        }}
+      >
+
         <Row>
           <Col md={8} maxWidth="10px">
             <h2>Our Purpose</h2>
