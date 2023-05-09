@@ -32,7 +32,7 @@ function Communityid() {
       try {
         console.log("We are going to communityid")
         console.log(id)
-        const data  = await axios.get(`http://localhost:5000/posts/${id}`);
+        const data = await axios.get(`http://localhost:5000/posts/${id}`);
         console.log("data is received")
         console.log(data.data)
         setPostsData(data.data);
@@ -66,24 +66,25 @@ function Communityid() {
         setIsLoading(false);
       });
   }, [navigate])
-  useEffect(() => {
-    async function fetchPost() {
-      try {
-        console.log("We are going to communityid")
-        console.log(id)
-        const data  = await axios.get(`http://localhost:5000/posts/${id}`);
-        console.log("data is received")
-        // console.log(data.data)
-        setPostsData(data.data);
-        setIsLoading(false);
-        // console.log(data);
-      } catch (e) {
-        setIsLoading(true);
-        console.log(e);
-      }
-    }
-    fetchPost();
-  }, [id]);
+
+  // useEffect(() => {
+  //   async function fetchPost() {
+  //     try {
+  //       console.log("We are going to communityid")
+  //       console.log(id)
+  //       const data  = await axios.get(`http://localhost:5000/posts/${id}`);
+  //       console.log("data is received")
+  //       // console.log(data.data)
+  //       setPostsData(data.data);
+  //       setIsLoading(false);
+  //       // console.log(data);
+  //     } catch (e) {
+  //       setIsLoading(true);
+  //       console.log(e);
+  //     }
+  //   }
+  //   fetchPost();
+  // }, [id]);
 
   useEffect(() => {
     if (userData && postsData && postsData.likes.includes(userData.username)) {
@@ -94,75 +95,32 @@ function Communityid() {
   const handleLike = async (userId, postId) => {
     console.log(userId, postId)
     setIsLiked(!isLiked);
-    try {   
+    try {
       await axios.put(`http://localhost:5000/posts/like/${userId}/${postId}`, {}, { withCredentials: true });
       setPostsData(prevState => ({
         ...prevState,
         likes: isLiked ? prevState.likes.filter(username => username !== userData.username) : [...prevState.likes, userData.username]
       }));
-    } catch (error){
+    } catch (error) {
       console.log(error)
     }
   }
 
-//   const handleLike = async (postId) => {
-//     try {
-//       await axios.post(`http://localhost:5000/posts/${postId}/likes`, {}, { withCredentials: true });
-//       setPostsData(prevState => {
-//         const updatedPosts = [...prevState];
-//         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-//         updatedPosts[postIndex].likes.push(userData.user._id);
-//         return updatedPosts;
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  //comment section components
+  function CommentList({ comments }) {
+    return (
+      <div>
+        {comments.map((comment, index) => (
+          <div key={index}>
+            <h3>{comment.username}</h3>
+            <p>{comment.content}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  
 
-  useEffect(() => {
-    async function fetchComments() {
-      try {
-        console.log("fetching comments")
-        const commentData = await axios.get(`http://localhost:5000/posts/${id}`);
-        console.log("data is received")
-        console.log(commentData.replies)
-        setCommentsData(commentData.replies);
-        setIsLoading(false);
-      } catch (e) {
-        setIsLoading(true);
-        console.log(e);
-      }
-    }
-    fetchComments();
-  }, [id]);
-
-  //   const handleLike = async (postId) => {
-  //     try {
-  //       await axios.post(`http://localhost:5000/posts/${postId}/likes`, {}, { withCredentials: true });
-  //       setPostsData(prevState => {
-  //         const updatedPosts = [...prevState];
-  //         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-  //         updatedPosts[postIndex].likes.push(userData.user._id);
-  //         return updatedPosts;
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   const handleComment = async (postId, content) => {
-  //     try {
-  //       const { data } = await axios.post(`http://localhost:5000/posts/${postId}/replies`, { content }, { withCredentials: true });
-  //       setPostsData(prevState => {
-  //         const updatedPosts = [...prevState];
-  //         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-  //         updatedPosts[postIndex].replies.push(data.reply);
-  //         return updatedPosts;
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
   const buildCard1 = (post) => {
     // console.log("postid communityid")
     // console.log(post)
@@ -181,12 +139,12 @@ function Communityid() {
                   <p>Likes: {post.likes.length} </p>
                 </div>
                 <div>
-                  { userData && postsData && 
+                  {userData && postsData &&
                     <Button onClick={() => handleLike(userData._id, postsData._id)}>
-                    {isLiked ? <ThumbUpIcon></ThumbUpIcon>
-                    : <ThumbUpOffAltIcon></ThumbUpOffAltIcon> 
-                    }
-                  </Button>}
+                      {isLiked ? <ThumbUpIcon></ThumbUpIcon>
+                        : <ThumbUpOffAltIcon></ThumbUpOffAltIcon>
+                      }
+                    </Button>}
                 </div>
                 <div>
                   <p>Comments: {post.replies.length}</p>
@@ -203,16 +161,17 @@ function Communityid() {
           </div>
         </div>
         <div class="commentsection">
-          {
+          <div><CommentList comments={post.replies} /></div>
+          
+          {/* <div>{
             isLoggedin ? (
-              <button onClick={() => {
-                navigate('/postform', { state: { commentsData } })
+              <button onClick={(<CommentForm onSubmit={handleCommentSubmit}/>) => {
               }}>add comment</button>
             ) : (
-              <p>Must be logged in to comment on this post!</p>
+              <p>Must be logged in to comment on this post!</p> 
+              
             )
-          }
-          <p>"losers"</p>
+          }</div> */}
         </div>
       </div>
 
