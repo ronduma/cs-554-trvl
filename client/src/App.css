@@ -246,12 +246,6 @@ a.navbar-link:visited{
 
 
 /* home */
-.Home {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
 
 .Home img {
   width: 100%;

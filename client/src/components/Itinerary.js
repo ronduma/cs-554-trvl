@@ -90,9 +90,6 @@ function Itinerary() {
     setyelpAPI([])
     setRandomized(random.data)
     console.log("response", randomized.itinerary1)
-    // randomized.restaurants.forEach((restaurant) => {
-    //   console.log(restaurant)
-    // })
   }
 
   const handleSubmit = async (event) => {
@@ -102,9 +99,6 @@ function Itinerary() {
     }
     else{
     try {
-      // console.log("This is " + location)
-      // console.log("This price" + price)
-      // console.log("is Free " + is_free)
       let response;
       if (need === "hotel") {
         response = await axios.get(`http://localhost:5000/hotels/${location}/${price}`);
@@ -357,25 +351,19 @@ function Itinerary() {
       </div>
     )
   }
-  // if (errorMessage) {
-  //   return (
-  //     <div>
-  //       <h2>Location does not exists</h2>
-          
-  //     </div>
-  //   )
-  // }
   else {
   return (
     <div className='itinerary'>
       <h1>Let's Find Your Adventure Today!!!</h1>
-    <div className="search-box">
-      <h2>Search for a <select value={need} onChange={handleNeed}>
-        <option value="restaurant">Restaurant</option>
-        <option value="category">Category</option>
-        <option value="hotel">Hotel</option>
-        <option value="event">Event</option>
-      </select></h2>
+      <div className="search-box">
+        <h2>Search for a 
+          <select value={need} onChange={handleNeed}>
+            <option value="restaurant">Restaurant</option>
+            <option value="category">Category</option>
+            <option value="hotel">Hotel</option>
+            <option value="event">Event</option>
+          </select>
+        </h2>
   <form onSubmit={handleSubmit}>
     <label className="location-label">
       Location:
