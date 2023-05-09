@@ -10,6 +10,7 @@ function Communityid() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { id } = useParams();
+  const [commentsData, setCommentsData] = useState(undefined);
 
   useEffect(() => {
     async function fetchPost() {
@@ -50,6 +51,24 @@ function Communityid() {
         setIsLoading(false);
       });
   }, [navigate])
+
+  useEffect(() => {
+    async function fetchComments() {
+      try {
+        console.log("fetching comments")
+        const commentData  = await axios.get(`http://localhost:5000/posts/${id}`);
+        console.log("data is received")
+        console.log(commentData.replies)
+        setCommentsData(commentData.replies);
+        setIsLoading(false);
+      } catch (e) {
+        setIsLoading(true);
+        console.log(e);
+      }
+    }
+    fetchComments();
+  }, [id]);
+
 //   const handleLike = async (postId) => {
 //     try {
 //       await axios.post(`http://localhost:5000/posts/${postId}/likes`, {}, { withCredentials: true });
@@ -98,9 +117,6 @@ function Communityid() {
                   <p>Comments: {post.replies.length}</p>
                 </div>
               </div>
-              <div>
-                <p>Context: {post.context}</p>
-              </div>
               <div class="card_buttons">
                 {isLoggedin && userData && userData.username === post.username && (
                   <Link to={`/editpost/${post._id}`} class="btn btn-secondary">
@@ -111,7 +127,12 @@ function Communityid() {
             </div>
           </div>
         </div>
+        <div class="commentsection">
+
+                  <p>"losers"</p>
+        </div>
       </div>
+    
     );
   };
   if (postsData !== undefined) {
