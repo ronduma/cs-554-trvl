@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -25,7 +25,6 @@ function Communityid() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLiked, setIsLiked] = useState(false);
   const { id } = useParams();
-  const [commentsData, setCommentsData] = useState(undefined);
 
   useEffect(() => {
     async function fetchPost() {
@@ -67,25 +66,6 @@ function Communityid() {
       });
   }, [navigate])
 
-  // useEffect(() => {
-  //   async function fetchPost() {
-  //     try {
-  //       console.log("We are going to communityid")
-  //       console.log(id)
-  //       const data  = await axios.get(`http://localhost:5000/posts/${id}`);
-  //       console.log("data is received")
-  //       // console.log(data.data)
-  //       setPostsData(data.data);
-  //       setIsLoading(false);
-  //       // console.log(data);
-  //     } catch (e) {
-  //       setIsLoading(true);
-  //       console.log(e);
-  //     }
-  //   }
-  //   fetchPost();
-  // }, [id]);
-
   useEffect(() => {
     if (userData && postsData && postsData.likes.includes(userData.username)) {
       setIsLiked(true);
@@ -93,6 +73,19 @@ function Communityid() {
   }, [userData, postsData]);
 
   const handleLike = async (userId, postId) => {
+    console.log(userId, postId)
+    try {
+      await axios.put(`http://localhost:5000/posts/like/${userId}/${postId}`, {}, { withCredentials: true });
+      setPostsData(prevState => ({
+        ...prevState,
+        likes: isLiked ? prevState.likes.filter(username => username !== userData.username) : [...prevState.likes, userData.username]
+      }));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleComment = async (userId, postId) => {
     console.log(userId, postId)
     setIsLiked(!isLiked);
     try {
@@ -107,19 +100,27 @@ function Communityid() {
   }
 
   //comment section components
+  const [comment, setComment] = useState('');
+  const [commentsList, setCommentsList] = useState([]);
+
   function CommentList({ comments }) {
     return (
       <div>
-        {comments.map((comment, index) => (
+        {comments.map((reply, index) => (
           <div key={index}>
-            <h3>{comment.username}</h3>
-            <p>{comment.content}</p>
+            <h3>{reply.username}</h3>
+            <p>{reply.content}</p>
           </div>
         ))}
       </div>
     );
   }
-  
+
+  const handleCommentSubmit = (event) => {
+    event.preventDefault();
+    setCommentsList([...commentsList, comment]);
+    setComment('');
+  }
 
   const buildCard1 = (post) => {
     // console.log("postid communityid")
@@ -162,19 +163,12 @@ function Communityid() {
         </div>
         <div class="commentsection">
           <div><CommentList comments={post.replies} /></div>
-          
-          {/* <div>{
-            isLoggedin ? (
-              <button onClick={(<CommentForm onSubmit={handleCommentSubmit}/>) => {
-              }}>add comment</button>
-            ) : (
-              <p>Must be logged in to comment on this post!</p> 
-              
-            )
-          }</div> */}
+          <form onSubmit={handleCommentSubmit}>
+            <input type="text" id="comment" value={comment} onChange={(event) => setComment(event.target.value)} />s
+            <button type="submit">Submit</button>
+          </form>
         </div>
       </div>
-
     );
   };
   if (postsData !== undefined) {

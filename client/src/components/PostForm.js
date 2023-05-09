@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useLocation} from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 function PostForm() {
     const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ function PostForm() {
     });
     const location = useLocation();
     const data = location.state;
-    
+
     // const handleSubmit = (event) => {
     // console.log(data)
 
@@ -17,11 +17,11 @@ function PostForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-          await axios.post(`/posts/${data.userData._id}`, formData);
+            await axios.post(`/posts/${data.userData._id}`, formData);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
     // const handleSubmit = (event) => {
     //     event.preventDefault();
     //     // handle form submission here
@@ -35,27 +35,28 @@ function PostForm() {
         const content = event.target.value;
         setFormData({ title: formData.title, content: content });
     };
-    console.log(formData);
-    console.log("This is the data in postform")
-    console.log(data)
-    console.log(data.userData)
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Title:
-                    <input
-                        value={formData.title}
-                        onChange={handleChangeTitle}
-                    />
-                </label>
-                <label>
-                    Content:
-                    <input
-                        value={formData.content}
-                        onChange={handleChangeContent}
-                    />
-                </label>
+                <div>
+                    <label>
+                        Title:
+                        <input
+                            value={formData.title}
+                            onChange={handleChangeTitle}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Content:
+                        <input
+                            value={formData.content}
+                            onChange={handleChangeContent}
+                        />
+                    </label>
+                </div>
+
                 {/* <button onClick={() => {
                     axios.post(`/posts/${data.userData._id}`, formData)
                 }} type="submit">Submit</button> */}

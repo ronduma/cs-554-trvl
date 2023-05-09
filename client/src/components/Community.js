@@ -177,7 +177,7 @@ function Community() {
         isLoggedin ? (
           <button onClick={() => {
             navigate('/postform', { state: { userData } })
-          }}>add post</button>
+          }}></button>
         ) : (
           <p>Must be logged in to post</p>
         )
