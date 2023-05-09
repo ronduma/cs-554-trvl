@@ -417,7 +417,7 @@ const handleOnSubmit = (collectorid, character, action) => {
       <input type="text" value={categories} onChange={handleCategories}/>
     </label> 
     : null}
-    {(need === 'event'  ? 
+    {(need === 'event' ? 
     <label className="price-label">
       Free:
       <select value={is_free} onChange={handleFreeChange}>
@@ -426,7 +426,8 @@ const handleOnSubmit = (collectorid, character, action) => {
         <option value="false">No</option>
       </select>
     </label>
-    :
+    : null)}
+    {(need === 'restaurant' || need=== 'hotel' ?
     <label className="price-label">
       Price:
       <select value={price} onChange={handlePriceChange}>
@@ -436,7 +437,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         <option value="4">$$$$</option>
       </select>
     </label>
-    )}
+    : null)}
     <button type="submit" className="search-button">Explore</button>
   </form>
     <h2>Feeling Lucky?</h2>
