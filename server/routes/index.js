@@ -10,6 +10,7 @@ const hotels =require('./hotels')
 const eventRoutes = require('./events')
 const categoriesRoute = require('./categories');
 const eventIdRoute = require('./eventByID');
+const collectRoutes = require('./collect');
 const constructorMethod = (app) => {
   // app.use('/', (req, res) => {
   //   res.status(200).json("Hello World!")
@@ -17,6 +18,7 @@ const constructorMethod = (app) => {
   // app.use('/xx', xxRoutes);
 
   app.use('/register', registerRoutes);
+  app.use('/collect', collectRoutes);
   app.use('/login', loginRoutes);
   app.use('/hotels', hotels)
   app.use('/posts', postRoutes);
