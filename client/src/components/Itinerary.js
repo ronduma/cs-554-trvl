@@ -5,7 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
 import actions, {handleAdd} from '../actions'
@@ -219,7 +219,7 @@ const handleOnSubmit = (collectorid, character, action) => {
               handleOnSubmit(selectedCollector[0], restaurant, "collect")
             }
           >
-            Add
+            Save to Profile
           </button>
         )}
         </Card>
@@ -476,9 +476,32 @@ const handleOnSubmit = (collectorid, character, action) => {
      </Grid>
   )}
   {randomized && (
-    <Grid container spacing={0}>
-      {randomized.itinerary1.map((item) => buildCard(item))}
-    </Grid>
+    <div>
+      <Box
+        bgcolor="lightgray"
+      >
+        <h3>Itinerary 1</h3>
+        <Grid container spacing={0}>
+          {randomized.itinerary1.map((item) => buildCard(item))}
+        </Grid>
+      </Box>
+      <Box
+        bgcolor="lightgray"
+      >
+        <h3>Itinerary 2</h3>
+        <Grid container spacing={0}>
+          {randomized.itinerary2.map((item) => buildCard(item))}
+        </Grid>
+      </Box>
+      <Box
+        bgcolor="lightgray"
+      >
+        <h3>Itinerary 3</h3>
+        <Grid container spacing={0}>
+          {randomized.itinerary3.map((item) => buildCard(item))}
+        </Grid>
+      </Box>
+    </div>   
   )}
   </ul>
   </div>
