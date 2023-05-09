@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function PostForm() {
     const [formData, setFormData] = useState({
@@ -14,12 +15,10 @@ function PostForm() {
     const handleChangeTitle = (event) => {
         const name = event.target.value;
         setFormData({ title: name, content: formData.content });
-        console.log(formData);
     };
     const handleChangeContent = (event) => {
         const content = event.target.value;
         setFormData({ title: formData.title, content: content });
-        console.log(formData);
     };
     console.log(formData);
     return (
@@ -39,7 +38,9 @@ function PostForm() {
                         onChange={handleChangeContent}
                     />
                 </label>
-                <button type="submit">Submit</button>
+                <button onClick={() => {
+                    // axios.post(`/posts/${}`)
+                }} type="submit">Submit</button>
             </form>
         </div>
     );

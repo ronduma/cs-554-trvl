@@ -42,6 +42,7 @@ function Community() {
         }
         // setUserData(axios.get('http://localhost:5000/profile'));
         setUserData(response.data);
+        console.log(response.data);
         setIsLoggedin(true);
         // D testing 
         // dispatch(actions.setUserData(response.data));
@@ -172,7 +173,7 @@ function Community() {
           </div>
 
         </div>
-        </div>
+      </div>
     );
   }
   li = postsData && postsData.map((post) => {
@@ -183,7 +184,7 @@ function Community() {
       {
         isLoggedin ? (
           <button onClick={() => {
-            navigate('/postform')
+            navigate('/postform', {state: {userData}})
           }}>add post</button>
         ) : (
           <p>Must be logged in to post</p>
