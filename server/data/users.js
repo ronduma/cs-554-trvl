@@ -4,7 +4,7 @@ const helpers = require("../helpers");
 const users = mongoCollections.users;
 const fs = require('fs');
 
-const gm = require('gm').subClass({imageMagick: true});
+const gm = require('gm').subClass({imageMagick: "7+"});
 
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
@@ -42,18 +42,29 @@ const saveImgToDB = async (username, path) => {
   }
 }
 
-const modifyImage = async (imageBuffer) => {
+const modifyImage = async (username, imageBuffer) => {
   if (imageBuffer && imageBuffer.length > 0) {
-    console.log("image size:", imageBuffer.length)
-    gm(imageBuffer)
-    .resize(200, 200)
-    .toBuffer((err, croppedBuffer) => {
-      if (err) throw err;
-      console.log('yo')
-      // return croppedBuffer
-    })
-  } else throw 'Empty image buffer'
-}
+    let updated = await new Promise((resolve, reject) => {
+      gm(imageBuffer)
+        .gravity('Center')
+        .crop(200, 200)
+        .toBuffer("jpg", (err, croppedBuffer) => {
+          if (err) reject(err);
+          else resolve(croppedBuffer);
+        });
+    });
+    const userCollection = await users();
+    const updatedUser = await userCollection.findOneAndUpdate(
+      { username: username },
+      { $set: { profilePic: updated } },
+      { returnOriginal: false }
+    );
+    console.log(updatedUser);
+  } else {
+    throw "Empty image buffer";
+  }
+};
+
 
 const createUser = async (
   username,
