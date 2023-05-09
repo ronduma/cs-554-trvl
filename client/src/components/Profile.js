@@ -1,8 +1,8 @@
 import React, {
-  useState,  
+  useState,
   useEffect
 } from 'react';
-import { 
+import {
   // useNavigate 
 } from 'react-router-dom';
 
@@ -23,20 +23,20 @@ import {
 
 function Profile() {
   const [userData, setUserData] = useState(undefined);
-  useEffect (() => {
-    console.log('/profile')
-    console.log(userData)
+  useEffect(() => {
+    // console.log('/profile')
+    // console.log(userData)
     axios.get('/profile', {
-      withCredentials : true
+      withCredentials: true
     })
-    .then (response => {
-      console.log(response)
-      setUserData(response.data)
-      console.log(userData)
-    })
-    .catch (error => {
-      console.log(error)
-    });
+      .then(response => {
+        // console.log(response)
+        setUserData(response.data)
+        // console.log(userData)
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }, [])
 
   return (
@@ -51,15 +51,15 @@ function Profile() {
         margin: "0 auto",
       }}
     >
-      <h1 className="Profile">
+      <h2 className="Profile">
         Profile
-      </h1>
+      </h2>
       <div>
-        <TextField 
-          id="outlined-basic" 
+        <TextField
+          id="outlined-basic"
           label={userData}
           disabled="true"
-          variant="outlined" 
+          variant="outlined"
           sx={{ width: '100%' }}
         />
       </div>
