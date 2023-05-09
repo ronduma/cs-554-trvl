@@ -17,7 +17,7 @@ function Communityid() {
       try {
         console.log("We are going to communityid")
         console.log(id)
-        const data  = await axios.get(`http://localhost:5000/posts/${id}`);
+        const data = await axios.get(`http://localhost:5000/posts/${id}`);
         console.log("data is received")
         console.log(data.data)
         setPostsData(data.data);
@@ -56,7 +56,7 @@ function Communityid() {
     async function fetchComments() {
       try {
         console.log("fetching comments")
-        const commentData  = await axios.get(`http://localhost:5000/posts/${id}`);
+        const commentData = await axios.get(`http://localhost:5000/posts/${id}`);
         console.log("data is received")
         console.log(commentData.replies)
         setCommentsData(commentData.replies);
@@ -69,33 +69,33 @@ function Communityid() {
     fetchComments();
   }, [id]);
 
-//   const handleLike = async (postId) => {
-//     try {
-//       await axios.post(`http://localhost:5000/posts/${postId}/likes`, {}, { withCredentials: true });
-//       setPostsData(prevState => {
-//         const updatedPosts = [...prevState];
-//         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-//         updatedPosts[postIndex].likes.push(userData.user._id);
-//         return updatedPosts;
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  //   const handleLike = async (postId) => {
+  //     try {
+  //       await axios.post(`http://localhost:5000/posts/${postId}/likes`, {}, { withCredentials: true });
+  //       setPostsData(prevState => {
+  //         const updatedPosts = [...prevState];
+  //         const postIndex = updatedPosts.findIndex(post => post._id === postId);
+  //         updatedPosts[postIndex].likes.push(userData.user._id);
+  //         return updatedPosts;
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-//   const handleComment = async (postId, content) => {
-//     try {
-//       const { data } = await axios.post(`http://localhost:5000/posts/${postId}/replies`, { content }, { withCredentials: true });
-//       setPostsData(prevState => {
-//         const updatedPosts = [...prevState];
-//         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-//         updatedPosts[postIndex].replies.push(data.reply);
-//         return updatedPosts;
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  //   const handleComment = async (postId, content) => {
+  //     try {
+  //       const { data } = await axios.post(`http://localhost:5000/posts/${postId}/replies`, { content }, { withCredentials: true });
+  //       setPostsData(prevState => {
+  //         const updatedPosts = [...prevState];
+  //         const postIndex = updatedPosts.findIndex(post => post._id === postId);
+  //         updatedPosts[postIndex].replies.push(data.reply);
+  //         return updatedPosts;
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
   const buildCard1 = (post) => {
     console.log("postid communityid")
     console.log(post)
@@ -128,20 +128,28 @@ function Communityid() {
           </div>
         </div>
         <div class="commentsection">
-
-                  <p>"losers"</p>
+          {
+            isLoggedin ? (
+              <button onClick={() => {
+                navigate('/postform', { state: { commentsData } })
+              }}>add comment</button>
+            ) : (
+              <p>Must be logged in to comment on this post!</p>
+            )
+          }
+          <p>"losers"</p>
         </div>
       </div>
-    
+
     );
   };
   if (postsData !== undefined) {
     return buildCard1(postsData);
   }
 
-  else{
+  else {
     return <p>Loading...</p>;
   }
-}  
+}
 
 export default Communityid;
