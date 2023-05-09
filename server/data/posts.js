@@ -7,20 +7,24 @@ const posts = mongoCollections.posts;
 const users = mongoCollections.users;
 // THIS IS DYLAN ELASTIC CLIENT COMMENT OUT IF U TESTING
 const { Client } = require("@elastic/elasticsearch");
-const elasticClient = new Client({ node: "http://localhost:9200",
-auth: {
-    username: 'elastic',
-    password: 'xJtXQYCe++W-xXGOMdyp'
-  }
- });
+const elasticClient = new Client({
+    node: "http://localhost:9200",
+    auth: {
+        username: 'elastic',
+        password: 'xJtXQYCe++W-xXGOMdyp'
+    }
+});
 
 /** creates a new post for the community page : articles for users to like and comment */
 const createPost = async (title, userPosted, content) => {
     //validation for creating posts
-    if (!title || !userPosted || !title.trim() || !userPosted.trim()) {
-        throw 'Error: a title and user must be supplied';
+    if (!title || !title.trim()) {
+        throw 'Error: a title must be supplied';
     }
 
+    if (!userPosted || !userPosted.trim()) {
+        throw "no user poster"
+    }
     const now = new Date();
     let findUsername = await user.getUserById(userPosted.trim());
 
@@ -60,73 +64,73 @@ const createPost = async (title, userPosted, content) => {
         throw "Could not add post";
     }
     // add post in elasticsearch
-    let newPost1 = {
-        title: title.trim(),
-        userPosted: userPosted.trim(),
-        username: findUsername.username,
-        content: content.trim(),
-        likes: [],
-        replies: [],
-        time: now.toLocaleTimeString(),
-    };
+    // let newPost1 = {
+    //     title: title.trim(),
+    //     userPosted: userPosted.trim(),
+    //     username: findUsername.username,
+    //     content: content.trim(),
+    //     likes: [],
+    //     replies: [],
+    //     time: now.toLocaleTimeString(),
+    // };
     // index the new post in Elasticsearch
-    await elasticClient.index({
-        index: 'posts',
-        body: newPost1,
-    });
+    // await elasticClient.index({
+    //     index: 'posts',
+    //     body: newPost1,
+    // });
     return { newPost: true, insertedId: insertInfoToPost.insertedId }
 }
 const searchPosts = async (searchTerm) => {
     let result = [];
     try {
         console.log(searchTerm)
-      result = await elasticClient.search({
-        index: "posts",
-        body: {
-          query: {
-            match_phrase_prefix: { title: searchTerm },
-          },
-        },
-      });
+        result = await elasticClient.search({
+            index: "posts",
+            body: {
+                query: {
+                    match_phrase_prefix: { title: searchTerm },
+                },
+            },
+        });
     } catch (e) {
-      console.log("Elasticsearch search error");
-      console.log(e);
+        console.log("Elasticsearch search error");
+        console.log(e);
     }
-  
+
     console.log("result.hits.hits", result.hits.hits);
 
     const posts = [];
     for (const hit of result.hits.hits) {
-      const post = await getPostByTitle(hit._source.title);
-      posts.push(post);
+        const post = await getPostByTitle(hit._source.title);
+        posts.push(post);
     }
-  
-    return posts;
-  };
 
-  async function clearIndex() {
+    return posts;
+};
+
+async function clearIndex() {
     await elasticClient.deleteByQuery({
-      index: 'posts',
-      body: {
-        query: { match_all: {} },
-      },
+        index: 'posts',
+        body: {
+            query: { match_all: {} },
+        },
     });
-  }
+}
 const getPostByTitle = async (title) => {
     if (!title) {
-      throw "Error: a title must be supplied";
+        throw "Error: a title must be supplied";
     }
-  
+
     const postCollection = await mongoCollections.posts();
     const post = await postCollection.findOne({ title: title.trim() });
-  
+
     if (!post) {
-      throw "Error: post not found";
+        throw "Error: post not found";
     }
-  
+
     return post;
-  }
-  
+}
+
 
 //returns an array of all the posts
 const getAllPosts = async () => {

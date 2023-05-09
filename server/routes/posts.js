@@ -8,16 +8,16 @@ router.route('/').get(async (req, res) => {
     try {
         const searchTerm = req.query.searchTerm;
         if (searchTerm) {
-          const searchResults = await posts.searchPosts(searchTerm);
-          return res.json(searchResults);
+            const searchResults = await posts.searchPosts(searchTerm);
+            return res.json(searchResults);
         } else {
-          const allPosts = await posts.getAllPosts();
-          return res.json(allPosts);
+            const allPosts = await posts.getAllPosts();
+            return res.json(allPosts);
         }
-      } catch (e) {
+    } catch (e) {
         console.log(e);
         res.status(500).json({ errorCode: 500, message: e });
-      }
+    }
 
     // let getAllPosts = await posts.getAllPosts();
     // return res.json(getAllPosts);
@@ -26,11 +26,13 @@ router.route('/').get(async (req, res) => {
 router.route('/:userId').post(async (req, res) => {
     try {
         let postForm = req.body;
+        console.log(postForm);
         let createPost = await posts.createPost(postForm.title, req.params.userId, postForm.content);
-
+        console.log('bruh');
         return res.status(200).json(createPost)
     } catch (e) {
-        return res.status(400).json(e)
+        console.log(e)
+        return res.status(400).json(`${e}`)
     }
 
 })

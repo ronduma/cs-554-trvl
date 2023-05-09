@@ -4,7 +4,7 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+// import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
 function Community() {
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ function Community() {
         }
         // setUserData(axios.get('http://localhost:5000/profile'));
         setUserData(response.data);
+        console.log(response.data);
         setIsLoggedin(true);
         // D testing 
         // dispatch(actions.setUserData(response.data));
@@ -173,7 +174,7 @@ function Community() {
           </div>
 
         </div>
-        </div>
+      </div>
     );
   }
   li = postsData && postsData.map((post) => {
@@ -184,7 +185,7 @@ function Community() {
       {
         isLoggedin ? (
           <button onClick={() => {
-            navigate('/postform')
+            navigate('/postform', { state: { userData } })
           }}>add post</button>
         ) : (
           <p>Must be logged in to post</p>
