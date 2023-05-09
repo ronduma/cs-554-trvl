@@ -9,6 +9,8 @@ import {
   Typography
 } from '@mui/material';
 
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+
 import axios from 'axios';
 
 function Navbar() {
@@ -48,7 +50,7 @@ function Navbar() {
       > 
         <div className="navbar">
           <div className="navbar-logo">
-            <Link className="navbar-link" to="/">T R V L</Link>
+            <Link className="navbar-link" to="/">T R V L <DirectionsRunIcon></DirectionsRunIcon></Link>
           </div>
           <Link className="navbar-link" to="/itinerary">Itinerary</Link>
           <Link className="navbar-link" to="/community">Community</Link>

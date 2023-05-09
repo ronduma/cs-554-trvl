@@ -63,9 +63,9 @@ function Login() {
   return (
     <Box sx={{display: 'flex', flexWrap: 'wrap', flexDirection: 'column'}} justifyContent="center" container alignItems="center">
       <h1>Login</h1>
-      <p>
+      {/* <p>
         sign in with your username and password!
-      </p>
+      </p> */}
       <div>
         <TextField
           id = "outlined-basic"
