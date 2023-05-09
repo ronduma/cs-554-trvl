@@ -7,6 +7,9 @@ const posts = data.posts;
 async function main() {
     const db = await connection.dbConnection();
     await db.dropDatabase();
+    // COMMENT THE LINES UNDER
+    await posts.clearIndex();
+    console.log("clearing mongo and elasticsearch")
 
     console.log("MAKING USERS");
     let user1 = await users.createUser("mxfu", "OhMyGod69!");

@@ -5,6 +5,14 @@ const { post } = require('../routes/register');
 const user = require("../data/users.js")
 const posts = mongoCollections.posts;
 const users = mongoCollections.users;
+// THIS IS DYLAN ELASTIC CLIENT COMMENT OUT IF U TESTING
+const { Client } = require("@elastic/elasticsearch");
+const elasticClient = new Client({ node: "http://localhost:9200",
+auth: {
+    username: 'elastic',
+    password: 'xJtXQYCe++W-xXGOMdyp'
+  }
+ });
 
 /** creates a new post for the community page : articles for users to like and comment */
 const createPost = async (title, userPosted, content) => {
@@ -44,14 +52,78 @@ const createPost = async (title, userPosted, content) => {
         { $set: { posts: userPosts } }
     )
 
-
     //check if the user and post collections were updated
     if (!updateUser.modifiedCount === 0) throw `Could not update post successfully`;
     if (!insertInfoToPost.acknowledged || !insertInfoToPost.insertedId) {
         throw "Could not add post";
     }
+    // add post in elasticsearch
+    let newPost1 = {
+        title: title.trim(),
+        userPosted: userPosted.trim(),
+        content: content.trim(),
+        likes: [],
+        replies: [],
+        time: now.toLocaleTimeString(),
+    };
+    // index the new post in Elasticsearch
+    await elasticClient.index({
+        index: 'posts',
+        body: newPost1,
+    });
     return { newPost: true, insertedId: insertInfoToPost.insertedId }
 }
+const searchPosts = async (searchTerm) => {
+    let result = [];
+    try {
+        console.log(searchTerm)
+      result = await elasticClient.search({
+        index: "posts",
+        body: {
+          query: {
+            match_phrase_prefix: { title: searchTerm },
+          },
+        },
+      });
+    } catch (e) {
+      console.log("Elasticsearch search error");
+      console.log(e);
+    }
+  
+    console.log("result.hits.hits", result.hits.hits);
+
+    const posts = [];
+    for (const hit of result.hits.hits) {
+      const post = await getPostByTitle(hit._source.title);
+      posts.push(post);
+    }
+  
+    return posts;
+  };
+
+  async function clearIndex() {
+    await elasticClient.deleteByQuery({
+      index: 'posts',
+      body: {
+        query: { match_all: {} },
+      },
+    });
+  }
+const getPostByTitle = async (title) => {
+    if (!title) {
+      throw "Error: a title must be supplied";
+    }
+  
+    const postCollection = await mongoCollections.posts();
+    const post = await postCollection.findOne({ title: title.trim() });
+  
+    if (!post) {
+      throw "Error: post not found";
+    }
+  
+    return post;
+  }
+  
 
 //returns an array of all the posts
 const getAllPosts = async () => {
@@ -108,6 +180,13 @@ const createReply = async (postId, userId, reply) => {
     //creates a comment object
     let newPostReply = {
         _id: new ObjectId(),
+        postId: postId,
+        userId: userId,
+        username: userFound.username,
+        content: reply,
+    };
+    // creates a comment in elasticSearch
+    let newPostReply1 = {
         postId: postId,
         userId: userId,
         username: userFound.username,
@@ -272,4 +351,6 @@ module.exports = {
     getReplyById,
     deleteReply,
     likePost,
+    clearIndex,
+    searchPosts,
 };

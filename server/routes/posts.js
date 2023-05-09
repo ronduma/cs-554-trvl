@@ -5,9 +5,22 @@ const helpers = require('../helpers');
 const posts = require('../data/posts');
 
 router.route('/').get(async (req, res) => {
+    try {
+        const searchTerm = req.query.searchTerm;
+        if (searchTerm) {
+          const searchResults = await posts.searchPosts(searchTerm);
+          return res.json(searchResults);
+        } else {
+          const allPosts = await posts.getAllPosts();
+          return res.json(allPosts);
+        }
+      } catch (e) {
+        console.log(e);
+        res.status(500).json({ errorCode: 500, message: e });
+      }
 
-    let getAllPosts = await posts.getAllPosts();
-    return res.json(getAllPosts);
+    // let getAllPosts = await posts.getAllPosts();
+    // return res.json(getAllPosts);
 
 })
 router.route('/:userId').post(async (req, res) => {
