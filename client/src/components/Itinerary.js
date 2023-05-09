@@ -411,10 +411,10 @@ const handleOnSubmit = (collectorid, character, action) => {
       Location:
       <input type="text" value={location} onChange={handleLocationChange} />
     </label>
-    {(need ==='category') ? 
+    {(need ==='category') ?
     <label className="location-label">
-      Specifcations:
-      <input type="text" value={categories} onChange={handleCategories} />
+      Specifcations (Default = Mueseums): 
+      <input type="text" value={categories} onChange={handleCategories}/>
     </label> 
     : null}
     {(need === 'event'  ? 
