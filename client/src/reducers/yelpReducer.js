@@ -18,7 +18,7 @@ const yelpReducer = (state = initalState, action) => {
     case 'COLLECT_RESTAURANT':
       // restaurant
       const copyState = [...state];
-      console.log('payload', payload);
+      console.log('payload1', payload);
       console.log("REDUCERS COLLECTING CHARACTER")
     //  can not collect more than 10
     const collectorId = payload.collectorid.id;
@@ -64,17 +64,17 @@ const yelpReducer = (state = initalState, action) => {
   case 'SET_USER_DATA':
     console.log("Set-User")
     console.log(payload)
-      return state.map(collector => {
-        if (collector.id !== payload.collectorid.id) {
-          return collector;
-        }
-        return {
-          ...collector,
-          userData: payload.userData,
-        };
-      });
-    default:
-      return state;
+    return state.map(collector => {
+      if (collector.id !== payload.collectorid.id) {
+        return collector;
+      }
+      return {
+        ...collector,
+        userData: payload.userData,
+      };
+    });
+  default:
+    return state;
   }
 };
 
