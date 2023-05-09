@@ -5,7 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
 import actions, {handleAdd} from '../actions'
@@ -46,7 +46,7 @@ function Itinerary() {
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [randomized, setRandomized] = useState([]);
+  const [randomized, setRandomized] = useState();
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
   // const classes = useStyles();
@@ -119,10 +119,10 @@ const handleOnSubmit = (collectorid, character, action) => {
     let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
     setyelpAPI([])
     setRandomized(random.data)
-    console.log("response",randomized.restaurants)
-    randomized.restaurants.forEach((restaurant) => {
-      console.log(restaurant)
-    })
+    console.log("response", randomized.itinerary1)
+    // randomized.restaurants.forEach((restaurant) => {
+    //   console.log(restaurant)
+    // })
   }
 
   const handleSubmit = async (event) => {
@@ -159,7 +159,7 @@ const handleOnSubmit = (collectorid, character, action) => {
         setyelpAPI(response.data.businesses);
       }
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
-      // console.log(response.data);
+      console.log(response.data);
       // setyelpAPI(response.data.businesses)
       // Do something with the response data, such as displaying the results
     } catch (error) {
@@ -219,7 +219,7 @@ const handleOnSubmit = (collectorid, character, action) => {
               handleOnSubmit(selectedCollector[0], restaurant, "collect")
             }
           >
-            Add
+            Save to Profile
           </button>
         )}
         </Card>
@@ -396,6 +396,7 @@ const handleOnSubmit = (collectorid, character, action) => {
       </div>
     )
   }
+
   else {
   return (
     <div className='itinerary'>
@@ -479,12 +480,35 @@ const handleOnSubmit = (collectorid, character, action) => {
          {YelpData.map((category) => buildCategoriesCard(category))}
      </Grid>
   )}
-  
-  {/* {randomized && (
-    <Grid container spacing={5}>
-      {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
-    </Grid>
-  )} */}
+  {randomized && (
+    <div>
+      <Box
+        bgcolor="lightgray"
+      >
+        <h3>Itinerary 1</h3>
+        <Grid container spacing={0}>
+          {randomized.itinerary1.map((item) => buildCard(item))}
+        </Grid>
+      </Box>
+      <Box
+        bgcolor="lightgray"
+      >
+        <h3>Itinerary 2</h3>
+        <Grid container spacing={0}>
+          {randomized.itinerary2.map((item) => buildCard(item))}
+        </Grid>
+      </Box>
+      <Box
+        bgcolor="lightgray"
+      >
+        <h3>Itinerary 3</h3>
+        <Grid container spacing={0}>
+          {randomized.itinerary3.map((item) => buildCard(item))}
+        </Grid>
+      </Box>
+    </div>   
+  )}
+
   </ul>
   </div>
   );

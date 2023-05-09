@@ -9,8 +9,9 @@ import Login from './components/Login';
 import SingleResturant from './components/SingleResturant'
 import Logout from './components/Logout';
 import SingleEvent from './components/SingleEvent'
+import PostForm from './components/PostForm';
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/itinerary" element={<Itinerary/>} />
             <Route path="/itinerary/:id" element={<SingleResturant/>} />
             <Route path="/community" element={<Community/>} />
+            <Route path="/postform" element={<PostForm />} />
             <Route path="/profile" element={<Profile/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/login" element={<Login/>} />
