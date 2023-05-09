@@ -196,13 +196,6 @@ const createReply = async (postId, userId, reply) => {
         username: userFound.username,
         content: reply,
     };
-    // creates a comment in elasticSearch
-    let newPostReply1 = {
-        postId: postId,
-        userId: userId,
-        username: userFound.username,
-        content: reply,
-    };
 
     /**push the new comment into the post**/
 
@@ -216,6 +209,13 @@ const createReply = async (postId, userId, reply) => {
 
     //check if the post was updated
     if (updatePost.modifiedCount === 0) throw `Could not update song successfully`;
+     // creates a comment in elasticSearch
+     let newPostReply1 = {
+        postId: postId,
+        userId: userId,
+        username: userFound.username,
+        content: reply,
+    };
 
     return newPostReply;
 };
