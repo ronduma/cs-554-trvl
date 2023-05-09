@@ -53,41 +53,41 @@ function Itinerary() {
   
   
   const allCollectors = useSelector((state) => state.yelp);
-  console.log("HELLO")
-  console.log(allCollectors)
+  // console.log("HELLO")
+  // console.log(allCollectors)
   const selectedCollector = allCollectors.filter(collector => collector.selected === true);
-  console.log("Current COllector ")
-  console.log(selectedCollector)
+  // console.log("Current COllector ")
+  // console.log(selectedCollector)
   let selectedCharacters = [];
   const dispatch=useDispatch();
   // these will handle changes
   const handleLocationChange = (event) => {
-    console.log(event.target.name)
+    // console.log(event.target.name)
     setLocation(event.target.value);
   };
 
   const handlePriceChange = (event) => {
-    console.log(event.target.name)
+    // console.log(event.target.name)
     setPrice(event.target.value);
   };
 
   const handleNeed = (event) => {
-    console.log(event.target.name);
+    // console.log(event.target.name);
     setNeed(event.target.value);
   };  
 
   if(selectedCollector !== undefined || selectedCollector !== null) {
-    console.log("selectedCollector")
-    console.log(selectedCollector[0].collections)
+    // console.log("selectedCollector")
+    // console.log(selectedCollector[0].collections)
     selectedCharacters = selectedCollector[0].collections.map(character => character.id);
-      console.log("Selected Ids ", selectedCharacters);
+      // console.log("Selected Ids ", selectedCharacters);
   }
   const handleCollect = (collectorid, character) => {
-    console.log("We are trying to collect character")
+    // console.log("We are trying to collect character")
     dispatch(actions.handleAdd(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
 }
 const handleGiveUp = (collectorid, character) => {
-  console.log("We are trying to delete character")
+  // console.log("We are trying to delete character")
     dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
 }
 const handleOnSubmit = (collectorid, character, action) => {
@@ -108,9 +108,10 @@ const handleOnSubmit = (collectorid, character, action) => {
     let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
     setyelpAPI([])
     setRandomized(random.data)
-    // random.data.restaurants.map((restaurant) =>
-
-    // )
+    console.log("response",randomized.restaurants)
+    randomized.restaurants.forEach((restaurant) => {
+      console.log(restaurant)
+    })
   }
 
   const handleSubmit = async (event) => {
@@ -120,15 +121,15 @@ const handleOnSubmit = (collectorid, character, action) => {
     }
     else{
     try {
-      console.log("This is" + location)
-      console.log("This price" + price)
+      // console.log("This is" + location)
+      // console.log("This price" + price)
       let response;
       if (need === "hotel") {
         response = await axios.get(`http://localhost:5000/hotels/${location}/${price}`);
       } else {
         response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
       }
-      console.log(response.data);
+      console.log("response", response.data);
       setyelpAPI(response.data.businesses);
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
       // console.log(response.data);
@@ -325,7 +326,7 @@ const handleOnSubmit = (collectorid, character, action) => {
   )}
   {randomized && (
     <Grid container spacing={5}>
-      {randomized.map((restaurant) => buildCard(restaurant))}
+      {randomized.restaurants.map((restaurant) => buildCard(restaurant))}
     </Grid>
   )}
 </ul>
