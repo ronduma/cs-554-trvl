@@ -41,6 +41,11 @@
 .navbar{
   padding:2vh 0 2vh 0;
 }
+
+.navbar-logo svg {
+  vertical-align: -0.1em;
+}
+
 a.navbar-link{
   color:black;
   margin:0 2vw 0 2vw;

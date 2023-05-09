@@ -10,9 +10,7 @@ const apiKey ='PzubXsGTOr6esV9Io46ba7SHL6nN5GiX_BT39rtnwAIvnjEF8zNH2AencToseOklf
 router.route('/').get(async (req, res) => {
     try {
         console.log("here")
-        return res.status(200).json("Location!")
-
-        
+        return res.status(200).json("Location!")        
     } catch (error) {
         
         console.error(error);
@@ -136,42 +134,43 @@ router.route('/:location/:price?').get(async (req, res) => {
     console.log("getting location")
     const location = req.params.location;
     const price = req.params.price;
-    // console.log(location);
-
     try {
-        // console.log(location)
-        const redisExist = await client.exists(`location${location}:price:${price || 'any'}`);
-        if (redisExist){
-            console.log("location id is in redis")
-            const cache = await client.get(`location${location}:price:${price || 'any'}`);
-            return res.status(200).json(JSON.parse(cache));
-          }
-        else{
-            console.log(`Location ${location} with price ${price} not in Redis`)
-            const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&price=${price || '1,2,3,4'}&limit=50`, {
-            headers: {
-              Authorization: `Bearer ${apiKey}`
-            }
-          });
-
-        // console.log(response.data)
-        result = response.data;
-        // console.log(result)
-        if (!result){
-            return res.status(404).json({ message: 'No resturants in location found' });
+      const redisExist = await client.exists(`location${location}:price:${price || 'any'}`);
+      if (redisExist){
+          console.log("location id is in redis")
+          const cache = await client.get(`location${location}:price:${price || 'any'}`);
+          return res.status(200).json(JSON.parse(cache));
         }
-        const cache = await client.set(`location${location}:price:${price || 'any'}`, JSON.stringify(result));
-        return res.status(200).json(result);
-
-        }
-
-        
     } catch (error) {
-        
-        console.error(error);
-        return res.status(500).json({ message: error});
+      console.error(error);
+      return res.status(400).json({ message: error});
     }
-
+    try {
+      console.log(`Location ${location} with price ${price} not in Redis`)
+      const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&price=${price || '1,2,3,4'}&limit=50`, {
+        headers: {
+          Authorization: `Bearer ${apiKey}`
+        }
+      });
+      console.log(response)
+      const result = response.data;
+      if (!result){
+          return res.status(404).json({ message: 'No resturants in location found' });
+      }
+      const cache = await client.set(`location${location}:price:${price || 'any'}`, JSON.stringify(result));
+      return res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 400) {
+        return res.status(400).json({ message: "Bad Request" });
+      } else if (error.response && error.response.status === 401) {
+        return res.status(401).json({ message: "Unauthorized" });
+      } else if (error.response && error.response.status === 404) {
+        return res.status(404).json({ message: "Not Found" });
+      } else {
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
+    }
 });
 
 module.exports = router;
