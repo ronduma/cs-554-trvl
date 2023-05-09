@@ -46,38 +46,46 @@ router.route('/:location/:price?/randomize').get(async (req, res) => {
     }
   })
 
-  // generate 4 random restaurants
+  // generate 12 random restaurants
   let randomNumbers = [];
   let randomRestaurants = [];
 
+  if (restaurants.data.businesses.length < 12){
+    throw 'Error: Not enough data. Try a different location!'
+  } 
   while(randomNumbers.length < 12) {
-    let randomNumber = Math.floor(Math.random() * 50);
+    let randomNumber = Math.floor(Math.random() * restaurants.data.businesses.length);
     if(!randomNumbers.includes(randomNumber)) {
       randomNumbers.push(randomNumber)
       randomRestaurants.push(restaurants.data.businesses[randomNumber]);
     }
   }
 
-  console.log(randomRestaurants.length)
-
+  // generate 3 random hotels 
   const hotels = await axios.get(`https://api.yelp.com/v3/businesses/search?term=hotels&location=${location}&price=${price || '1,2,3,4'}&limit=50`, {
     headers: {
       Authorization: `Bearer ${apiKey}`
     }
   })
-
   randomNumbers = [];
   randomHotels = [];
-
+  if (hotels.data.businesses.length < 3){
+    throw 'Error: Not enough data. Try a different location!'
+  }
   while(randomNumbers.length < 3) {
-    let randomNumber = Math.floor(Math.random() * 50);
+    let randomNumber = Math.floor(Math.random() * hotels.data.businesses.length);
     if(!randomNumbers.includes(randomNumber)) {
       randomNumbers.push(randomNumber)
-      randomHotels.push(restaurants.data.businesses[randomNumber]);
+      randomHotels.push(hotels.data.businesses[randomNumber]);
     }
   }
+  // console.log(randomHotels)
 
-  console.log(randomHotels.length)
+  // generate 3 random events
+
+  
+
+  // generate 3 random categories
 
   return res.status(200).json({restaurants: randomRestaurants, hotels: randomHotels})
 })

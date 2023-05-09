@@ -46,7 +46,7 @@ function Itinerary() {
   const [YelpData, setyelpAPI] = useState([]);
   const [error, setErrorCode] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [randomized, setRandomized] = useState([]);
+  const [randomized, setRandomized] = useState();
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
   // const classes = useStyles();
@@ -119,7 +119,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     let random = await axios.get(`http://localhost:5000/itinerary/${location}/${price}/randomize`);
     setyelpAPI([])
     setRandomized(random.data)
-    console.log("response",randomized.restaurants)
+    console.log("response",randomized)
     randomized.restaurants.forEach((restaurant) => {
       console.log(restaurant)
     })
@@ -158,8 +158,8 @@ const handleOnSubmit = (collectorid, character, action) => {
         response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
         setyelpAPI(response.data.businesses);
       }
-      console.log("response", response.data);
-      setyelpAPI(response.data.businesses);
+      // console.log("response", response.data);
+      // setyelpAPI(response.data.businesses);
       // const response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
       // console.log(response.data);
       // setyelpAPI(response.data.businesses)
@@ -390,14 +390,14 @@ const handleOnSubmit = (collectorid, character, action) => {
       </div>
     )
   }
-  if (errorMessage) {
-    return (
-      <div>
-        <h2>Location does not exists</h2>
+  // if (errorMessage) {
+  //   return (
+  //     <div>
+  //       <h2>Location does not exists</h2>
           
-      </div>
-    )
-  }
+  //     </div>
+  //   )
+  // }
   else {
   return (
     <div className='itinerary'>
