@@ -4,7 +4,7 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+// import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
 function Community() {
   const navigate = useNavigate();
@@ -185,7 +185,7 @@ function Community() {
       {
         isLoggedin ? (
           <button onClick={() => {
-            navigate('/postform', {state: {userData}})
+            navigate('/postform', { state: { userData } })
           }}>add post</button>
         ) : (
           <p>Must be logged in to post</p>
