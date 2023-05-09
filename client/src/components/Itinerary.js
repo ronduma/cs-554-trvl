@@ -5,7 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography, 
   // makeStyles 
 } from '@mui/material';
 import actions, {handleAdd} from '../actions'
@@ -108,6 +108,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     handleGiveUp(collectorid, character);
   }
 };
+
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
   
@@ -150,14 +151,8 @@ const handleOnSubmit = (collectorid, character, action) => {
         }
       }
       else if (need === 'category'){
-        if(categories === ''){
-          response = await axios.get(`http://localhost:5000/categories/${location}`); 
-          setyelpAPI(response.data.businesses);
-        }
-        else{
-          response = await axios.get(`http://localhost:5000/categories/${location}/${categories}`); 
-          setyelpAPI(response.data.businesses);
-        }
+        response = await axios.get(`http://localhost:5000/categories/${location}/${categories}`); 
+        setyelpAPI(response.data.businesses);
       } 
       else {
         response = await axios.get(`http://localhost:5000/itinerary/${location}/${price}`);
@@ -172,7 +167,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     } catch (error) {
       console.error(error);
       setErrorCode(true);
-        
+      
     }
     }
   };
@@ -391,13 +386,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     return (
       <div>
         <h2>Error 404:Out of Bounds</h2>
-        <Button variant="contained" 
-        color="error"
-        style={{
-            width: '1600px',
-            height: '500px', // call it humonguous
-            fontSize: 250, 
-          }} onClick={() => {window.location.reload()}}>Itinerary</Button>
+        
       </div>
     )
   }
@@ -405,13 +394,7 @@ const handleOnSubmit = (collectorid, character, action) => {
     return (
       <div>
         <h2>Location does not exists</h2>
-        <Button variant="contained" 
-        color="error"
-        style={{
-            width: '1600px',
-            height: '500px', // call it humonguous
-            fontSize: 250, 
-          }} onClick={() => {window.location.reload()}}>Itinerary</Button>
+          
       </div>
     )
   }
@@ -433,11 +416,11 @@ const handleOnSubmit = (collectorid, character, action) => {
     </label>
     {(need ==='category') ? 
     <label className="location-label">
-      Specifications:
+      Specifcations:
       <input type="text" value={categories} onChange={handleCategories} />
     </label> 
     : null}
-    {(need === 'event' ? 
+    {(need === 'event'  ? 
     <label className="price-label">
       Free:
       <select value={is_free} onChange={handleFreeChange}>
