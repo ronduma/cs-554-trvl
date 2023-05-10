@@ -3,23 +3,19 @@ import { Container, Row, Col } from "react-bootstrap";
 import vaction from '../img/Vacation.jpg'
 function Home() {
   return (
-    <div className="Home">
+    <div className="Home" >
+      <Container className = "home" maxWidth="sm">
+        <div class="our-purpose">
+          <Row>
+            <Col md={8} maxWidth="10px">
+              <h2>Our Purpose</h2>
+              <p>Every Holiday Season, planning a vacation getaway seems more and more stressful. Therefore, TRVL is a web application that enables users to plan their domestic trips with ease. With its itinerary feature, users can create personalized trip schedules and explore different locations such as cities, beaches, and monuments. With TRVL, planning a domestic trip has never been easier. Users can enjoy the benefits of an organized and personalized trip itinerary that covers all their interests while also being part of a vibrant travel community. This community includes being able to interact with other travelers and see all the different vacation plans.
 
-      <Container
-        sx={{
-          display:"flex",
-          justifyContent:"center",
-          alignItems:"center"
-        }}
-      >
+              </p>
+            </Col>
+          </Row>
+        </div>
 
-        <Row>
-          <Col md={8} maxWidth="10px">
-            <h2>Our Purpose</h2>
-            <p>Every Holiday Season, planning a vacation getaway seems more and more stressful. Therefore, TRVL is a web application that enables users to plan their domestic trips with ease. With its itinerary feature, users can create personalized trip schedules and explore different locations such as cities, beaches, and monuments. With TRVL, planning a domestic trip has never been easier. Users can enjoy the benefits of an organized and personalized trip itinerary that covers all their interests while also being part of a vibrant travel community. This community includes being able to interact with other travelers and see all the different vacation plans.
-</p>
-          </Col>
-        </Row>
         <Row>
           <Col md={4}>
             <h3>Itinerary</h3>

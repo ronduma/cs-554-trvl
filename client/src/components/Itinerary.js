@@ -3,7 +3,7 @@ import React,
   // useEffect 
 } from 'react';
 import { Link } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+// import {useDispatch, useSelector} from 'react-redux';
 
 import '../App.css';
 import { 
@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 
 import axios from 'axios';
-import actions, {handleAdd} from '../actions'
+// import actions, {handleAdd} from '../actions'
 
 function Itinerary() {
   //we take in location and price
@@ -37,13 +37,7 @@ function Itinerary() {
   const [userID, setUserID] = useState(user._id);
   // const classes = useStyles();
   // let card = null;
-  
-  
-  // const allCollectors = useSelector((state) => state.yelp);
 
-  // const selectedCollector = allCollectors.filter(collector => collector.selected === true);
-  // let selectedCharacters = [];
-  // const dispatch=useDispatch();
 
   // these will handle changes
   const handleLocationChange = (event) => {
@@ -98,6 +92,7 @@ function Itinerary() {
     }
   };
 
+
   //boom we submit and check our server side 
   //return the results and map them with a button to add to profile grouped under only location
   const generateRandom = async() => {
@@ -149,7 +144,6 @@ function Itinerary() {
     }
   };
   const buildCard = (restaurant) => {
-    // const collected = selectedCharacters.includes(restaurant.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={restaurant.id}>
         <Card 
@@ -185,6 +179,7 @@ function Itinerary() {
           </CardActionArea>
           {/* button for collecting */}
           (
+
           <button
             onClick={() =>
               handleOnSubmit(restaurant, "giveUp")
@@ -205,7 +200,6 @@ function Itinerary() {
     );
   };
   const buildHotelCard = (hotel) => {
-    // const collected = selectedCharacters.includes(hotel.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={hotel.id}>
         <Card variant='outlined'>
@@ -249,13 +243,13 @@ function Itinerary() {
           >
             Add
           </button>
+
         )
         </Card>
       </Grid>
     );
   };
   const buildCategoriesCard = (category) => {
-    // const collected = selectedCharacters.includes(category.id);
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={category.id}>
         <Card variant='outlined'>
@@ -301,15 +295,16 @@ function Itinerary() {
             Add
           </button>
         )
+
         </Card>
       </Grid>
     );
   };
   const buildEventCard = (event) => {
-    // const collected = selectedCharacters.includes(event.id);
+
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={event.id}>
-        <Card variant='outlined'>
+        <Card variant='outlined' class='eventcard'>
           <CardActionArea>
           <Link to={`/events/${event.id}`}>
             <CardMedia
@@ -335,23 +330,24 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {collected.includes(event) ? (
-          <button
-            onClick={() =>
-              handleOnSubmit( event, "giveUp")
-            }
-          >
-            Remove
-          </button>
-        ) : (
-          <button
-            onClick={() =>
-              handleOnSubmit( event, "collect")
-            }
-          >
-            Add
-          </button>
-        )}
+
+            {collected.includes(event) ? (
+            <button
+              onClick={() =>
+                handleOnSubmit( event, "giveUp")
+              }
+            >
+              Remove
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                handleOnSubmit( event, "collect")
+              }
+            >
+              Add
+            </button>
+          )}
         </Card>
       </Grid>
     );
@@ -410,7 +406,7 @@ function Itinerary() {
       </select>
     </label>
     )}
-    <button type="submit" className="search-button">Explore</button>
+    <button type="submit" className="explore">Explore</button>
   </form>
     <h2>Feeling Lucky?</h2>
     <button onClick={generateRandom} type="submit" className="search-button" >Randomize your trip!</button>
