@@ -209,8 +209,8 @@ const createReply = async (postId, userId, reply) => {
 
     //check if the post was updated
     if (updatePost.modifiedCount === 0) throw `Could not update song successfully`;
-     // creates a comment in elasticSearch
-     let newPostReply1 = {
+    // creates a comment in elasticSearch
+    let newPostReply1 = {
         postId: postId,
         userId: userId,
         username: userFound.username,
@@ -319,7 +319,7 @@ const likePost = async (postId, userId) => {
     // console.log("before", postLikes, userLikes)
 
     let username = userFound.username;
-    if (postLikes.includes(username)){
+    if (postLikes.includes(username)) {
         // console.log("in array")
         const postIndex = postLikes.indexOf(username);
         postLikes.splice(postIndex, 1);

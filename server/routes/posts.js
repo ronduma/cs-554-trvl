@@ -56,9 +56,9 @@ router.route('/like/:userId/:postId').put(async (req, res) => {
 router.route('/reply/:userId/:postId').put(async (req, res) => {
     let replyForm = req.body;
     console.log(replyForm)
-    console.log("HELLO")
     try {
         let createComment = await posts.createReply(req.params.postId, req.params.userId, replyForm.reply);
+        console.log(createComment)
         return res.json(createComment);
     } catch (e) {
         return res.status(400).json(e);

@@ -268,7 +268,7 @@ function Itinerary() {
   const buildEventCard = (event) => {
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={event.id}>
-        <Card variant='outlined'>
+        <Card variant='outlined' class='eventcard'>
           <CardActionArea>
           <Link to={`/events/${event.id}`}>
             <CardMedia
@@ -352,7 +352,7 @@ function Itinerary() {
       </select>
     </label>
     )}
-    <button type="submit" className="search-button">Explore</button>
+    <button type="submit" className="explore">Explore</button>
   </form>
     <h2>Feeling Lucky?</h2>
     <button onClick={generateRandom} type="submit" className="search-button" >Randomize your trip!</button>
