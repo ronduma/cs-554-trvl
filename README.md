@@ -43,6 +43,29 @@ npm i in both client and server side in different terminals
 ## Redis
 Open both redis-server and redis-cli as this program is implemented within the server for easy memory caching
 
+## Elasticsearch 
+Download https://www.elastic.co/downloads/elasticsearch
+Run bin/elasticsearch (or bin\elasticsearch.bat on Windows)
+
+Change to your password in server/data/posts.js
+const { Client } = require("@elastic/elasticsearch");
+const elasticClient = new Client({
+    node: "http://localhost:9200",
+    auth: {
+        username: 'elastic',
+        password: 'xJtXQYCe++W-xXGOMdyp'
+    }
+});
+
+## Kibana
+Download https://www.elastic.co/downloads/kibana
+Run bin/kibana (or bin\kibana.bat on Windows)
+
+If there are any troubles https://www.youtube.com/watch?v=BybAetckH88&ab_channel=SoumilShah is very useful
+
+## Run seed.js
+node seed.js in server/tasks
+
 ## NPM start
 cd to both client and server side in different terminals and type 'npm start'
 
