@@ -19,10 +19,25 @@ front end development It also allows us to make reusable UI components that can 
 allows us to make changes based on what we want the website to look at.
 
 ## Node.js
-Node.js is responsible for most of our data calls as it's the first and main connection we implemented to our mongoDB. Node makes the backend database calls that is later used 
-for frontend developement.
+Node.js is responsible for most of  data calls as it's the first and main connection we implemented to our mongoDB. Node makes the backend database calls that is later used 
+for frontend developement. Node.js makes axios such as post, get and delete that both grabs data from MongoDB and edits data within the database.
 
 ## Material UI
 Material UI is a open source react-component library that is used for most of the designs within the website. Material UI was used to implement the individual events, 
 categories, hotels, and restaurants. Mui Material was also used to make most of the search engines within the website. In short, Material UI a well-developed front-end library 
 that was implemented to give our project the "website" material look.
+
+# Starting the Website
+
+## NPM I 
+npm i in both client and server side in different terminals
+
+## Redis
+Open both redis-server and redis-cli as this program is implemented within the server for easy memory caching
+
+## NPM start
+cd to both client and server side in different terminals and type 'npm start'
+
+
+
+
