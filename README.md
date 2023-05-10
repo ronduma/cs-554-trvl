@@ -14,9 +14,9 @@ It provides a set of features for developing web applications in Node.js, such a
 Express is also making easy HTTP requests and API calls which allows us to get the data for our project from the YELP Fusion API.
 
 ## React
-React is a free and open-source front-end JavaScript library that is used for building the user interface of the website. React is responsible for most of the
-front end development It also allows us to make reusable UI components that can be composed together to build complex user interfaces. In short, this declarative program 
-allows us to make changes based on what we want the website to look at.
+React is a front-end JavaScript library that is used for building the user interface of the website. React is responsible for most of the
+front end development seen throughout. It also allows us to make reusable UI components that can be composed together to build complex user interfaces. In short, this declarative program 
+allows us to make changes based on what we want the website to look like.
 
 ## Node.js
 Node.js is responsible for most of  data calls as it's the first and main connection we implemented to our mongoDB. Node makes the backend database calls that is later used 
