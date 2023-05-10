@@ -3,7 +3,7 @@ Every holiday season, planning a vacation getaway seems more and more stressful.
 
 Built using MongoDB, Express, React, Node.js, and Material UI
 
-## MongtDB
+## MongoDB
 MongoDB is used as the main database system of this project. This database holds the registered user's information as objects. 
 These objects include their username, their bcrypted password, their itnierary, posts, and their profile picture.  
 The MongoDB also holds all the different posts made the different users.
