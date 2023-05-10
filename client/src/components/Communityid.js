@@ -29,7 +29,7 @@ function Communityid() {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState();
   const { id } = useParams();
-  
+
   const commentSection = () => {
     setComments(
     <div>
@@ -39,7 +39,6 @@ function Communityid() {
     </div>
     )
   }
-
   useEffect(() => {
     async function fetchPost() {
       try {
@@ -106,6 +105,19 @@ function Communityid() {
     console.log(comment)
   }
 
+  function CommentList({ comments }) {
+    return (
+      <div>
+        {comments.map((reply, index) => (
+          <div key={index}>
+            <h3>{reply.username}</h3>
+            <p>{reply.content}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const buildCard1 = (post) => {
     // console.log("postid communityid")
     // console.log(post)
@@ -150,18 +162,17 @@ function Communityid() {
               <InputAdornment position="end">
                 <IconButton onClick={async () => {
                   let newReply = await axios.put(`http://localhost:5000/posts/reply/${userData._id}/${postsData._id}`, {reply : comment}, { withCredentials: true });
-                  
+                  {window.location.reload()}
                 }}>
                   <SendIcon/>
                 </IconButton>
-                {commentSection()}
               </InputAdornment>
             ),
           }}
         >
-         
         </TextField>
-        <div>{comments}</div>
+        {/* <div>{comments}</div> */}
+        <div><CommentList comments={post.replies} /></div>
       </div>
     );
   };
