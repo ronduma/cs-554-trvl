@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 // import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 function Community() {
   const navigate = useNavigate();
@@ -160,7 +161,10 @@ function Community() {
     return buildCard(post);
   });
   return (
-    <div className="Community"> Community
+    <div className="Community"> 
+    <br></br>
+    <br></br>
+    
     <div>
         <input
           type="text"
@@ -168,6 +172,7 @@ function Community() {
           value={searchTerm}
           onChange={handleSearch}
         />
+        <SearchIcon></SearchIcon>
       </div>
     
 
