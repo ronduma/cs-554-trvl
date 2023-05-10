@@ -31,7 +31,8 @@ function Itinerary() {
   const [randomized, setRandomized] = useState();
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
-  const [picked , setPicked] = useState([]);
+  const [collected , setCollected] = useState([]);
+  const [userID, setUserID] = useState('645ad422f7f565ca8e3ec513')
   // const classes = useStyles();
   // let card = null;
   
@@ -67,18 +68,31 @@ function Itinerary() {
   // if(selectedCollector !== undefined || selectedCollector !== null) {
   //   selectedCharacters = selectedCollector[0].collections.map(character => character.id);
   // }
-  const handleCollect = (collectorid, character) => {
+  const handleCollect = (character) => {
     // collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
+    if(collected.length === 0){
+      setCollected([character]);
+      // console.log(collected)
+    }
+    else{
+      setCollected([...collected, character])
+      // console.log(collected);
+    }
+
+    axios.post(`http://localhost:5000/collect/${userID}`, character);
   }
-  const handleGiveUp = (collectorid, character) => {
+  const handleGiveUp = (character) => {
       // dispatch(actions.handleRemove(collectorid, {id: character.id, name: character.name, image: character.image_url, rating: character.rating}))
+      const filteredItems = collected.filter(item => item !== character);
+      setCollected(filteredItems);
+      axios.delete(`http://localhost:5000/collect/${userID}/${character.name}`);
   }
-  const handleOnSubmit = (collectorid, character, action) => {
+  const handleOnSubmit = (character, action) => {
     console.log(character);
     if (action === "collect") {
-      handleCollect(collectorid, character);
+      handleCollect(character);
     } else if (action === "giveUp") {
-      handleGiveUp(collectorid, character);
+      handleGiveUp(character);
     }
   };
 
@@ -93,7 +107,10 @@ function Itinerary() {
     setRandomized(random.data)
     console.log("response", randomized.itinerary1)
   }
-
+  console.log(collected);
+  // const checkIfExists =async(item) => {
+  //   return collected.includes(item);
+  // }
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (location === null || location === undefined || !location){
@@ -107,14 +124,8 @@ function Itinerary() {
         setyelpAPI(response.data.businesses);
       }
       else if(need === 'event') {
-        if(is_free === 'undefined'){
-          response = await axios.get(`http://localhost:5000/events/${location}`)
-          setyelpAPI(response.data.events);
-        }
-        else{
           response = await axios.get(`http://localhost:5000/events/${location}/${is_free}`)
           setyelpAPI(response.data.events); 
-        }
       }
       else if (need === 'category'){
         response = await axios.get(`http://localhost:5000/categories/${location}/${categories}`); 
@@ -171,23 +182,22 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {/* {collected ? (
+          (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], restaurant, "giveUp")
+              handleOnSubmit(restaurant, "giveUp")
             }
           >
             Remove
           </button>
-        ) : (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], restaurant, "collect")
+              handleOnSubmit(restaurant, "collect")
             }
           >
             Save to Profile
           </button>
-        )} */}
+        )
         </Card>
       </Grid>
     );
@@ -222,23 +232,22 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {/* {collected ? (
+          (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], hotel, "giveUp")
+              handleOnSubmit(hotel, "giveUp")
             }
           >
             Remove
           </button>
-        ) : (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], hotel, "collect")
+              handleOnSubmit(hotel, "collect")
             }
           >
             Add
           </button>
-        )} */}
+        )
         </Card>
       </Grid>
     );
@@ -273,10 +282,10 @@ function Itinerary() {
           </CardActionArea>
           </Link>
           {/* button for collecting */}
-          {/* {collected ? (
+         (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], category, "giveUp")
+              handleOnSubmit(category, "giveUp")
             }
           >
             Remove
@@ -284,12 +293,12 @@ function Itinerary() {
         ) : (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], category, "collect")
+              handleOnSubmit(category, "collect")
             }
           >
             Add
           </button>
-        )} */}
+        )
         </Card>
       </Grid>
     );
@@ -324,10 +333,10 @@ function Itinerary() {
             </Link>
           </CardActionArea>
           {/* button for collecting */}
-          {/* {collected ? (
+          {collected.includes(event) ? (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], event, "giveUp")
+              handleOnSubmit( event, "giveUp")
             }
           >
             Remove
@@ -335,12 +344,12 @@ function Itinerary() {
         ) : (
           <button
             onClick={() =>
-              handleOnSubmit(selectedCollector[0], event, "collect")
+              handleOnSubmit( event, "collect")
             }
           >
             Add
           </button>
-        )} */}
+        )}
         </Card>
       </Grid>
     );

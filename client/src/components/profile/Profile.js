@@ -6,9 +6,9 @@ import {
   useNavigate
 } from 'react-router-dom';
 
-// D
-import { useDispatch, useSelector } from 'react-redux';
-import actions, { handleAdd } from '../../actions.js'
+// // D
+// import { useDispatch, useSelector } from 'react-redux';
+// import actions, { handleAdd } from '../../actions.js'
 
 import axios from 'axios';
 
@@ -34,21 +34,7 @@ function Profile() {
   const [userData, setUserData] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
   // D testing
-  const dispatch = useDispatch();
-  const allCollectors = useSelector((state) => state.yelp);
-  // console.log(allCollectors)
-  const selectedCollector = allCollectors.filter(collector => collector.selected === true);
-  // console.log("Current COllector ")
-  // console.log(selectedCollector)
-  let selectedCharacters = [];
 
-  if (selectedCollector !== undefined && selectedCollector !== null) {
-    // console.log("selectedCollector")
-    // console.log(selectedCollector[0].collections)
-    selectedCharacters = selectedCollector[0].collections.map(character => character.id);
-    console.log("Selected Ids ", selectedCharacters);
-
-  }
 
   const updateUserData = (newUserData) => {
     setUserData(newUserData);
@@ -65,7 +51,6 @@ function Profile() {
         }
         setUserData(response.data);
         // D testing 
-        dispatch(actions.setUserData(response.data));
         setIsLoading(false);
       })
       .catch(error => {
@@ -130,7 +115,7 @@ function Profile() {
       </Box>
 
       {/* Save to backend */}
-      {allCollectors.map(collector => (
+      {/* {allCollectors.map(collector => (
         <div key={collector.id}>
           <div className='collectorContainer'>
             <label htmlFor="name">Collector: {collector.name}</label>
@@ -168,13 +153,9 @@ function Profile() {
                 </div>
               ))
               : ``
-            }
-          </div>
+            } */}
           <br></br>
-          <br></br>
-        </div>
-      )
-      )}
+            
     </>
   );
 }
