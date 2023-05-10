@@ -29,10 +29,10 @@ that was implemented to give our project the "website" material look.
 
 ## ImageMagick
 ImageMagick is a feature within the webiste that allows the users to crop or resize their image to a certain size. ImageMagick allows the users upload, edit, and modify their profile picture 
-for a more distinguised or unqiue look.
+for a more distinguised or unqiue look. Please create an /uploads in tasks
 
 ## MagicSearch
-MagicSearch is a web development feature within the website that makes it easier for the users to make searches. MagicSearch can be seen implemented in the search bar of the community secition.
+MagicSearch is a web development feature within the website that makes it easier for the users to make searches. MagicSearch can be seen implemented in the search bar of the community secition. 
 
 
 # Starting the Website
