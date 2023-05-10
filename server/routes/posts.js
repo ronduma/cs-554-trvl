@@ -53,8 +53,10 @@ router.route('/like/:userId/:postId').put(async (req, res) => {
         return res.status(400).json(e);
     }
 })
-router.route('/reply/:userId/:postId').post(async (req, res) => {
+router.route('/reply/:userId/:postId').put(async (req, res) => {
     let replyForm = req.body;
+    console.log(replyForm)
+    console.log("HELLO")
     try {
         let createComment = await posts.createReply(req.params.postId, req.params.userId, replyForm.reply);
         return res.json(createComment);
@@ -63,12 +65,4 @@ router.route('/reply/:userId/:postId').post(async (req, res) => {
     }
 })
 
-router.route('/reply/:userId/:postId/:replyId').delete(async (req, res) => {
-    try {
-        let deleteReply = await posts.deleteReply(req.params.replyId, req.params.postId, req.params.userId);
-        return res.json(deleteReply);
-    } catch (e) {
-        return res.status(400).json(`${e}`);
-    }
-})
 module.exports = router;

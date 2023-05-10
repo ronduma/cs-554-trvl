@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import CommentCard from './CommentCard';
 import {
   Alert,
   Box,
@@ -15,6 +15,8 @@ import {
 } from '@mui/material'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import SendIcon from '@mui/icons-material/Send';
+// import InputAdornment from '@mui/material/InputAdornment';
 
 function Communityid() {
   const navigate = useNavigate();
@@ -24,7 +26,19 @@ function Communityid() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLiked, setIsLiked] = useState(false);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState();
   const { id } = useParams();
+  
+  const commentSection = () => {
+    setComments(
+    <div>
+      {postsData.replies.map((comment) => (
+        <CommentCard key={comment.id} comment={comment} />
+      ))}
+    </div>
+    )
+  }
 
   useEffect(() => {
     axios.get('/profile', {
@@ -69,12 +83,13 @@ function Communityid() {
       setIsLiked(true);
     }
   }, [userData, postsData]);
+  
 
   const handleLike = async (userId, postId) => {
     console.log(userId, postId)
     setIsLiked(!isLiked);
     try {   
-      await axios.put(`http://localhost:5000/posts/like/${userId}/${postId}`, {}, { withCredentials: true });
+      await axios.put(`http://localhost:5000/posts/like/${userId}/${postId}`, {comment: comment}, { withCredentials: true });
       setPostsData(prevState => ({
         ...prevState,
         likes: isLiked ? prevState.likes.filter(username => username !== userData.username) : [...prevState.likes, userData.username]
@@ -84,33 +99,11 @@ function Communityid() {
     }
   }
 
-//   const handleLike = async (postId) => {
-//     try {
-//       await axios.post(`http://localhost:5000/posts/${postId}/likes`, {}, { withCredentials: true });
-//       setPostsData(prevState => {
-//         const updatedPosts = [...prevState];
-//         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-//         updatedPosts[postIndex].likes.push(userData.user._id);
-//         return updatedPosts;
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  const handleComment = (event) => {
+    setComment(event.target.value);
+    console.log(comment)
+  }
 
-//   const handleComment = async (postId, content) => {
-//     try {
-//       const { data } = await axios.post(`http://localhost:5000/posts/${postId}/replies`, { content }, { withCredentials: true });
-//       setPostsData(prevState => {
-//         const updatedPosts = [...prevState];
-//         const postIndex = updatedPosts.findIndex(post => post._id === postId);
-//         updatedPosts[postIndex].replies.push(data.reply);
-//         return updatedPosts;
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
   const buildCard1 = (post) => {
     // console.log("postid communityid")
     // console.log(post)
@@ -139,27 +132,40 @@ function Communityid() {
                 <div>
                   <p>Comments: {post.replies.length}</p>
                 </div>
-              </div>
-              <div>
-                <p>Context: {post.context}</p>
-              </div>
-              <div class="card_buttons">
-                {isLoggedin && userData && userData.username === post.username && (
-                  <Link to={`/editpost/${post._id}`} class="btn btn-secondary">
-                    Edit
-                  </Link>
-                )}
-              </div>
+              </div>              
             </div>
           </div>
         </div>
+        <TextField
+          multiline
+          label="Leave a comment"
+          onChange={handleComment}
+          sx={{
+            width: "35%"
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={async () => {
+                  let newReply = await axios.put(`http://localhost:5000/posts/reply/${userData._id}/${postsData._id}`, {reply : comment}, { withCredentials: true });
+                  
+                }}>
+                  <SendIcon/>
+                </IconButton>
+                {commentSection()}
+              </InputAdornment>
+            ),
+          }}
+        >
+         
+        </TextField>
+        <div>{comments}</div>
       </div>
     );
   };
   if (postsData !== undefined) {
     return buildCard1(postsData);
   }
-
   else{
     return <p>Loading...</p>;
   }

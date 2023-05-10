@@ -159,11 +159,11 @@ const getPostById = async (id) => {
 const createReply = async (postId, userId, reply) => {
     // validation for commenting
     if (!reply || !postId || !userId) {
+        console.log(!reply, !postId, !userId)
         throw "must enter a reply and ids";
     }
     helpers.validateId(postId);
     helpers.validateId(userId);
-
     if (typeof reply !== "string") {
         throw "reply must be a string";
     }
@@ -181,12 +181,13 @@ const createReply = async (postId, userId, reply) => {
 
     // checking if already reviewed
     let comments = postFound.replies;
-    if (comments.length !== 0) {
-        for (let i = 0; i < comments.length; i++) {
-            let curr = comments[i];
-            if (curr.userId === userId) throw `You already left a review on ${postFound.title}`;
-        }
-    }
+    // if (comments.length !== 0) {
+    //     for (let i = 0; i < comments.length; i++) {
+    //         let curr = comments[i];
+    //         console.log("u left a review alreayd bozo")
+    //         if (curr.userId === userId) throw `You already left a review on ${postFound.title}`;
+    //     }
+    // }
 
     //creates a comment object
     let newPostReply = {
@@ -201,7 +202,6 @@ const createReply = async (postId, userId, reply) => {
 
     const postCollection = await posts();
     comments.push(newPostReply); //remember comments is post.replies which is an array
-
     let updatePost = await postCollection.updateOne(
         { _id: new ObjectId(postId) },
         { $set: { replies: comments } }

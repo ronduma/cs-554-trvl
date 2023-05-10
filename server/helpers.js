@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 
 // register validation
 function validateId(id) {
+
     if (!id || !id.trim().length) throw 'Error: an id must be supplied.'
     if (!ObjectId.isValid(id)) {
         throw 'Error: id must be a an objectid.'
