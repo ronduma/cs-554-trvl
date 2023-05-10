@@ -32,6 +32,7 @@ function Profile() {
       .then(response => {
         // console.log(response)
         setUserData(response.data)
+        localStorage.setItem("user", JSON.stringify(response.data));
         // console.log(userData)
       })
       .catch(error => {

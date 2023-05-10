@@ -14,6 +14,7 @@ function Logout() {
     })
     .then (response => {
       console.log(response)
+      localStorage.removeItem("user");
     })
     .catch (error => {
       console.log(error)
