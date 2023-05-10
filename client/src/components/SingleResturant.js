@@ -152,9 +152,9 @@ function SingleResturant() {
                   <Typography variant='body2' color='textSecondary' component='p'>
                 {restaurantData.categories ? `Categories: ${restaurantData.categories.map(category => category.title).join(', ')}` : 'No category information provided'}
               </Typography>
-              <Typography variant='body2' color='textSecondary' component='p'>
+              {/* <Typography variant='body2' color='textSecondary' component='p'>
                 {restaurantData.hours ? `Hours: ${restaurantData.hours[0].open.map(day => day.start.slice(0, -2) + ':' + day.start.slice(-2) + ' - ' + day.end.slice(0, -2) + ':' + day.end.slice(-2)).join(',\n')}` : 'No hours information provided'}
-              </Typography>
+              </Typography> */}
                 
               </CardActionArea>
             </Card>
