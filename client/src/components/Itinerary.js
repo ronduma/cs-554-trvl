@@ -32,7 +32,9 @@ function Itinerary() {
   const [is_free, setFree] = useState('undefined');
   const [categories, setCategories] = useState('')
   const [collected , setCollected] = useState([]);
-  const [userID, setUserID] = useState('645ad422f7f565ca8e3ec513')
+  const user = JSON.parse(localStorage.getItem("user"))
+  console.log(user);
+  const [userID, setUserID] = useState(user._id);
   // const classes = useStyles();
   // let card = null;
   
