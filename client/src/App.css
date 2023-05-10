@@ -32,36 +32,78 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 /* Navbar Section */
-.navbar{
-  padding:2vh 0 2vh 0;
+.navbar {
+  padding: 2vh 0 2vh 0;
+  background-color: #bff3ff;
+  color: #fff;
+  display: block;
 }
-a.navbar-link{
-  color:black;
-  margin:0 2vw 0 2vw;
-  text-decoration:none;
+
+a.navbar-link {
+  color: black;
+  margin: 0 2vw 0 2vw;
+  text-decoration: none;
+  font-size: 25px;
 }
-a.navbar-link:visited{
-  color:black;
+
+a.navbar-link:visited {
+  color: black;
 }
-.navbar-logo{
+
+.navbar-logo {
   margin-bottom: 2vh;
 }
 
 /* Home Section */
-.summary{
-  
+.form-image {
+  width: 25%;
+  height: auto;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.home {
+
+  margin: 0 auto;
+  width: 800px;
+  padding: 50px;
+  background-color: #effcff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 50px;
+
+}
+
+.contentLabel {
+  width: 200px;
+  height: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleLabel {
+  width: 200px;
+  height: 0 auto;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Itinerary Section */
-.titleForSearchItinerary{
+.Card {
+  max-width: 200px;
+}
+
+.titleForSearchItinerary {
   margin-bottom: 0px;
 }
+
 .search-box {
   display: flex;
   flex-direction: column;
@@ -96,14 +138,18 @@ a.navbar-link:visited{
   margin-top: 5px;
 }
 
-.search-box button[type="submit"] {
+.explore[type="submit"] {
+  display: block;
   padding: 5px 10px;
+  width: 50%;
+  height: 0 auto;
   background-color: #4285f4;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
+
 }
 
 .search-box button[type="submit"]:hover {
@@ -139,6 +185,7 @@ a.navbar-link:visited{
   font-size: 0.8em;
   color: #888;
 }
+
 .bussiness {
   width: 300px;
   height: 300px;
@@ -146,9 +193,6 @@ a.navbar-link:visited{
   flex-direction: column;
   justify-content: space-between;
 }
-
-
-
 
 /* Community Section */
 .cards {
@@ -198,12 +242,41 @@ a.navbar-link:visited{
   color: #2e304b;
 }
 
+.eventcard {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 2px solid #ccc;
+  max-width: 250px;
+  height: 400px;
+  box-sizing: border-box;
+  align-content: space-around;
+  font-size: 14px;
+}
+
+/* .searchCommunity {
+  margin: 0 auto;
+  padding-top: 20px;
+  width: 200px;
+  height: 200px;
+} */
+
 /* .bussiness-img{
   height: 100%;
   width: 100%
   } */
 
+.location-label {
+  width: 50%;
+  height: auto;
+  display: inline;
+}
 
+.price-label {
+  width: 50%;
+  height: auto;
+  display: inline;
+
+}
 
 /* Profile Section */
 .collection-container {
@@ -228,6 +301,7 @@ a.navbar-link:visited{
 .container-name {
   font-size: 20px;
   font-weight: bold;
+  justify-content: center;
 }
 
 .container-image {
@@ -240,7 +314,13 @@ a.navbar-link:visited{
   font-size: 16px;
 }
 
+.postForm {
+  width: 200px;
+}
 
+label {
+  font-size: 20px;
+}
 
 
 /* Register Section */
@@ -254,5 +334,3 @@ a.navbar-link:visited{
   width: 100%;
   height: auto;
 }
-
-
