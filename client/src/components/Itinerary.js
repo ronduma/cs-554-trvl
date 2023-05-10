@@ -352,7 +352,7 @@ function Itinerary() {
       </select>
     </label>
     )}
-    <button type="submit" className="search-button">Explore</button>
+    <button type="submit" className="explore">Explore</button>
   </form>
     <h2>Feeling Lucky?</h2>
     <button onClick={generateRandom} type="submit" className="search-button" >Randomize your trip!</button>

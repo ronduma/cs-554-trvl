@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom'
+import spongebob from '../img/spongebob.jpg'
+
 import '../App.css';
 function PostForm() {
     const [formData, setFormData] = useState({
@@ -36,18 +38,19 @@ function PostForm() {
         setFormData({ title: formData.title, content: content });
     };
     return (
-        <div>
+        <div className="postform">
+
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
+                <div className="titleLabel">
+                    <label >
                         Title:
-                        <input class = "titleinput"
+                        <input
                             value={formData.title}
                             onChange={handleChangeTitle}
                         />
-                    </label> 
+                    </label>
                 </div>
-                <div>
+                <div className="contentLabel">
                     <label>
                         Content:
                         <input
@@ -62,6 +65,7 @@ function PostForm() {
                 }} type="submit">Submit</button> */}
                 <button type="submit">Submit</button>
             </form>
+            <img src={spongebob} alt="Image description" className="form-image" />
         </div>
     );
 }

@@ -37,6 +37,7 @@
     transform: rotate(360deg);
   }
 }
+
 /* Navbar Section */
 .navbar {
   padding: 2vh 0 2vh 0;
@@ -61,15 +62,14 @@ a.navbar-link:visited {
 }
 
 /* Home Section */
-/* .homepage-image {
-  width: 100%;
-  max-width: 800px;
+.form-image {
+  width: 25%;
   height: auto;
-  margin: 0 auto;
-  display: block;
+  margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-} */
-.home{
+}
+
+.home {
 
   margin: 0 auto;
   width: 800px;
@@ -79,6 +79,20 @@ a.navbar-link:visited {
   border-radius: 5px;
   margin-top: 50px;
 
+}
+
+.contentLabel {
+  width: 200px;
+  height: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleLabel {
+  width: 200px;
+  height: 0 auto;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Itinerary Section */
@@ -124,14 +138,18 @@ a.navbar-link:visited {
   margin-top: 5px;
 }
 
-.search-box button[type="submit"] {
+.explore[type="submit"] {
+  display: block;
   padding: 5px 10px;
+  width: 50%;
+  height: 0 auto;
   background-color: #4285f4;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
+
 }
 
 .search-box button[type="submit"]:hover {
@@ -247,7 +265,18 @@ a.navbar-link:visited {
   width: 100%
   } */
 
+.location-label {
+  width: 50%;
+  height: auto;
+  display: inline;
+}
 
+.price-label {
+  width: 50%;
+  height: auto;
+  display: inline;
+
+}
 
 /* Profile Section */
 .collection-container {
@@ -285,7 +314,13 @@ a.navbar-link:visited {
   font-size: 16px;
 }
 
+.postForm {
+  width: 200px;
+}
 
+label {
+  font-size: 20px;
+}
 
 
 /* Register Section */

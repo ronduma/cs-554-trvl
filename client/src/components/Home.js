@@ -1,11 +1,9 @@
 import '../App.css';
 import { Container, Row, Col } from "react-bootstrap";
 import vaction from '../img/Vacation.jpg'
-import blob1 from '../img/blob1.jpg'
 function Home() {
   return (
     <div className="Home" >
-      {/* <img src={blob1} alt="Image description" className="homepage-image" /> */}
       <Container className = "home" maxWidth="sm">
         <div class="our-purpose">
           <Row>
