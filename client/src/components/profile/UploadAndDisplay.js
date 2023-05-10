@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const UploadAndDisplayImage = (props) => {
   const navigate = useNavigate();
+  const [uploadError, setUploadError] = useState(null)
 
   const [selectedImage, setSelectedImage] = useState(null);
   // const [userData, setUserData] = useState(props.userData);
@@ -30,6 +31,7 @@ const UploadAndDisplayImage = (props) => {
     })
     .catch(error => {
       console.log(error);
+      setUploadError(error.response.data.error);
     })
   }
 
@@ -37,6 +39,7 @@ const UploadAndDisplayImage = (props) => {
     event.preventDefault();
     console.log(event.target.files[0]);
     setSelectedImage(event.target.files[0]);
+    setUploadError(null);
   }
 
   return (
@@ -51,6 +54,7 @@ const UploadAndDisplayImage = (props) => {
         />
         <button onClick={handleButtonClick} type="submit">Upload</button>
       </form>
+      {uploadError && <div style={{color: "red"}}>{uploadError}</div>}
       
     </div>
   );
