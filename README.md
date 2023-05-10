@@ -23,7 +23,7 @@ Node.js is responsible for most of  data calls as it's the first and main connec
 for frontend developement. Node.js makes axios such as post, get and delete that both grabs data from MongoDB and edits data within the database.
 
 ## Material UI
-Material UI is a open source react-component library that is used for most of the designs within the website. Material UI was used to implement the individual events, 
+Material UI is a react-library that is used for most of the designs within the website. Material UI was used to implement the individual events, 
 categories, hotels, and restaurants. Mui Material was also used to make most of the search engines within the website. In short, Material UI a well-developed front-end library 
 that was implemented to give our project the "website" material look.
 
